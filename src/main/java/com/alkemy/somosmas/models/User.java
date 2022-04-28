@@ -1,11 +1,21 @@
 package com.alkemy.somosmas.models;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Table(name="users")
-@Data
+@Getter
+@Setter
+@SQLDelete(sql = "UPDATE users SET deleted = true WHERE idUser=?")
+@Where(clause = "delete = false")
+
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,5 +38,11 @@ public class User {
 
     @Column(name="roleId")
     private Long roleId;
+
+    @Column(name = "createDate")
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDate createDate;
+
+    private boolean deleted = Boolean.FALSE;
 
 }
