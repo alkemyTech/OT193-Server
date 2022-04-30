@@ -7,6 +7,7 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -21,8 +22,7 @@ public class Organization {
 
     /*Si bien los requerimientos no lo indican entiendo debe tener un id */
     @Id
-    /* En la preaceleracion usamos este tipo de generacion
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)*/
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
     private String name;
@@ -45,8 +45,14 @@ public class Organization {
 
 
     private boolean deleted=Boolean.FALSE;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createAt;
+
+
+    private LocalDateTime createDate;
+
+    @PrePersist
+    private void beforePersisting() {
+        this.createDate= LocalDateTime.now();
+    }
 
 
 
