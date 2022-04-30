@@ -6,7 +6,8 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+
+import java.util.Date;
 
 @Entity
 @Table(name ="organizations")
@@ -45,7 +46,7 @@ public class Organization {
 
     private boolean deleted=Boolean.FALSE;
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDate createAt;
+    private Date createAt;
 
 
 
