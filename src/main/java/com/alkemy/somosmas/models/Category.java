@@ -1,19 +1,19 @@
 package com.alkemy.somosmas.models;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.springframework.format.annotation.DateTimeFormat;
+
 
 
 @Entity
@@ -33,17 +33,15 @@ public class Category {
 
 	private String image;
 
-
 	@Column(name = "createdAt", nullable = false, updatable = false)
-	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd-MM-yyyy hh:mm:ss")
-	private LocalDate createAt;
+	private LocalDateTime createAt;
 
-	public LocalDate getCreateAt() {
+	public LocalDateTime getCreateAt() {
 		return createAt;
 	}
 
-	public void setCreateAt(LocalDate createAt) {
+	public void setCreateAt(LocalDateTime createAt) {
 		this.createAt = createAt;
 	}
 
@@ -87,6 +85,11 @@ public class Category {
 
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
+	}
+
+	@PrePersist
+	private void beforePersisting() {
+	this.createAt= LocalDateTime.now();
 	}
 
 }
