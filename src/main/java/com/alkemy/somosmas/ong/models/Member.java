@@ -1,6 +1,6 @@
-package com.alkemy.somosmas.models;
+package com.alkemy.somosmas.ong.models;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.*;
 
@@ -40,13 +40,14 @@ public class Member {
 
     private boolean deleted = Boolean.FALSE;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = false)
-    private Date createdAt;
+    private LocalDateTime createdDate;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = false)
-    private Date lastModified;
+    @PrePersist
+    private void beforeaPersisting(){
+        this.createdDate=LocalDateTime.now();
+    }
+
+  
      
 
 }
