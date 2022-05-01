@@ -61,6 +61,7 @@ public class News {
 	@PrePersist
 	private void beforePersisting() {
 		this.createDate= LocalDateTime.now();
+		
 	}
 
 }
