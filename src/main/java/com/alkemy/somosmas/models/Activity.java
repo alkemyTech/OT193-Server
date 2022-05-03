@@ -4,11 +4,8 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.time.LocalDate;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "activity")
@@ -30,9 +27,14 @@ public class Activity {
 
     @Column(name = "create_at")
     @DateTimeFormat(pattern = "dd-MM-YYYY HH:mm:ss")
-    private LocalDate createAt;
+    private LocalDateTime createAt;
 
     private Boolean deleted = false;
+
+    @PrePersist
+    private void beforePersisting() {
+        this.createAt= LocalDateTime.now();
+    }
 
     public Long getId() {
         return id;
