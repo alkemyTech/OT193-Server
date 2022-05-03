@@ -1,10 +1,10 @@
 package com.alkemy.somosmas.models;
 
-import java.util.Date;
-
+import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -35,7 +35,12 @@ public class Testimonial {
 	private String content;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date createAt;
+	private LocalDateTime createAt;
 	
 	private boolean deleted = Boolean.FALSE;
+	
+	@PrePersist
+	private void beforePersisting() {
+	this.createAt= LocalDateTime.now();
+	}
 }
