@@ -1,10 +1,10 @@
-package com.alkemy.somosmas.models;
+package com.alkemy.somosmas.ong.models;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.Set;
 
 @Entity
 @Table(name= "roles")
@@ -20,12 +20,8 @@ public class Role {
     @Column(name="firstName")
     private String description;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "roleId")
-    private Set<User> userList;
-
-    @Column(name = "createAt")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "create_at")
+    @DateTimeFormat(pattern = "dd-MM-YYYY HH:mm:ss")
     private LocalDate createAt;
 
 }
