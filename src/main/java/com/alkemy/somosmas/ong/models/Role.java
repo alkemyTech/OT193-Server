@@ -5,11 +5,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name= "roles")
 @Data
 public class Role {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,8 +22,10 @@ public class Role {
     @Column(name="firstName")
     private String description;
 
-    @Column(name = "create_at")
-    @DateTimeFormat(pattern = "dd-MM-YYYY HH:mm:ss")
-    private LocalDate createAt;
+    private LocalDateTime createDate;
+    @PrePersist
+    private void beforePersisting() {
+        this.createDate= LocalDateTime.now();
+    }
 
 }
