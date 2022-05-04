@@ -1,4 +1,4 @@
-package com.alkemy.somosmas.services;
+package com.alkemy.somosmas.ong.services;
 
 import org.springframework.stereotype.Service;
 

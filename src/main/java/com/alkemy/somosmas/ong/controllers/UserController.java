@@ -1,4 +1,4 @@
-package com.alkemy.somosmas.controllers;
+package com.alkemy.somosmas.ong.controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 

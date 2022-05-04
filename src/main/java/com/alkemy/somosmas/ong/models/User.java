@@ -1,13 +1,12 @@
-package com.alkemy.somosmas.models;
+package com.alkemy.somosmas.ong.models;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+        import lombok.Getter;
+        import lombok.Setter;
+        import org.hibernate.annotations.SQLDelete;
+        import org.hibernate.annotations.Where;
 
-import javax.persistence.*;
-import java.time.LocalDate;
-import java.util.Date;
+        import javax.persistence.*;
+        import java.time.LocalDateTime;
 
 @Entity
 @Table(name="users")
@@ -36,13 +35,20 @@ public class User {
     @Column(name="photo")
     private String photo;
 
-    @Column(name="roleId")
-    private Long roleId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name= "role_id",insertable = false)
+    private Role role;
 
-    @Column(name = "createDate")
-    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDate createDate;
+    @Column(name = "role_id", nullable = false)
+    private Long roleID;
 
+    @Column(name="createDate")
+    private LocalDateTime createDate;
+
+    @PrePersist
+    private void beforePersisting(){
+        this.createDate= LocalDateTime.now();
+    }
     private boolean deleted = Boolean.FALSE;
 
 }
