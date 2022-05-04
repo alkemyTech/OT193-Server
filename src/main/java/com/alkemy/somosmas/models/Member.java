@@ -1,4 +1,4 @@
-package com.alkemy.somosmas.ong.models;
+package com.alkemy.somosmas.models;
 
 import java.time.LocalDateTime;
 
