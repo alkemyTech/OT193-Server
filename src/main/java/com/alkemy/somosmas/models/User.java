@@ -1,10 +1,11 @@
-package com.alkemy.somosmas.ong.models;
+package com.alkemy.somosmas.models;
 
         import lombok.Getter;
         import lombok.Setter;
         import org.hibernate.annotations.SQLDelete;
         import org.hibernate.annotations.Where;
 
+        import javax.management.relation.Role;
         import javax.persistence.*;
         import java.time.LocalDateTime;
 
