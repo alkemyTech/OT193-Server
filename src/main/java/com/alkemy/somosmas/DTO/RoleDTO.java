@@ -1,4 +1,4 @@
-package com.alkemy.somosmas.ong.dto;
+package com.alkemy.somosmas.DTO;
 
 import lombok.Data;
 

@@ -1,7 +1,7 @@
-package com.alkemy.somosmas.ong.controllers;
+package com.alkemy.somosmas.controllers;
 
-import com.alkemy.somosmas.ong.dto.RoleDTO;
-import com.alkemy.somosmas.ong.services.RoleService;
+import com.alkemy.somosmas.DTO.RoleDTO;
+import com.alkemy.somosmas.services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

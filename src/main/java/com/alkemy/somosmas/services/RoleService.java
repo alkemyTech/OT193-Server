@@ -1,8 +1,8 @@
-package com.alkemy.somosmas.ong.services;
+package com.alkemy.somosmas.services;
 
-import com.alkemy.somosmas.ong.dto.RoleDTO;
-import com.alkemy.somosmas.ong.models.Role;
-import com.alkemy.somosmas.ong.repositories.RoleRepository;
+import com.alkemy.somosmas.DTO.RoleDTO;
+import com.alkemy.somosmas.models.Role;
+import com.alkemy.somosmas.repositories.RoleRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
