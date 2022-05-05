@@ -19,7 +19,7 @@ public class Role {
     @Column(name="name",nullable = false)
     private String name;
 
-    @Column(name="firstName")
+    @Column(name="description")
     private String description;
 
     private LocalDateTime createDate;
