@@ -1,4 +1,4 @@
-package com.alkemy.somosmas.ong;
+package com.alkemy.somosmas;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
