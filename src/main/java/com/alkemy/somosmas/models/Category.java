@@ -1,4 +1,4 @@
-package com.alkemy.somosmas.ong.models;
+package com.alkemy.somosmas.models;
 
 import java.time.LocalDateTime;
 
@@ -21,6 +21,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @SQLDelete(sql = "UPDATE categories SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")
 public class Category {
+  
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(unique = true, nullable = false)

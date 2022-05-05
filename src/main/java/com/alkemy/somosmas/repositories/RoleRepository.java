@@ -1,6 +1,6 @@
-package com.alkemy.somosmas.ong.repositories;
+package com.alkemy.somosmas.repositories;
 
-import com.alkemy.somosmas.ong.models.Role;
+import com.alkemy.somosmas.models.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
