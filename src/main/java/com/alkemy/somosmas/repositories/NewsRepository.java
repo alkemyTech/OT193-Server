@@ -7,5 +7,5 @@ import com.alkemy.somosmas.models.News;
 
 @Repository
 public interface NewsRepository extends JpaRepository<News, Long>{
-	
+
 }
