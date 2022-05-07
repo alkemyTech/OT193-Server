@@ -25,4 +25,9 @@ public class NewsServiceImpl implements NewsService {
 		return result;
 	}
 
+	@Override
+	public void delete(Long id) {
+		this.newsRepository.deleteById(id);
+	}
+	
 }
