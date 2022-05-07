@@ -4,6 +4,9 @@ import com.alkemy.somosmas.dtos.OrganizationBasicDTO;
 import com.alkemy.somosmas.models.Organization;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class OrganizationMapper {
 
@@ -20,5 +23,22 @@ public class OrganizationMapper {
 
         return dto;
     }
+
+    public List<OrganizationBasicDTO> organizationModelList2BasicDtoList(List<Organization> organizationList){
+
+        List<OrganizationBasicDTO> dtosList= new ArrayList<>();
+
+        for(Organization model : organizationList){
+
+            OrganizationBasicDTO dto= this.organizationModel2BasicDto(model);
+            dtosList.add(dto);
+        }
+
+        return dtosList;
+
+    }
+
+
+
 
 }
