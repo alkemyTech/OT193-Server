@@ -27,7 +27,9 @@ public class NewsServiceImpl implements NewsService {
 
 	@Override
 	public void delete(Long id) {
-		this.newsRepository.deleteById(id);
+		if (this.newsRepository.existsById(id)) {
+			this.newsRepository.deleteById(id);
+		}
 	}
 	
 }
