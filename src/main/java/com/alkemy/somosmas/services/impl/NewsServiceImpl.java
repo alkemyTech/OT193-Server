@@ -35,9 +35,10 @@ public class NewsServiceImpl implements NewsService {
 
 	@Override
 	public void delete(Long id) {
-		if (this.newsRepository.existsById(id)) {
-			this.newsRepository.deleteById(id);
+		if (!this.newsRepository.existsById(id)) {
+			throw new RuntimeException("Id invalid");
 		}
+		this.newsRepository.deleteById(id);
 	}
 
 }
