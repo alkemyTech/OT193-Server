@@ -19,15 +19,23 @@ public class NewsServiceImpl implements NewsService {
 
 	@Override
 	public NewsDTO save(NewsDTO dto) {
-		News newsEntity = newsMapper.newsDTO2Entity(dto);
+		if (validateDTO(dto)) {
+			throw new RuntimeException("DTO invalid");
+		}
+		News newsEntity = this.newsMapper.newsDTO2Entity(dto);
 		News newsEntitySaved = this.newsRepository.save(newsEntity);
-		NewsDTO result = newsMapper.newsEntity2DTO(newsEntitySaved);
+		NewsDTO result = this.newsMapper.newsEntity2DTO(newsEntitySaved);
 		return result;
+	}
+
+	private boolean validateDTO(NewsDTO dto) {
+		return dto.getCategory() == null || dto.getImage() == null || dto.getName() == null || dto.getContent() == null
+				|| dto.getImage().isBlank() || dto.getName().isBlank() || dto.getContent().isBlank();
 	}
 
 	@Override
 	public void delete(Long id) {
 		this.newsRepository.deleteById(id);
 	}
-	
+
 }

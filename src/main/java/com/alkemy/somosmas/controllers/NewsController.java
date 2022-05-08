@@ -1,5 +1,7 @@
 package com.alkemy.somosmas.controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +23,7 @@ public class NewsController {
 	private NewsService newsService;
 
 	@PostMapping
-	public ResponseEntity<NewsDTO> save(@RequestBody NewsDTO news) {
+	public ResponseEntity<NewsDTO> save(@Valid @RequestBody NewsDTO news) {
 		NewsDTO newsSaved = newsService.save(news);
 		return ResponseEntity.status(HttpStatus.CREATED).body(newsSaved);
 	}
