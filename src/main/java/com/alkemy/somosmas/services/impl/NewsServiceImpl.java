@@ -1,5 +1,7 @@
 package com.alkemy.somosmas.services.impl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +38,16 @@ public class NewsServiceImpl implements NewsService {
 	@Override
 	public void delete(Long id) {
 		this.newsRepository.deleteById(id);
+	}
+
+	@Override
+	public NewsDTO getDetailsById(Long id) {
+		Optional<News> newsEntity = this.newsRepository.findById(id); 
+		if (!newsEntity.isPresent()) {
+			throw new RuntimeException("invalid ID");
+		}
+		NewsDTO result = this.newsMapper.newsEntity2DTO(newsEntity.get());
+		return result;
 	}
 
 }

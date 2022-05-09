@@ -1,13 +1,17 @@
 package com.alkemy.somosmas.services;
 
 
+import javax.validation.Valid;
+
 import com.alkemy.somosmas.dto.NewsDTO;
 
 public interface NewsService {
 
-	NewsDTO save(NewsDTO news);
+	NewsDTO save(@Valid NewsDTO news);
 
-	void delete(Long id);
+	void delete(@Valid Long id);
+
+	NewsDTO getDetailsById(@Valid Long id);
 	
 
 }
