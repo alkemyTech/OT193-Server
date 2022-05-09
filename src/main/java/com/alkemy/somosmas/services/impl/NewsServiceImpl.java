@@ -50,4 +50,17 @@ public class NewsServiceImpl implements NewsService {
 		return result;
 	}
 
+	@Override
+	public NewsDTO update(Long id, NewsDTO dto) {
+		News newsEntity = this.newsRepository.findById(id).orElse(null);
+		if (newsEntity == null) {
+			throw new RuntimeException("invalid ID");
+		}
+		this.newsMapper.newsEntityRefreshValues(newsEntity, dto);
+		News newsEntityModified = this.newsRepository.save(newsEntity);
+		NewsDTO result = this.newsMapper.newsEntity2DTO(newsEntityModified);
+		
+		return result;
+	}
+
 }
