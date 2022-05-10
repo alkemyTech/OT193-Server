@@ -1,4 +1,5 @@
 package com.alkemy.somosmas.services;
 
-public class CategoryService {
+public interface TestimonialService {
+
 }

@@ -18,7 +18,6 @@ import lombok.Setter;
 @SQLDelete(sql = "UPDATE members SET deleted = true WHERE id=?")
 @Where(clause = "deleted = false")
 public class Member {
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
@@ -46,8 +45,5 @@ public class Member {
     private void beforeaPersisting(){
         this.createdDate=LocalDateTime.now();
     }
-
-  
-     
-
+ 
 }
