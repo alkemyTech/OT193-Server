@@ -3,7 +3,7 @@ package com.alkemy.somosmas.auth;
 public class JwtConfig {
 
 	public static final String LLAVE_SECRETA = "alguna.clave.secreta.12345678";
-
+	
 	public static final String RSA_PRIVATE = "-----BEGIN RSA PRIVATE KEY-----\r\n"
 			+ "MIIEpAIBAAKCAQEAt8Vz7BmQyfEbfSaNDt41Evj041PXn8db8PJQmmCPqHT8P4M4\r\n"
 			+ "U/8Rx5enm8R4n2L9xYydCvNsl84WA0dUALloJah9UPbA5h/8UWRFuj68PO+ii9iU\r\n"
@@ -31,7 +31,7 @@ public class JwtConfig {
 			+ "eX97Kx0qDoCdP06bks4xrMBM9xzM2PF6y80jvaMK2ClIB21UWZNVFqFFv7DCcuiJ\r\n"
 			+ "bKQaZvzFZs4QCrNa6w76KZTFSSqsso5Vd1JR1Z1+7T4HH/HETmeP7Q==\r\n"
 			+ "-----END RSA PRIVATE KEY-----";
-
+	
 	public static final String RSA_PUBLICA = "-----BEGIN PUBLIC KEY-----\r\n"
 			+ "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAt8Vz7BmQyfEbfSaNDt41\r\n"
 			+ "Evj041PXn8db8PJQmmCPqHT8P4M4U/8Rx5enm8R4n2L9xYydCvNsl84WA0dUALlo\r\n"
