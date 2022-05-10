@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 
-/*  obtenido de
- https://github.com/MajidLamghari/Spring-boot-security-jwt/blob/master/src/main/java/io/javabrains/springsecurityjwt/util/jwtUtil.java*/
 @Service
 public class JwtUtils {
 
