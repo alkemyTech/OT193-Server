@@ -31,37 +31,37 @@ import lombok.Setter;
 @Where(clause = "deleted=false")
 public class News {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(unique = true, nullable = false)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false)
+    private Long id;
 
-	@Column(nullable = false)
-	private String name;
+    @Column(nullable = false)
+    private String name;
 
-	@Column(nullable = false)
-	private String content;
+    @Column(nullable = false)
+    private String content;
 
-	@Column(nullable = false)
-	private String image;
+    @Column(nullable = false)
+    private String image;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "category_id", insertable = false, updatable = false)
-	private Category category;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id", insertable = false, updatable = false)
+    private Category category;
 
-	@Column(name = "category_id", nullable = false)
-	private Long categoryId;
+    @Column(name = "category_id", nullable = false)
+    private Long categoryId;
 
-	private boolean deleted = Boolean.FALSE;
+    private boolean deleted = Boolean.FALSE;
 
-	@Column(name = "create_date")
-	@DateTimeFormat(pattern = "dd-MM-yyyy hh:mm:ss")
-	private LocalDateTime createDate;
+    @Column(name = "create_date")
+    @DateTimeFormat(pattern = "dd-MM-yyyy hh:mm:ss")
+    private LocalDateTime createDate;
 
-	@PrePersist
-	private void beforePersisting() {
-		this.createDate= LocalDateTime.now();
-		
-	}
+    @PrePersist
+    private void beforePersisting() {
+        this.createDate= LocalDateTime.now();
+
+    }
 
 }
