@@ -29,8 +29,8 @@ public class NewsMapper {
 	}
 
 	public void newsEntityRefreshValues(News newsEntity, NewsDTO dto) {
-		if (dto.getCategory() != null) {
-			newsEntity.setCategory(dto.getCategory());
+		if (dto.getCategoryId() != null) {
+			newsEntity.setCategoryId(dto.getCategoryId());
 		}
 		if (dto.getContent() != null && !dto.getContent().isBlank()) {
 			newsEntity.setContent(dto.getContent());			
