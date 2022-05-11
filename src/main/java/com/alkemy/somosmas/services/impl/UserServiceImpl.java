@@ -1,4 +1,4 @@
-package com.alkemy.somosmas.seviceimpl;
+package com.alkemy.somosmas.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,4 +1,4 @@
-package com.alkemy.somosmas.dto;
+package com.alkemy.somosmas.dtos;
 
 import java.util.List;
 

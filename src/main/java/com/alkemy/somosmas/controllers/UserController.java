@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alkemy.somosmas.auth.JwtUtils;
-import com.alkemy.somosmas.dto.AuthenticationRequest;
-import com.alkemy.somosmas.dto.AuthenticationResponse;
+import com.alkemy.somosmas.dtos.AuthenticationRequest;
+import com.alkemy.somosmas.dtos.AuthenticationResponse;
 import com.alkemy.somosmas.services.UserService;
 
 

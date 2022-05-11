@@ -1,4 +1,4 @@
-package com.alkemy.somosmas.dto;
+package com.alkemy.somosmas.dtos;
 
 public class AuthenticationResponse {
     private String jwt;

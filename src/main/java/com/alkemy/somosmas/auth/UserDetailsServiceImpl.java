@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.alkemy.somosmas.dto.UserDTO;
+import com.alkemy.somosmas.dtos.UserDTO;
 import com.alkemy.somosmas.models.User;
 import com.alkemy.somosmas.repositories.UserRepository;
 

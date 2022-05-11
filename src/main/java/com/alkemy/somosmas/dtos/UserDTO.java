@@ -1,4 +1,4 @@
-package com.alkemy.somosmas.dto;
+package com.alkemy.somosmas.dtos;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
