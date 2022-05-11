@@ -30,4 +30,14 @@ public class CategoryService {
 
         return categoryDTO;
     }
+
+    public List<ListaCategoryDTO> getAllCategories() {
+        List<Category> CategoryEntities = categoryRepository.findAll();
+        List<ListaCategoryDTO> listaDTO = new ArrayList<>();
+        for (Category category: CategoryEntities){
+            listaDTO.add(mapper.convertValue(category,ListaCategoryDTO.class));
+        }
+        System.out.println("categorías buscadas");
+        return listaDTO;
+    }
 }
