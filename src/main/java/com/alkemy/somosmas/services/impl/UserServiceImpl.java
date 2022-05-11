@@ -1,6 +1,10 @@
 package com.alkemy.somosmas.services.impl;
 
+import java.util.HashSet;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,23 +20,9 @@ public class UserServiceImpl implements UserService,UserDetailsService{
 	@Autowired
 	UserRepository userRepository;
 
-	/*@Override
-	public User save(User dto) {
-		User user = userMapper.userDTO2Entity(dto);
-		User userSave = userRepository.save(user);
-		UserDTO result = userMapper.entityToUserDTO(userSave);
-		return result;
-	}*/
 
-	@Override
-	@Transactional(readOnly=true)
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-		return null;
-	}
-
-/*
- * 	@Override
+  	@Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String email) {
         User user = userRepository.findByEmail(email);
@@ -41,9 +31,10 @@ public class UserServiceImpl implements UserService,UserDetailsService{
         }
         java.util.Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         grantedAuthorities.add(new SimpleGrantedAuthority("ADMIN"));
+        grantedAuthorities.add(new SimpleGrantedAuthority("USER"));
         return new org.springframework.security.core.userdetails.User(
             user.getEmail(), user.getPassword(), grantedAuthorities);
-    }*/
+    }
 	@Override
 	public User findByEmail(String email) {
 		return userRepository.findByEmail(email);
