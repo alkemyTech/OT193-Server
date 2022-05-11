@@ -1,5 +1,10 @@
 package com.alkemy.somosmas.auth;
 
+//import java.io.IOException;
+//import java.nio.file.Files;
+//import java.nio.file.Path;
+//import java.nio.file.Paths;
+//import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -48,6 +53,18 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		.accessTokenConverter(accessTokenConverter())
 		.tokenEnhancer(tokenEnhancerChain);
 	}
+	
+//	public class FooService {
+//	    @PostConstruct
+//	    public void init() throws IOException {
+//
+//	        Path path = Paths.get("src/test/resources/file.pem");
+//
+//	        String read = Files.readAllLines(path).get(0);
+//	        
+//	    }
+//
+//	}
 	
 	@Bean
 	public JwtAccessTokenConverter accessTokenConverter() {
