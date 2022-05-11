@@ -30,6 +30,20 @@ public class UserServiceImpl implements UserService,UserDetailsService{
 
 		return null;
 	}
+
+/*
+ * 	@Override
+    @Transactional(readOnly = true)
+    public UserDetails loadUserByUsername(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new UsernameNotFoundException(email);
+        }
+        java.util.Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+        grantedAuthorities.add(new SimpleGrantedAuthority("ADMIN"));
+        return new org.springframework.security.core.userdetails.User(
+            user.getEmail(), user.getPassword(), grantedAuthorities);
+    }*/
 	@Override
 	public User findByEmail(String email) {
 		return userRepository.findByEmail(email);

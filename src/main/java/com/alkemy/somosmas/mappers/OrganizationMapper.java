@@ -1,12 +1,12 @@
 package com.alkemy.somosmas.mappers;
 
-import com.alkemy.somosmas.dtos.OrganizationBasicDTO;
-import com.alkemy.somosmas.models.Organization;
-import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Component;
+
+import com.alkemy.somosmas.dtos.OrganizationBasicDTO;
+import com.alkemy.somosmas.models.Organization;
 
 @Component
 public class OrganizationMapper {
