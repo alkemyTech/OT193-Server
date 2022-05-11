@@ -1,20 +1,17 @@
 package com.alkemy.somosmas.models;
 
 import java.time.LocalDateTime;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-import org.springframework.data.annotation.Id;
-
 import com.sun.istack.NotNull;
-
 import lombok.Data;
 
 @Data
@@ -34,7 +31,7 @@ public class Testimonial {
 	private String image;
 	private String content;
 	
-	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "create_at")
 	private LocalDateTime createAt;
 	
 	private boolean deleted = Boolean.FALSE;
