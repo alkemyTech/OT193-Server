@@ -29,4 +29,10 @@ public class CategoryController {
         List<ListaCategoryDTO> categorias = this.categoryService.getAllCategories();
         return ResponseEntity.ok().body(categorias);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoryDTO>getDetalle(@PathVariable Long id){
+        CategoryDTO categoryDTO = this.categoryService.getCategoryById(id);
+        return ResponseEntity.ok().body(categoryDTO);
+    }
 }
