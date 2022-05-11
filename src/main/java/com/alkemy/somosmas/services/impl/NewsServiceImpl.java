@@ -31,12 +31,16 @@ public class NewsServiceImpl implements NewsService {
 	}
 
 	private boolean validateDTO(NewsDTO dto) {
-		return dto.getCategory() == null || dto.getImage() == null || dto.getName() == null || dto.getContent() == null
-				|| dto.getImage().isBlank() || dto.getName().isBlank() || dto.getContent().isBlank();
+		return dto.getCategoryId() == null || dto.getImage() == null || dto.getName() == null
+				|| dto.getContent() == null || dto.getImage().isBlank() || dto.getName().isBlank()
+				|| dto.getContent().isBlank();
 	}
 
 	@Override
 	public void delete(Long id) {
+		if (!this.newsRepository.existsById(id)) {
+			throw new RuntimeException("Id invalid");
+		}
 		this.newsRepository.deleteById(id);
 	}
 

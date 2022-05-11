@@ -1,7 +1,5 @@
 package com.alkemy.somosmas.dto;
 
-import com.alkemy.somosmas.models.Category;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +10,7 @@ public class NewsDTO {
 	private String name;
 	private String content;
 	private String image;
-	private Category category;
+	private Long categoryId;
 
 	public Long getId() {
 		return id;
@@ -46,12 +44,12 @@ public class NewsDTO {
 		this.image = image;
 	}
 
-	public Category getCategory() {
-		return category;
+	public Long getCategoryId() {
+		return categoryId;
 	}
 
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setCategory(Long categoryId) {
+		this.categoryId = categoryId;
 	}
 
 }

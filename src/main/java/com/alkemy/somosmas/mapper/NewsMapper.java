@@ -13,7 +13,7 @@ public class NewsMapper {
 		news.setName(dto.getName());
 		news.setImage(dto.getImage());
 		news.setContent(dto.getContent());
-		news.setCategory(dto.getCategory());
+		news.setCategoryId(dto.getCategoryId());
 		return news;
 	}
 
@@ -23,7 +23,7 @@ public class NewsMapper {
 		dto.setName(entity.getName());
 		dto.setImage(entity.getImage());
 		dto.setContent(entity.getContent());
-		dto.setCategory(entity.getCategory());
+		dto.setCategory(entity.getCategoryId());
 		return dto;
 	}
 
