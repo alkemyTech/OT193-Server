@@ -69,4 +69,12 @@ public class CategoryService {
 
         return resultadoDTO;
     }
+
+    public void delete(Long id){
+        Optional<Category> category = this.categoryRepository.findById(id);
+        if(!category.isPresent()){
+            throw new RuntimeException("Id categoria inexistente.");
+        }
+        this.categoryRepository.deleteById(id);
+    }
 }
