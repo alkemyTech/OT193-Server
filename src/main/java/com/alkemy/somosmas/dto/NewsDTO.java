@@ -1,15 +1,22 @@
 package com.alkemy.somosmas.dto;
 
+import javax.validation.Valid;
+
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class NewsDTO {
+	@Valid
 	private Long id;
+	@Valid
 	private String name;
+	@Valid
 	private String content;
+	@Valid
 	private String image;
+	@Valid
 	private Long categoryId;
 
 	public Long getId() {

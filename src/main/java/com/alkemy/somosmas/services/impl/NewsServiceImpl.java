@@ -20,7 +20,7 @@ public class NewsServiceImpl implements NewsService {
 	@Override
 	public NewsDTO save(NewsDTO dto) {
 		if (validateDTO(dto)) {
-			throw new RuntimeException("DTO invalid");
+			throw new RuntimeException("Invalid DTO");
 		}
 		News newsEntity = this.newsMapper.newsDTO2Entity(dto);
 		News newsEntitySaved = this.newsRepository.save(newsEntity);
@@ -37,7 +37,7 @@ public class NewsServiceImpl implements NewsService {
 	@Override
 	public void delete(Long id) {
 		if (!this.newsRepository.existsById(id)) {
-			throw new RuntimeException("Id invalid");
+			throw new RuntimeException("Invalid ID");
 		}
 		this.newsRepository.deleteById(id);
 	}
