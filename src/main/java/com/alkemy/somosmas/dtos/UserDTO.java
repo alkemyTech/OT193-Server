@@ -4,13 +4,13 @@ public class UserDTO {
     private String firstName;
     private String lastName;
     private String email;
-    private String photo;
+    private String password;
 
-    public UserDTO(String firstName, String lastName, String email, String photo){
+    public UserDTO(String firstName, String lastName, String email,String password){
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.photo = photo;
+        this.password = password;
     }
 
     public UserDTO() {
@@ -41,11 +41,11 @@ public class UserDTO {
         this.email = email;
     }
 
-    public String getPhoto() {
-        return photo;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

@@ -28,7 +28,6 @@ public class UserServiceImpl implements UserService ,UserDetailsService {
 		this.userMapper = userMapper;
 	}*/
 
-
 	@Override
 	@Transactional(readOnly=true)
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -37,25 +36,26 @@ public class UserServiceImpl implements UserService ,UserDetailsService {
 	}
 
 	@Override
-	public Boolean exists(Long id) {
-		Boolean exists = this.userRepository.existsById(id);
-		if(exists){
-			return exists;
-		}else{
-			return false;
+	public UserDTO getUser(Long id) {
+		if(this.userRepository.existsById(id)){
+			User userNew = this.userRepository.getById(id);
+			UserDTO userDTO = userMapper.originalToDTO(userNew);
+			return userDTO;
 		}
-	}
-
-	@Override
-	public User getUser(Long id) {
-		if(exists(id)){
-			User user = new User();
-			user = this.userRepository.getById(id);
-			return user;
-		}else{
+		else{
 			return null;
 		}
 	}
+	 /*public hola(Long id){//PRUEBA
+		if(exists(id)){
+			User userNew = this.userRepository.getById(id);
+			UserDTO userDTO = userMapper.originalToDTO(userNew);
+			return userDTO;
+		}
+		else{
+			return null;
+		}
+	 }*/
 
 	@Override
 	public List<UserDTO> getUsersList() {
@@ -63,4 +63,18 @@ public class UserServiceImpl implements UserService ,UserDetailsService {
 		List<UserDTO> dtoList = userMapper.modelUserToUserDTO(model);
 		return dtoList;
 	}
+
+	@Override
+	public UserDTO registerUserDTO2Model(UserDTO userDTO) throws Exception {
+		Boolean mailExists = this.userRepository.existsByEmail(userDTO.getEmail());
+		if(!mailExists){
+			User newUser = userMapper.dto2Model(userDTO);
+			this.userRepository.save(newUser);
+			return userDTO;
+		}else{
+			throw new Exception("MAIL EXISTENTE, ELIJA OTRO POR FAVOR.");
+		}
+	}
+
+
 }
