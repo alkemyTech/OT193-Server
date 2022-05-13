@@ -1,6 +1,7 @@
 package com.alkemy.somosmas.mappers;
 
 import com.alkemy.somosmas.dtos.OrganizationBasicDTO;
+import com.alkemy.somosmas.dtos.OrganizationDTO;
 import com.alkemy.somosmas.models.Organization;
 import org.springframework.stereotype.Component;
 
@@ -43,6 +44,78 @@ public class OrganizationMapper {
 
     }
 
+
+    public OrganizationDTO organizationModel2Dto(Organization organization){
+
+        OrganizationDTO dto= new OrganizationDTO();
+
+
+        dto.setId(organization.getId());
+        dto.setName(organization.getName());
+        dto.setImage(organization.getImage());
+        dto.setAddress(organization.getAddress());
+        dto.setPhone(organization.getPhone());
+        dto.setEmail(organization.getEmail());
+        dto.setWelcomeText(organization.getWelcomeText());
+        dto.setAboutUsText(organization.getAboutUsText());
+        dto.setCreateDate(organization.getCreateDate());
+
+        return dto;
+    }
+
+     /*Esto apunta mas a crear una entidad de cero */
+    public Organization organizationDto2Model(OrganizationDTO dto){
+      Organization model = new Organization();
+      model.setId(dto.getId());
+      model.setName(dto.getName());
+      model.setImage(dto.getImage());
+      model.setAddress(dto.getAddress());
+      model.setPhone(dto.getPhone());
+      model.setEmail(dto.getEmail());
+      model.setWelcomeText(dto.getWelcomeText());
+      model.setAboutUsText(dto.getAboutUsText());
+      return model;
+    }
+
+    /*Esto apunta a hacer un update solo de lo que se cambio */
+    public Organization organizationRefreshValues(Organization model, OrganizationDTO dto){
+
+        if(dto.getId()!=null && dto.getId()!=0 ){
+            model.setId(dto.getId());
+        }
+
+        if(dto.getName()!=null && !dto.getName().isEmpty()){
+            model.setName(dto.getName());
+        }
+
+        if(dto.getImage()!=null && !dto.getImage().isEmpty()){
+            model.setImage(dto.getImage());
+        }
+
+        if (dto.getAddress()!=null && !dto.getAddress().isEmpty()){
+            model.setAddress(dto.getAddress());
+        }
+
+        if (dto.getPhone()!=0){
+            model.setPhone(dto.getPhone());
+        }
+
+        if (dto.getEmail()!=null && !dto.getEmail().isEmpty()){
+            model.setEmail(dto.getEmail());
+        }
+
+        if (dto.getWelcomeText()!=null && !dto.getWelcomeText().isEmpty()){
+            model.setWelcomeText(dto.getWelcomeText());
+        }
+
+        if (dto.getAboutUsText()!=null && !dto.getAboutUsText().isEmpty()){
+            model.setAboutUsText(dto.getAboutUsText());
+        }
+
+        /*No agrego deleted y create date porque no estan relacionados a esto */
+
+        return model;
+    }
 
 
 

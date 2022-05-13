@@ -19,14 +19,8 @@ public class OrganizationDTO {
     private int phone;
     private String email;
     private String welcomeText;
-
     private String aboutUsText;
-    private boolean deleted=Boolean.FALSE;
-/* ¿Deberia agregar este atributo? Si lo hago podrian modificarlo no ? salvo que haga el metodo privado*/
     private LocalDateTime createDate;
 
-    private void setCreateDate(LocalDateTime createDate){
-        this.createDate=createDate;
-    }
 
 }
