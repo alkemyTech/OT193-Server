@@ -1,5 +1,6 @@
 package com.alkemy.somosmas.controllers;
 
+import com.alkemy.somosmas.dtos.UserBasicDTO;
 import com.alkemy.somosmas.dtos.UserDTO;
 import com.alkemy.somosmas.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,12 @@ public class UserController {
     }
 
     @PostMapping(value = "/register")
-    public ResponseEntity<UserDTO> registerUser(@RequestBody UserDTO userDTO) throws Exception {
+    public ResponseEntity<UserBasicDTO> registerUser(@RequestBody UserDTO userDTO) throws Exception {
         UserDTO dto = userService.registerUserDTO2Model(userDTO);//trae nombre, apellido, mail y pass
-        return new ResponseEntity<UserDTO>(dto, HttpStatus.OK);
+        UserBasicDTO dtoResponse = new UserBasicDTO();
+        dtoResponse.setFirstName(dto.getFirstName());
+        dtoResponse.setLastName(dto.getLastName());
+        dtoResponse.setEmail(dto.getEmail());
+        return new ResponseEntity<UserBasicDTO>(dtoResponse, HttpStatus.OK);
     }
 }
