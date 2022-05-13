@@ -18,8 +18,8 @@ public class OrganizationController {
     @Autowired
     private OrganizationService organizationService;
 
-    @RequestMapping("/public")
-    @GetMapping
+
+    @GetMapping("/public")
     public ResponseEntity<List<OrganizationBasicDTO>> getAll() {
 
 
@@ -28,15 +28,14 @@ public class OrganizationController {
         return ResponseEntity.ok().body(dtos);
     }
 
-    @RequestMapping("/public")
-    @PostMapping("/{id}")
-    /* La historia no indica un id  pero se lo agregue
-    por lo que para editar necesito saber cual entidad es...
-    * ademas no queda claro porque es un post, no seria patch para editar?*/
-    public ResponseEntity<OrganizationDTO> save(@PathVariable Long id, @RequestBody OrganizationBasicDTO dto) {
+
+    @PostMapping("public/{id}")
+    /* La historia no indica un id  pero se lo agregue por que para editar necesito saber cual entidad es.
+     * ademas no queda claro porque es un post, no seria patch para editar? sino crearia una nueva entidad*/
+    public ResponseEntity<OrganizationDTO> update(@PathVariable Long id, @RequestBody OrganizationDTO dto) {
 
 
-        OrganizationDTO dtoReturned =null ;
+        OrganizationDTO dtoReturned =this.organizationService.update(id, dto);
 
         return ResponseEntity.ok().body(dtoReturned);
     }
