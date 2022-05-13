@@ -2,12 +2,11 @@ package com.alkemy.somosmas.controllers;
 
 
 import com.alkemy.somosmas.dtos.OrganizationBasicDTO;
+import com.alkemy.somosmas.dtos.OrganizationDTO;
 import com.alkemy.somosmas.services.OrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +27,21 @@ public class OrganizationController {
 
         return ResponseEntity.ok().body(dtos);
     }
+
+    @RequestMapping("/public")
+    @PostMapping("/{id}")
+    /* La historia no indica un id  pero se lo agregue
+    por lo que para editar necesito saber cual entidad es...
+    * ademas no queda claro porque es un post, no seria patch para editar?*/
+    public ResponseEntity<OrganizationDTO> save(@PathVariable Long id, @RequestBody OrganizationBasicDTO dto) {
+
+
+        OrganizationDTO dtoReturned =null ;
+
+        return ResponseEntity.ok().body(dtoReturned);
+    }
+
+
 
 
 }
