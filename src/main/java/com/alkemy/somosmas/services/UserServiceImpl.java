@@ -22,17 +22,16 @@ public class UserServiceImpl implements UserService ,UserDetailsService {
 	@Autowired
 	private UserMapper userMapper;
 
-	/*@Autowired
-	public UserServiceImpl(UserRepository userRepository, UserMapper userMapper){
-		this.userRepository = userRepository;
-		this.userMapper = userMapper;
-	}*/
-
 	@Override
 	@Transactional(readOnly=true)
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
 		return null;
+	}
+
+	@Override
+	public List<User> getAll() {
+		return this.userRepository.findAll();
 	}
 
 	@Override
@@ -75,6 +74,31 @@ public class UserServiceImpl implements UserService ,UserDetailsService {
 			throw new Exception("MAIL EXISTENTE, ELIJA OTRO POR FAVOR.");
 		}
 	}
+
+	/*@Override //PRUEBA
+	public Long getUserIdByMail(String email) {
+		if(this.userRepository.existsByEmail(email)){
+			User user = this.userRepository.findByEmail(email);
+			Long result = user.getIdUser();
+			return result;
+		}else{
+			return null;
+		}
+	}*/
+
+	@Override
+	public Boolean deleteUser(Long id) {
+		if(this.userRepository.existsById(id)){
+			User user = this.userRepository.getById(id);
+			user.setDeleted(Boolean.TRUE);
+			this.userRepository.save(user);
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+
 
 
 }
