@@ -32,20 +32,21 @@ public class UserMapper {
 		return user;
 	}
 
-	public UserDTO entityToUserDTO(User user) {
+	public UserDTO userToUserDTO(User user) {
 		UserDTO userDTO = new UserDTO();
 		userDTO.setEmail(user.getEmail());
 		userDTO.setPassword(user.getPassword());
 		userDTO.setFirstName(user.getFirstName());
 		userDTO.setLastName(user.getLastName());
 		userDTO.setPhoto(user.getPhoto());
+		userDTO.setRole(user.getRole().getId());
 		return userDTO;
 	}
 
 	public List<UserDTO> userEntityListToDTOList(List<User> users) {
 		List<UserDTO> dtos = new ArrayList<>();
 		for(User user : users) {
-			dtos.add(entityToUserDTO(user));
+			dtos.add(userToUserDTO(user));
 		}
 		return  dtos;
 	}
