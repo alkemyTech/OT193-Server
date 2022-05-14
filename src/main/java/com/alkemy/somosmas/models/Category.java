@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -27,7 +28,9 @@ public class Category {
 	@Column(unique = true, nullable = false)
 	private Long id;
 
-	@Column(nullable = false)
+
+	//@Column(nullable = false)
+	@NotNull(message = "No puede quedar vacio")
 	private String name;
 
 	private String description;
