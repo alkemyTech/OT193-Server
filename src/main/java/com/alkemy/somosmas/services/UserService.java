@@ -1,6 +1,5 @@
 package com.alkemy.somosmas.services;
 
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.alkemy.somosmas.dtos.UserDTO;
@@ -13,5 +12,4 @@ public interface UserService{
 	 Boolean existsByEmail(String email);
 	 UserDTO user2UserDTO(User user);
 	 UserDTO authUser(String email, String password) throws InvalidUserException;
-	 UserDetails loadUserByUsername(String email);
 }

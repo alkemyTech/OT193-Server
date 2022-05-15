@@ -23,4 +23,9 @@ public class UserController {
 		UserDTO userDTO = userService.authUser(email, password);
 		return ResponseEntity.ok().body(userDTO);
 	}
+	@PostMapping("/test")
+	public ResponseEntity<Object> test(){
+
+		return ResponseEntity.ok().body(new UserDTO());
+	}
 }
