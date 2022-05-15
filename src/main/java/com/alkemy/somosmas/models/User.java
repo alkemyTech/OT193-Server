@@ -1,6 +1,7 @@
 package com.alkemy.somosmas.models;
 
 import java.time.LocalDateTime;
+
 //import javax.management.relation.Role;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,8 +13,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,7 +25,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE idUser=?")
-@Where(clause = "delete = false")
+@Where(clause = "deleted = false")
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
