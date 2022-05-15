@@ -81,10 +81,6 @@ public class OrganizationMapper {
     /*Esto apunta a hacer un update solo de lo que se cambio */
     public Organization organizationRefreshValues(Organization model, OrganizationDTO dto){
 
-        if(dto.getId()!=null && dto.getId()!=0 ){
-            model.setId(dto.getId());
-        }
-
         if(dto.getName()!=null && !dto.getName().isEmpty()){
             model.setName(dto.getName());
         }

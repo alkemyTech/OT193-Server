@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class OrganizationController {
     @PostMapping("public")
     /* La historia no indica un id  pero entiendo podria estar dentro del DTO. Si el objeto existe hace
     * update sino crea uno nuevo*/
-    public ResponseEntity<OrganizationDTO> save(@RequestBody OrganizationDTO dto) {
+    public ResponseEntity<OrganizationDTO> save(@Valid @RequestBody OrganizationDTO dto) {
 
 
         OrganizationDTO dtoReturned =this.organizationService.save(dto);

@@ -50,7 +50,21 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public OrganizationDTO save(OrganizationDTO dto) {
 
-        Organization model = this.organizationMapper.organizationDto2Model(dto);
+
+        Organization model=null;
+        // Si tiene un id lo busco en la base de datos sino lo encuentro lanzo una excepcion.
+        if(dto.getId()!=null && dto.getId()!=0){
+
+          model = this.organizationRepository.findById(dto.getId()).orElse(null);
+
+            // Esta excepcion arreglarse si eventualmente se usa el metodo.
+            if(model==null){
+                //Excepcion de tipo check heredar de la clase exception
+                throw new RuntimeException("Organization not found");
+            }
+        }
+
+        model = this.organizationMapper.organizationDto2Model(dto);
         Organization modelSaved = organizationRepository.save(model);
         OrganizationDTO result = organizationMapper.organizationModel2Dto(modelSaved);
         return result;
