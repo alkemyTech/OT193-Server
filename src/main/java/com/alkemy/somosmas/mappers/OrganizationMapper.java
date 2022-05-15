@@ -74,6 +74,7 @@ public class OrganizationMapper {
       model.setEmail(dto.getEmail());
       model.setWelcomeText(dto.getWelcomeText());
       model.setAboutUsText(dto.getAboutUsText());
+
       return model;
     }
 

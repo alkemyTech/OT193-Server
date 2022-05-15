@@ -12,4 +12,5 @@ public interface OrganizationService {
     public List<OrganizationBasicDTO> getAllOrganizations();
 
     public OrganizationDTO update (Long id, OrganizationDTO dto);
+    public OrganizationDTO save (OrganizationDTO dto);
 }

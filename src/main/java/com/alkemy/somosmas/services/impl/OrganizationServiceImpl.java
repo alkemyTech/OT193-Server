@@ -35,7 +35,9 @@ public class OrganizationServiceImpl implements OrganizationService {
     public OrganizationDTO update(Long id, OrganizationDTO dto) {
         Organization model = this.organizationRepository.findById(id).orElse(null);
 
+    // Esta excepcion arreglarse si eventualmente se usa el metodo.
         if(model==null){
+              //Excepcion de tipo check heredar de la clase exception
             throw new RuntimeException("Organization not found");
         }
        model= this.organizationMapper.organizationRefreshValues(model, dto);
@@ -44,4 +46,14 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         return result;
     }
+
+    @Override
+    public OrganizationDTO save(OrganizationDTO dto) {
+
+        Organization model = this.organizationMapper.organizationDto2Model(dto);
+        Organization modelSaved = organizationRepository.save(model);
+        OrganizationDTO result = organizationMapper.organizationModel2Dto(modelSaved);
+        return result;
+    }
+
 }

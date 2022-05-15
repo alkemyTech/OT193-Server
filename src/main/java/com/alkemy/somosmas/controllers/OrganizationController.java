@@ -29,9 +29,22 @@ public class OrganizationController {
     }
 
 
-    @PostMapping("public/{id}")
-    /* La historia no indica un id  pero se lo agregue por que para editar necesito saber cual entidad es.
-     * ademas no queda claro porque es un post, no seria patch para editar? sino crearia una nueva entidad*/
+    @PostMapping("public")
+    /* La historia no indica un id  pero entiendo podria estar dentro del DTO. Si el objeto existe hace
+    * update sino crea uno nuevo*/
+    public ResponseEntity<OrganizationDTO> save(@RequestBody OrganizationDTO dto) {
+
+
+        OrganizationDTO dtoReturned =this.organizationService.save(dto);
+
+        return ResponseEntity.ok().body(dtoReturned);
+    }
+
+
+
+
+    @PutMapping("public/{id}")
+  // dejo este metodo que seria para hacer un update en parcial
     public ResponseEntity<OrganizationDTO> update(@PathVariable Long id, @RequestBody OrganizationDTO dto) {
 
 
