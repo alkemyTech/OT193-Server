@@ -30,11 +30,6 @@ public class UserServiceImpl implements UserService ,UserDetailsService {
 	}
 
 	@Override
-	public List<User> getAll() {
-		return this.userRepository.findAll();
-	}
-
-	@Override
 	public UserDTO getUser(Long id) {
 		if(this.userRepository.existsById(id)){
 			User userNew = this.userRepository.getById(id);
@@ -45,16 +40,6 @@ public class UserServiceImpl implements UserService ,UserDetailsService {
 			return null;
 		}
 	}
-	 /*public hola(Long id){//PRUEBA
-		if(exists(id)){
-			User userNew = this.userRepository.getById(id);
-			UserDTO userDTO = userMapper.originalToDTO(userNew);
-			return userDTO;
-		}
-		else{
-			return null;
-		}
-	 }*/
 
 	@Override
 	public List<UserDTO> getUsersList() {
@@ -75,16 +60,6 @@ public class UserServiceImpl implements UserService ,UserDetailsService {
 		}
 	}
 
-	/*@Override //PRUEBA
-	public Long getUserIdByMail(String email) {
-		if(this.userRepository.existsByEmail(email)){
-			User user = this.userRepository.findByEmail(email);
-			Long result = user.getIdUser();
-			return result;
-		}else{
-			return null;
-		}
-	}*/
 
 	@Override
 	public Boolean deleteUser(Long id) {

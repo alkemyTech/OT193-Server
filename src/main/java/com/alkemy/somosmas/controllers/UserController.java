@@ -33,10 +33,7 @@ public class UserController {
         dtoResponse.setEmail(dto.getEmail());
         return new ResponseEntity<UserBasicDTO>(dtoResponse, HttpStatus.OK);
     }
-    @GetMapping(value = "/all")
-    public List<User> getAllData(){
-        return this.userService.getAll();
-    }
+
     @RequestMapping(value = "/users/{id}",method = RequestMethod.DELETE)
     public HttpStatus deleteUser(@PathVariable Long id){
        Boolean deleted  =  this.userService.deleteUser(id);
