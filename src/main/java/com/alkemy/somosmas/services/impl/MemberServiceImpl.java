@@ -44,4 +44,17 @@ public class MemberServiceImpl implements MemberService{
 		return membersDTO;
 	}
 
+	@Override
+	public MemberDTO update(Long id, MemberDTO memberDTO) {
+		Member memberEntity = this.memberRepository.findById(id).orElse(null);
+		if (memberEntity == null) {
+			//throw new RuntimeException("invalid ID");
+		}
+		this.memberMapper.memberEntityRefreshValues(memberEntity, memberDTO);
+		Member memberEntityModified = this.memberRepository.save(memberEntity);
+		MemberDTO result = this.memberMapper.memberEntity2DTO(memberEntityModified);
+		
+		return result;
+	}
+
 }
