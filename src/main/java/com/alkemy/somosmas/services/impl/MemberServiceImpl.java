@@ -1,6 +1,8 @@
 package com.alkemy.somosmas.services.impl;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +35,13 @@ public class MemberServiceImpl implements MemberService{
 			//throw  
 		}
 		this.memberRepository.deleteById(id);
+	}
+
+	@Override
+	public List<MemberDTO> getAll() {
+		List<Member> membersEntity = this.memberRepository.findAll();
+		List<MemberDTO> membersDTO = this.memberMapper.membersEntityList2DTOList(membersEntity);
+		return membersDTO;
 	}
 
 }
