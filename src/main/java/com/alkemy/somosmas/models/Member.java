@@ -3,6 +3,7 @@ package com.alkemy.somosmas.models;
 import java.time.LocalDateTime;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -21,8 +22,9 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
-    private long id;
+    private Long id;
  
+    @NotBlank
     @Column(nullable = false)
     private String name;
 
