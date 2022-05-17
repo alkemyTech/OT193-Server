@@ -16,27 +16,21 @@ public class ContactServiceImpl implements ContactService{
     @Autowired
     private ContactMapper contactMapper;
 
-    @Override
-    public Boolean saveContact(Contact newContact) throws Exception {
-        String name = newContact.getName();
-        String email = newContact.getEmail();
-        if(name!=null && email!=null){
-            this.contactRepository.save(newContact);
-            return true;
-        }else{
-            throw new Exception("Uno de estos dos campos está vacío 'Name' y 'Email'");
-        }
-    }
 
     @Override
-    public ContactBasicDTO registerContact(ContactDTO contactDto) {
-        Contact contactNew = new Contact();
-        contactNew.setName(contactDto.getName());
-        contactNew.setPhone(contactDto.getPhone());
-        contactNew.setEmail(contactDto.getEmail());
-        contactNew.setMessage(contactDto.getMessage());
-        this.contactRepository.save(contactNew);
-        ContactBasicDTO response = contactMapper.original2Dto(contactDto);
-        return response;
+    public ContactBasicDTO registerContact(ContactDTO contactDto) throws Exception {
+        if((contactDto.getName()!=null && contactDto.getEmail()!=null) && (contactDto.getName().length()>0 && contactDto.getEmail().length()>0)){
+            Contact contactNew = new Contact();
+            contactNew.setName(contactDto.getName());
+            contactNew.setPhone(contactDto.getPhone());
+            contactNew.setEmail(contactDto.getEmail());
+            contactNew.setMessage(contactDto.getMessage());
+            this.contactRepository.save(contactNew);
+            ContactBasicDTO response = contactMapper.original2Dto(contactDto);
+            return response;
+        }else{
+            throw new Exception("Uno de estos dos campos esta vacio 'Name' o 'Email'");
+        }
+
     }
 }

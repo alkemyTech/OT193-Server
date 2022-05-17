@@ -2,7 +2,6 @@ package com.alkemy.somosmas.models;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -31,16 +30,10 @@ public class Contact {
     @Column(name = "message")
     private String message;
 
-    @Column(name = "deleted_at")
-    @DateTimeFormat(pattern = "dd-MM-YYYY HH:mm:ss")
-    private LocalDateTime deletedAt;
+    @Column(name = "deleted_at", nullable = true)
+    private LocalDateTime deletedAt=null;
 
     private Boolean deleted = false;
-
-    @PrePersist
-    private void beforePersisting() {
-        this.deletedAt= LocalDateTime.now();
-    }
 
     public Long getId() {
         return id;
