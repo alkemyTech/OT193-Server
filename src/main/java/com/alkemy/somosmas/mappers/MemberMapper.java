@@ -1,5 +1,8 @@
 package com.alkemy.somosmas.mappers;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Component;
 
 import com.alkemy.somosmas.dtos.MemberDTO;
@@ -30,6 +33,13 @@ public class MemberMapper {
 		dto.setLinkedinUrl(memberEntity.getLinkedinUrl());
 		return dto;
 
+	}
+
+	public List<MemberDTO> membersEntityList2DTOList(List<Member> membersEntity) {
+		List<MemberDTO> membersDTO = membersEntity.stream()
+										.map(i->this.memberEntity2DTO(i))
+										.collect(Collectors.toList());
+		return membersDTO;
 	}
 
 }
