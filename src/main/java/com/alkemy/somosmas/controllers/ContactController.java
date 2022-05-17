@@ -20,8 +20,8 @@ public class ContactController {
     private ContactService contactService;
 
     @PostMapping(value = "/contacts")
-    public ResponseEntity<ContactBasicDTO> addContact(@RequestBody ContactDTO contact){
+    public ResponseEntity<ContactBasicDTO> addContact(@RequestBody ContactDTO contact) throws Exception {
         ContactBasicDTO response = contactService.registerContact(contact);
-        return new ResponseEntity<ContactBasicDTO>(response, HttpStatus.OK);
+        return new ResponseEntity<ContactBasicDTO>(response, HttpStatus.ACCEPTED);
     }
 }

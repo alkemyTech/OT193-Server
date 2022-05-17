@@ -5,6 +5,5 @@ import com.alkemy.somosmas.dtos.ContactDTO;
 import com.alkemy.somosmas.models.Contact;
 
 public interface ContactService {
-    Boolean saveContact(Contact newContact) throws Exception;
-    ContactBasicDTO registerContact(ContactDTO contact);
+    ContactBasicDTO registerContact(ContactDTO contact) throws Exception;
 }
