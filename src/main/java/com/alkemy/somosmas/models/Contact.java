@@ -13,7 +13,9 @@ import java.time.LocalDateTime;
 @SQLDelete(sql = "UPDATE activity SET deleted = true WHERE id=?")
 @Where(clause = "deleted = false")
 public class Contact {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_contact", nullable = false)
     private Long id;
 
