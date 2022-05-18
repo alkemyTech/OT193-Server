@@ -18,7 +18,6 @@ import com.alkemy.somosmas.repositories.UserRepository;
 public class UserDetailsServiceImpl implements UserDetailsService{
 	@Autowired
 	UserRepository userRepository;
-
 	@Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String email) {
@@ -32,4 +31,5 @@ public class UserDetailsServiceImpl implements UserDetailsService{
         return new org.springframework.security.core.userdetails.User(
             user.getEmail(), user.getPassword(), grantedAuthorities);
     }
+
 }

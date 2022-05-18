@@ -29,7 +29,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 		//web.ignoring().antMatchers("/**");
 		web.ignoring().antMatchers("/user/auth/login");
 		web.ignoring().antMatchers("/user/test");
-
+		web.ignoring().antMatchers("/h2/*");
 	}
 
 	@Override
@@ -45,9 +45,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 	}
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-	        http.authorizeRequests()
-	        	.antMatchers("/**").hasAuthority("ADMIN")
-	        	.antMatchers("/public/*").hasAuthority("USER");
+//	        http.authorizeRequests()
+//	        	.antMatchers("/**").hasAuthority("ADMIN")
+
 
 	}
 
