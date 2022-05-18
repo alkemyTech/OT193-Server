@@ -1,6 +1,5 @@
 package com.alkemy.somosmas.services;
 
-
 import com.alkemy.somosmas.dto.NewsDTO;
 
 public interface NewsService {
@@ -9,6 +8,8 @@ public interface NewsService {
 
 	void delete(Long id);
 
-  NewsDTO getDetailsById(Long id);
+	NewsDTO getDetailsById(Long id);
+
+	NewsDTO update(Long id, NewsDTO dto);
 
 }

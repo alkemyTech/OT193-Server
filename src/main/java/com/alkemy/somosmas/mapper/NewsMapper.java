@@ -1,5 +1,6 @@
 package com.alkemy.somosmas.mapper;
 
+
 import org.springframework.stereotype.Component;
 
 import com.alkemy.somosmas.dto.NewsDTO;
@@ -26,5 +27,22 @@ public class NewsMapper {
 		dto.setCategory(entity.getCategoryId());
 		return dto;
 	}
+
+	public void newsEntityRefreshValues(News newsEntity, NewsDTO dto) {
+		if (dto.getCategoryId() != null) {
+			newsEntity.setCategoryId(dto.getCategoryId());
+		}
+		if (dto.getContent() != null && !dto.getContent().isBlank()) {
+			newsEntity.setContent(dto.getContent());			
+		}
+		if (dto.getImage() != null && !dto.getImage().isBlank()) {
+			newsEntity.setImage(dto.getImage());
+		}
+		if (dto.getName() != null && !dto.getName().isBlank()) {
+			newsEntity.setName(dto.getName());
+		}
+	}
+	
+	
 
 }
