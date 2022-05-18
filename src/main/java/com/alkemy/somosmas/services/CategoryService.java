@@ -40,4 +40,15 @@ public class CategoryService {
         System.out.println("categorías buscadas");
         return listaDTO;
     }
+
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+    public class NotFoundException extends RuntimeException {}
+    public CategoryDTO getCategoryById(Long id){
+        Optional<Category> category = this.categoryRepository.findById(id);
+        if(!category.isPresent()){
+            throw new NotFoundException();
+        }
+        CategoryDTO categoryDTO = mapper.convertValue(category,CategoryDTO.class);
+        return categoryDTO;
+    }
 }
