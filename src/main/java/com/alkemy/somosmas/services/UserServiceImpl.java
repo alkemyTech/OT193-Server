@@ -22,12 +22,6 @@ public class UserServiceImpl implements UserService ,UserDetailsService {
 	@Autowired
 	private UserMapper userMapper;
 
-	/*@Autowired
-	public UserServiceImpl(UserRepository userRepository, UserMapper userMapper){
-		this.userRepository = userRepository;
-		this.userMapper = userMapper;
-	}*/
-
 	@Override
 	@Transactional(readOnly=true)
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -46,16 +40,6 @@ public class UserServiceImpl implements UserService ,UserDetailsService {
 			return null;
 		}
 	}
-	 /*public hola(Long id){//PRUEBA
-		if(exists(id)){
-			User userNew = this.userRepository.getById(id);
-			UserDTO userDTO = userMapper.originalToDTO(userNew);
-			return userDTO;
-		}
-		else{
-			return null;
-		}
-	 }*/
 
 	@Override
 	public List<UserDTO> getUsersList() {
@@ -75,6 +59,21 @@ public class UserServiceImpl implements UserService ,UserDetailsService {
 			throw new Exception("MAIL EXISTENTE, ELIJA OTRO POR FAVOR.");
 		}
 	}
+
+
+	@Override
+	public Boolean deleteUser(Long id) {
+		if(this.userRepository.existsById(id)){
+			User user = this.userRepository.getById(id);
+			user.setDeleted(Boolean.TRUE);
+			this.userRepository.save(user);
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+
 
 
 }
