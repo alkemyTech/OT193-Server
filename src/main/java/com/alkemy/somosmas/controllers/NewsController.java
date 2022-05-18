@@ -34,7 +34,7 @@ public class NewsController {
 		this.newsService.delete(id);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
-	
+
 	@GetMapping("/{id}")
 	public ResponseEntity<NewsDTO> getDetailsById(@Valid @PathVariable Long id){
 		NewsDTO newsDto = this.newsService.getDetailsById(id);
