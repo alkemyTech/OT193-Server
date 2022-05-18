@@ -9,5 +9,6 @@ public interface NewsService {
 
 	void delete(Long id);
 	
+  NewsDTO getDetailsById(Long id);
 
 }
