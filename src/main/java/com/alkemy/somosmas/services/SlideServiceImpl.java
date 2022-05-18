@@ -2,6 +2,7 @@ package com.alkemy.somosmas.services;
 
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 
 import com.alkemy.somosmas.dtos.SlideDTO;
 import com.alkemy.somosmas.mappers.SlideMapper;
@@ -59,8 +60,9 @@ public class SlideServiceImpl implements SlideService{
 
     @Override
     public SlideDTO getSlide(Long id) {
-        // TODO Auto-generated method stub
-        return null;
+        Optional<Slide> slide= slideRepository.findById(id);
+        SlideDTO slideDTO= slideMapper.getSlide(slide.get());       
+        return slideDTO;
     }
     
 }
