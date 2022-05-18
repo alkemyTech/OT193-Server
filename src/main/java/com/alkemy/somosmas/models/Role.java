@@ -23,6 +23,8 @@ public class Role {
     private String description;
 
     private LocalDateTime createDate;
+
+
     @PrePersist
     private void beforePersisting() {
         this.createDate= LocalDateTime.now();
