@@ -1,7 +1,6 @@
 package com.alkemy.somosmas.services.impl;
 
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,5 +52,4 @@ public class NewsServiceImpl implements NewsService {
 		NewsDTO result = this.newsMapper.newsEntity2DTO(newsEntity.get());
 		return result;
 	}
-
 }

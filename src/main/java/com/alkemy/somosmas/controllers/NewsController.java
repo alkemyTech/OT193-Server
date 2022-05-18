@@ -40,5 +40,5 @@ public class NewsController {
 		NewsDTO newsDto = this.newsService.getDetailsById(id);
 		return ResponseEntity.ok(newsDto);
 	}
-	
+
 }
