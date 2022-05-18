@@ -34,7 +34,7 @@ public class SlideServiceImpl implements SlideService{
             
           } catch (IndexOutOfBoundsException e) {
               //TODO: handle exception
-              System.out.println( "***Capturada de nuevo: "+ e );
+              System.out.println( "Error al obtener el  listado de Slides: "+ e );
               slideDTO.setOrder_ong(1);
           }
           
