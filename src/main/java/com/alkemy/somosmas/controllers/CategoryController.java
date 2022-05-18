@@ -23,4 +23,10 @@ public class CategoryController {
         CategoryDTO categoryGuardado = categoryService.save(category);
         return ResponseEntity.status(HttpStatus.CREATED).body(categoryGuardado);
     }
+
+    @GetMapping
+    public ResponseEntity<List<ListaCategoryDTO>>getAll(){
+        List<ListaCategoryDTO> categorias = this.categoryService.getAllCategories();
+        return ResponseEntity.ok().body(categorias);
+    }
 }
