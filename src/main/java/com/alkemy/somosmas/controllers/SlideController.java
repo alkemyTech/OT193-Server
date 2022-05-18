@@ -5,6 +5,7 @@ package com.alkemy.somosmas.controllers;
 import java.util.*;
 
 import com.alkemy.somosmas.dtos.SlideDTO;
+import com.alkemy.somosmas.dtos.SlidegetSlidesDTO;
 import com.alkemy.somosmas.models.Slide;
 import com.alkemy.somosmas.services.SlideService;
 
@@ -18,6 +19,11 @@ import org.springframework.web.bind.annotation.*;
 public class SlideController {
     @Autowired
     SlideService slideService;
+
+    @GetMapping
+    public List<SlidegetSlidesDTO> getSlides(){
+      return slideService.getSlides();
+    }
 
     @PostMapping
     public Slide createSlide(@RequestBody SlideDTO slide){
@@ -35,6 +41,8 @@ public class SlideController {
               return new ResponseEntity<Map<String, Object>>(response, null, HttpStatus.SC_NOT_FOUND);
           }      
     }
+
+
 
 
     

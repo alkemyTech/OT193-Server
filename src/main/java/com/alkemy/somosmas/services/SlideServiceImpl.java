@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.alkemy.somosmas.dtos.SlideDTO;
+import com.alkemy.somosmas.dtos.SlidegetSlidesDTO;
 import com.alkemy.somosmas.mappers.SlideMapper;
 import com.alkemy.somosmas.models.Slide;
 import com.alkemy.somosmas.repositories.SlideRepository;
@@ -52,17 +53,21 @@ public class SlideServiceImpl implements SlideService{
         return null;
     }
 
-    @Override
-    public List<SlideDTO> getSlides() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+  
 
     @Override
     public SlideDTO getSlide(Long id) {
         Optional<Slide> slide= slideRepository.findById(id);
         SlideDTO slideDTO= slideMapper.getSlide(slide.get());       
         return slideDTO;
+    }
+
+    @Override
+    public List<SlidegetSlidesDTO> getSlides() {   
+            List<Slide> slides= slideRepository.findAll();
+            List<SlidegetSlidesDTO> slidesList  = slideMapper.getSlides(slides);
+            return slidesList;
+        
     }
     
 }
