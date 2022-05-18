@@ -6,7 +6,7 @@ import com.alkemy.somosmas.models.User;
 import java.util.List;
 
 public interface UserService  {
-    Boolean exists(Long id);
-    User getUser(Long id);
+    UserDTO getUser(Long id);
     List<UserDTO> getUsersList();
+    UserDTO registerUserDTO2Model(UserDTO userDTO) throws Exception;
 }

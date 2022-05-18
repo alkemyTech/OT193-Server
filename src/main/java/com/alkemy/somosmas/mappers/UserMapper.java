@@ -14,8 +14,16 @@ public class UserMapper {
         dtoUser.setFirstName(user.getFirstName());
         dtoUser.setLastName(user.getLastName());
         dtoUser.setEmail(user.getEmail());
-        dtoUser.setPhoto(user.getPhoto());
         return dtoUser;
+    }
+
+    public User dto2Model(UserDTO userDTO){
+        User newUser = new User();
+        newUser.setFirstName(userDTO.getFirstName());
+        newUser.setLastName(userDTO.getLastName());
+        newUser.setEmail(userDTO.getEmail());
+        newUser.setPassword(userDTO.getPassword());
+        return newUser;
     }
 
     public List<UserDTO> modelUserToUserDTO(List<User> usersList){
