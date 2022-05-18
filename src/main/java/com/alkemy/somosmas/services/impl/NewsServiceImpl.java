@@ -1,7 +1,7 @@
 package com.alkemy.somosmas.services.impl;
 
-import java.util.Optional;
 
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +43,7 @@ public class NewsServiceImpl implements NewsService {
 		}
 		this.newsRepository.deleteById(id);
 	}
+
 
 	@Override
 	public NewsDTO getDetailsById(Long id) {

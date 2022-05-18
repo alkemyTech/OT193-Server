@@ -35,17 +35,17 @@ public class NewsController {
 		this.newsService.delete(id);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
-	
+
 	@GetMapping("/{id}")
 	public ResponseEntity<NewsDTO> getDetailsById(@Valid @PathVariable Long id){
 		NewsDTO newsDto = this.newsService.getDetailsById(id);
 		return ResponseEntity.ok(newsDto);
 	}
-	
+
 	@PutMapping("{id}")
 	public ResponseEntity<NewsDTO> update (@Valid @PathVariable Long id, @RequestBody NewsDTO dto){
 		NewsDTO news = this.newsService.update(id, dto);
 		return ResponseEntity.ok().body(news);
 	}
-	
+
 }

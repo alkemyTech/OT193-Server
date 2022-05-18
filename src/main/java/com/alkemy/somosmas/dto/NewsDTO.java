@@ -8,6 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class NewsDTO {
+
+	@Valid
 	private Long id;
 	@Valid
 	private String name;
