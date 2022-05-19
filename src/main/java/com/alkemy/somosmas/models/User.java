@@ -21,7 +21,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @Getter
 @Setter
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE idUser=?")
@@ -29,15 +29,14 @@ import lombok.Setter;
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_user")
 	private Long idUser;
-	@Column(name = "first_name", nullable = false)
+	@Column(name = "firstName", nullable = false)
 	private String firstName;
-	@Column(name = "last_name", nullable = false)
+	@Column(name = "lastName", nullable = false)
 	private String lastName;
 	@Column(name = "email", nullable = false, unique = true)
 	private String email;
-	@Column(name = "pass", nullable = false)
+	@Column(name = "password", nullable = false)
 	private String password;
 	@Column(name = "photo")
 	private String photo;
@@ -47,7 +46,7 @@ public class User {
 	private Role role;
 	//@Column(name = "role_id", nullable = false)
 	//private Long roleID;
-	@Column(name = "created_at")
+	@Column(name = "createDate")
 	private LocalDateTime createDate;
 
 	@PrePersist

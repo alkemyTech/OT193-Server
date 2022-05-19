@@ -7,8 +7,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -23,15 +23,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 	public static BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	/* Se agrego durante el meet */
-	@Override
-	public void configure(WebSecurity web) throws Exception {
-		//web.ignoring().antMatchers("/**");
-		web.ignoring().antMatchers("/user/auth/login");
-		web.ignoring().antMatchers("/user/test");
-
-	}
-
 
 	@Override
 	@Autowired
@@ -44,12 +35,32 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 	protected AuthenticationManager authenticationManager() throws Exception {
 		return super.authenticationManager();
 	}
+
+//	@Override
+//	public void configure(WebSecurity web) throws Exception {
+//		//web.ignoring().antMatchers("/**");
+//		web.ignoring().antMatchers("/user/auth/login");
+//		web.ignoring().antMatchers("/user/test");
+//		web.ignoring().antMatchers("/h2/*");
+//	}
+//
+//	@Override
+//	protected void configure(HttpSecurity http) throws Exception {
+//	        http.authorizeRequests()
+//	        	.antMatchers("/**").hasAuthority("ADMIN")
+//}
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-	        http.authorizeRequests()
-	        	.antMatchers("/**").hasAuthority("ADMIN")
-	        	.antMatchers("/public/*").hasAuthority("USER");
-
+		http.sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+        .csrf()
+        .disable()
+        .authorizeRequests()
+        .antMatchers(new String[]{"/auth/register", "/auth/login", "/h2/**"}).permitAll();
+//        .and()
+//        .authorizeRequests()
+//        .antMatchers("/user/test").hasAnyAuthority("ADMIN");
 	}
 
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alkemy.somosmas.dtos.LoginUserDTO;
 import com.alkemy.somosmas.dtos.UserDTO;
 import com.alkemy.somosmas.exception.InvalidUserException;
 import com.alkemy.somosmas.services.UserService;

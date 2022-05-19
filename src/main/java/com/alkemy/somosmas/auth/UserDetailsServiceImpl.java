@@ -18,7 +18,6 @@ import com.alkemy.somosmas.repositories.UserRepository;
 public class UserDetailsServiceImpl implements UserDetailsService{
 	@Autowired
 	UserRepository userRepository;
-
 	@Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String email) {
@@ -27,9 +26,9 @@ public class UserDetailsServiceImpl implements UserDetailsService{
             throw new UsernameNotFoundException(email);
         }
         java.util.Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        grantedAuthorities.add(new SimpleGrantedAuthority("ADMIN"));
-        grantedAuthorities.add(new SimpleGrantedAuthority("USER"));
+        grantedAuthorities.add(new SimpleGrantedAuthority(user.getRole().getName()));
         return new org.springframework.security.core.userdetails.User(
             user.getEmail(), user.getPassword(), grantedAuthorities);
     }
+
 }
