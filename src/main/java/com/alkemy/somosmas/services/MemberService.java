@@ -15,6 +15,6 @@ public interface MemberService {
 
 	public List<MemberDTO> getAll();
 
-	public MemberDTO update(Long id, MemberDTO memberDTO);
+	public MemberDTO update(Long id, MemberDTO memberDTO) throws ModelNotFoundException;
 
 }
