@@ -10,10 +10,10 @@ import com.alkemy.somosmas.repositories.MemberRepository;
 import com.alkemy.somosmas.services.MemberService;
 
 @Service
-public class MemberServiceImpl implements MemberService{
-	
+public class MemberServiceImpl implements MemberService {
+
 	@Autowired
-	private MemberMapper memberMapper; 
+	private MemberMapper memberMapper;
 	@Autowired
 	private MemberRepository memberRepository;
 
@@ -22,8 +22,8 @@ public class MemberServiceImpl implements MemberService{
 		Member memberEntity = this.memberMapper.memberDTO2Entity(memberDTO);
 		Member memberEntitySaved = this.memberRepository.save(memberEntity);
 		MemberDTO result = this.memberMapper.memberEntity2DTO(memberEntitySaved);
-		
 		return result;
+
 	}
 
 }
