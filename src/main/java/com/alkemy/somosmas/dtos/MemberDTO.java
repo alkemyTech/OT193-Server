@@ -1,6 +1,8 @@
 package com.alkemy.somosmas.dtos;
 
 
+import javax.validation.constraints.NotBlank;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +12,7 @@ public class MemberDTO {
 
 	private Long id;
 	
+	@NotBlank
 	private String name;
 
     private String facebookUrl;

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alkemy.somosmas.dtos.MemberDTO;
+import com.alkemy.somosmas.exceptions.ModelNotFoundException;
 import com.alkemy.somosmas.services.MemberService;
 
 @RestController
@@ -32,8 +33,13 @@ public class MemberController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> delete (@Valid @PathVariable Long id){
-		this.memberService.delete(id);
+	public ResponseEntity<Object> delete (@Valid @PathVariable Long id){
+		try {
+			this.memberService.delete(id);;
+		} catch (ModelNotFoundException e) {
+			System.out.println(e.getMessage());
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 	
