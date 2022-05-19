@@ -7,8 +7,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -23,19 +23,19 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 	public static BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-//	/* Se agrego durante el meet */
-//	@Override
-//	public void configure(WebSecurity web) throws Exception {
-//		web.ignoring().antMatchers("/**");
-//	}
-//
-//	/* Para validar que el usuario sea de rol ADMIN*/
-//	@Override
-//	public void configure(HttpSecurity httpSecurity) throws Exception {
-//	httpSecurity.csrf().disable();
-//		httpSecurity.authorizeRequests().antMatchers("/categories/**").hasRole("ADMIN")
-//				.and()
-//				.authorizeRequests().anyRequest().permitAll();}
+	/* Se agrego durante el meet */
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web.ignoring().antMatchers("/**");
+	}
+
+	/* Para validar que el usuario sea de rol ADMIN*/
+	@Override
+	public void configure(HttpSecurity httpSecurity) throws Exception {
+	httpSecurity.csrf().disable();
+		httpSecurity.authorizeRequests().antMatchers("/categories/**").hasRole("ADMIN")
+				.and()
+				.authorizeRequests().anyRequest().permitAll();}
 
 	@Override
 	@Autowired
@@ -49,16 +49,16 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 		return super.authenticationManager();
 	}
 
-	@Override
-	public void configure(HttpSecurity http) throws Exception {
-		http.sessionManagement()
-        .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-        .csrf()
-        .disable()
-        .authorizeRequests()
-        .antMatchers(new String[]{"/auth/register", "/auth/login", "/h2/**"}).permitAll()
-        .and()
-        .authorizeRequests()
-        .antMatchers("/test").hasAnyAuthority("ADMIN");
-	}
+//	@Override
+//	public void configure(HttpSecurity http) throws Exception {
+//		http.sessionManagement()
+//        .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+//        .csrf()
+//        .disable()
+//        .authorizeRequests()
+//        .antMatchers(new String[]{"/auth/register", "/auth/login", "/h2/**"}).permitAll()
+//        .and()
+//        .authorizeRequests()
+//        .antMatchers("/test").hasAnyAuthority("ADMIN");
+//	}
 }
