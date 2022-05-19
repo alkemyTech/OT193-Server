@@ -5,38 +5,43 @@ import com.alkemy.somosmas.mappers.UserMapper;
 import com.alkemy.somosmas.models.User;
 import com.alkemy.somosmas.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import java.util.ArrayList;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService ,UserDetailsService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
 	@Autowired
 	private UserRepository userRepository;
+
 	@Autowired
 	private UserMapper userMapper;
 
 	@Override
-	@Transactional(readOnly=true)
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	@Transactional(readOnly = true)
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-		return null;
+
+		return new org.springframework.security.core.userdetails.User("Juan", "12345", new ArrayList<>());
+	}
+
+	@Override
+	public User findByEmail(String email) {
+		return userRepository.findByEmail(email);
 	}
 
 	@Override
 	public UserDTO getUser(Long id) {
-		if(this.userRepository.existsById(id)){
+		if (this.userRepository.existsById(id)) {
 			User userNew = this.userRepository.getById(id);
 			UserDTO userDTO = userMapper.originalToDTO(userNew);
 			return userDTO;
-		}
-		else{
+		} else {
 			return null;
 		}
 	}
@@ -51,29 +56,25 @@ public class UserServiceImpl implements UserService ,UserDetailsService {
 	@Override
 	public UserDTO registerUserDTO2Model(UserDTO userDTO) throws Exception {
 		Boolean mailExists = this.userRepository.existsByEmail(userDTO.getEmail());
-		if(!mailExists){
+		if (!mailExists) {
 			User newUser = userMapper.dto2Model(userDTO);
 			this.userRepository.save(newUser);
 			return userDTO;
-		}else{
+		} else {
 			throw new Exception("MAIL EXISTENTE, ELIJA OTRO POR FAVOR.");
 		}
 	}
 
-
 	@Override
 	public Boolean deleteUser(Long id) {
-		if(this.userRepository.existsById(id)){
+		if (this.userRepository.existsById(id)) {
 			User user = this.userRepository.getById(id);
 			user.setDeleted(Boolean.TRUE);
 			this.userRepository.save(user);
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
-
-
-
 
 }

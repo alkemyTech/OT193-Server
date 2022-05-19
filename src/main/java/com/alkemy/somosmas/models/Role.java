@@ -1,14 +1,11 @@
 package com.alkemy.somosmas.models;
 
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name= "role")
+@Table(name= "roles")
 @Data
 public class Role {
 
@@ -22,12 +19,12 @@ public class Role {
     @Column(name="description")
     private String description;
 
-    private LocalDateTime createDate;
+//    private LocalDateTime createDate;
+//    
+//    @PrePersist
+//    private void beforePersisting() {
+//        this.createDate= LocalDateTime.now();
+//    }
 
-
-    @PrePersist
-    private void beforePersisting() {
-        this.createDate= LocalDateTime.now();
-    }
 
 }

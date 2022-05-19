@@ -1,7 +1,6 @@
 package com.alkemy.somosmas.models;
 
 import java.time.LocalDateTime;
-//import javax.management.relation.Role;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -24,6 +23,8 @@ import lombok.Setter;
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE idUser=?")
 @Where(clause = "deleted = false")
 public class User {
+
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_user")
@@ -43,13 +44,15 @@ public class User {
 	private Role role;
 	//@Column(name = "role_id", nullable = false)
 	//private Long roleID;
-	@Column(name = "created_at")
-	private LocalDateTime createDate;
 
-	@PrePersist
-	private void beforePersisting() {
-		this.createDate = LocalDateTime.now();
-	}
+//	@Column(name = "createDate")
+//	private LocalDateTime createDate;
 
-	private Boolean deleted = false;
+//	@PrePersist
+//	private void beforePersisting() {
+//		this.createDate = LocalDateTime.now();
+//	}
+
+	private Boolean deleted = Boolean.FALSE;
+
 }
