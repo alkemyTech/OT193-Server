@@ -31,8 +31,8 @@ public class UserServiceImpl implements UserService{
 	@Qualifier("authenticationManager")
 	private AuthenticationManager authenticationManager;
 
-	private void injectUserInSecurityContext(UserDTO userDTO) {
-		Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDTO.getEmail(),userDTO.getPassword()));
+	private void injectUserInSecurityContext(String email, String password) {
+		Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email,password));
 		SecurityContextHolder.getContext().setAuthentication(auth);
 	}
 
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService{
 			throw new InvalidUserException("Incorrect email or password");
 		}
 		UserDTO userDTO = user2UserDTO(user);
-		injectUserInSecurityContext(userDTO);
+		injectUserInSecurityContext(email, password);
 		return userDTO;
 	}
 
