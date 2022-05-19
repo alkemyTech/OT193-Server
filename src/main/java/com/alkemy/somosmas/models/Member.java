@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -25,6 +26,7 @@ public class Member {
     private Long id;
  
     @NotBlank
+    @Pattern(regexp = "^[a-zA-Z]{3,15}$", message = "the username must be 3 to 15 long and contain only letters")
     @Column(nullable = false)
     private String name;
 
