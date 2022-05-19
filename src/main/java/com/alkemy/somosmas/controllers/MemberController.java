@@ -51,8 +51,14 @@ public class MemberController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<MemberDTO> update(@Valid @PathVariable Long id, @RequestBody MemberDTO memberDTO){
-		MemberDTO member = this.memberService.update(id, memberDTO);
+	public ResponseEntity<Object> update(@Valid @PathVariable Long id, @RequestBody MemberDTO memberDTO){
+		MemberDTO member = null;
+		try {
+			member = this.memberService.update(id, memberDTO);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
 		return ResponseEntity.ok().body(member);
 	}
 }

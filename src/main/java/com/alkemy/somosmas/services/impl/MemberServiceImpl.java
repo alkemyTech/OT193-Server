@@ -46,10 +46,10 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public MemberDTO update(Long id, MemberDTO memberDTO) {
+	public MemberDTO update(Long id, MemberDTO memberDTO) throws ModelNotFoundException {
 		Member memberEntity = this.memberRepository.findById(id).orElse(null);
 		if (memberEntity == null) {
-			//throw new RuntimeException("invalid ID");
+			throw new ModelNotFoundException(id,"Member");
 		}
 		this.memberMapper.memberEntityRefreshValues(memberEntity, memberDTO);
 		Member memberEntityModified = this.memberRepository.save(memberEntity);
