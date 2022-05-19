@@ -1,14 +1,4 @@
 package com.alkemy.somosmas.mappers;
-
-<<<<<<< HEAD
-import com.alkemy.somosmas.dtos.OrganizationBasicDTO;
-import com.alkemy.somosmas.dtos.OrganizationDTO;
-import com.alkemy.somosmas.models.Organization;
-import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-=======
->>>>>>> 7661fabb64ccce9bc3577974daa8c7c7f6d56c04
 import java.util.List;
 import java.util.stream.Collectors;
 

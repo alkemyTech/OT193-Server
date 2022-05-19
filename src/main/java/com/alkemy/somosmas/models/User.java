@@ -55,4 +55,6 @@ public class User {
 	}
 
 	private Boolean deleted = false;
+
+
 }
