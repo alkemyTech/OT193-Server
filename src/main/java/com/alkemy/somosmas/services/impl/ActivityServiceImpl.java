@@ -3,7 +3,6 @@ package com.alkemy.somosmas.services.impl;
 import com.alkemy.somosmas.dtos.ActivityDTO;
 import com.alkemy.somosmas.mappers.ActivityMapper;
 import com.alkemy.somosmas.models.Activity;
-import com.alkemy.somosmas.models.Organization;
 import com.alkemy.somosmas.repositories.ActivityRepository;
 import com.alkemy.somosmas.services.ActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
