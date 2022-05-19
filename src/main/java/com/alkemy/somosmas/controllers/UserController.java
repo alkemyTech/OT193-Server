@@ -54,8 +54,8 @@ public class UserController {
     }
 
 	@PostMapping("/auth/login")
-	public ResponseEntity<UserDTO> singIn(@Validated @RequestBody LoginUserDTO loginUserDTO) throws InvalidUserException {
-		UserDTO userDTO = userService.authUser(loginUserDTO.getUsername(), loginUserDTO.getPassword());
+	public ResponseEntity<LoginUserDTO> singIn(@Validated @RequestBody LoginUserDTO loginUserDTO) throws InvalidUserException {
+		LoginUserDTO userDTO = userService.authUser(loginUserDTO.getUsername(), loginUserDTO.getPassword());
 		return ResponseEntity.ok().body(userDTO);
 	}
 	@PostMapping("/test")
