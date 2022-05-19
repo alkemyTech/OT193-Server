@@ -44,7 +44,6 @@ public class MemberController {
 	}
 	
 	@GetMapping
-	@RequestMapping("/members")
 	public ResponseEntity<List<MemberDTO>> getAll(){
 		List<MemberDTO> membersDTO = this.memberService.getAll();
 		return ResponseEntity.ok().body(membersDTO);
