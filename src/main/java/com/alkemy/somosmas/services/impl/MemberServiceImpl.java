@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alkemy.somosmas.dtos.MemberDTO;
+import com.alkemy.somosmas.exceptions.ModelNotFoundException;
 import com.alkemy.somosmas.mappers.MemberMapper;
 import com.alkemy.somosmas.models.Member;
 import com.alkemy.somosmas.repositories.MemberRepository;
@@ -30,9 +31,9 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void delete(Long id) {
+	public void delete(Long id) throws ModelNotFoundException {
 		if (!this.memberRepository.existsById(id)) {
-			//throw  
+			throw new ModelNotFoundException(id,"Member");  
 		}
 		this.memberRepository.deleteById(id);
 	}
