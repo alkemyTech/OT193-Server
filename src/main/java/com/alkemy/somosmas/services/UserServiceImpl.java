@@ -1,6 +1,5 @@
 package com.alkemy.somosmas.services;
 
-import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,15 +7,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.alkemy.somosmas.dtos.UserDTO;
 import com.alkemy.somosmas.exceptions.InvalidUserException;
@@ -25,7 +19,7 @@ import com.alkemy.somosmas.models.User;
 import com.alkemy.somosmas.repositories.UserRepository;
 
 @Service
-public class UserServiceImpl implements UserService ,UserDetailsService {
+public class UserServiceImpl implements UserService{
 
 	@Autowired
 	UserRepository userRepository;
@@ -38,20 +32,6 @@ public class UserServiceImpl implements UserService ,UserDetailsService {
 	@Autowired
 	@Qualifier("authenticationManager")
 	private AuthenticationManager authenticationManager;
-
-
-	@Override
-    @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String email) {
-        User user = userRepository.findByEmail(email);
-        if (user == null) {
-            throw new UsernameNotFoundException(email);
-        }
-        java.util.Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        grantedAuthorities.add(new SimpleGrantedAuthority(user.getRole().getName()));
-        return new org.springframework.security.core.userdetails.User(
-            user.getEmail(), user.getPassword(), grantedAuthorities);
-    }
 
 	@Override
 	public UserDTO getUser(Long id) {
