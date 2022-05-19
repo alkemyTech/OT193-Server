@@ -21,7 +21,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 @Getter
 @Setter
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE idUser=?")
@@ -29,14 +29,15 @@ import lombok.Setter;
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_user")
 	private Long idUser;
-	@Column(name = "firstName", nullable = false)
+	@Column(name = "first_name", nullable = false)
 	private String firstName;
-	@Column(name = "lastName", nullable = false)
+	@Column(name = "last_name", nullable = false)
 	private String lastName;
 	@Column(name = "email", nullable = false, unique = true)
 	private String email;
-	@Column(name = "password", nullable = false)
+	@Column(name = "pass", nullable = false)
 	private String password;
 	@Column(name = "photo")
 	private String photo;
@@ -46,7 +47,7 @@ public class User {
 	private Role role;
 	//@Column(name = "role_id", nullable = false)
 	//private Long roleID;
-	@Column(name = "createDate")
+	@Column(name = "created_at")
 	private LocalDateTime createDate;
 
 	@PrePersist
@@ -54,79 +55,5 @@ public class User {
 		this.createDate = LocalDateTime.now();
 	}
 
-	private boolean deleted = Boolean.FALSE;
-
-	public Long getIdUser() {
-		return idUser;
-	}
-
-	public void setIdUser(Long idUser) {
-		this.idUser = idUser;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getPhoto() {
-		return photo;
-	}
-
-	public void setPhoto(String photo) {
-		this.photo = photo;
-	}
-
-	public Role getRole() {
-		return role;
-	}
-
-	public void setRole(Role role) {
-		this.role = role;
-	}
-
-	public LocalDateTime getCreateDate() {
-		return createDate;
-	}
-
-	public void setCreateDate(LocalDateTime createDate) {
-		this.createDate = createDate;
-	}
-
-	public boolean isDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(boolean deleted) {
-		this.deleted = deleted;
-	}
-
-
+	private Boolean deleted = false;
 }

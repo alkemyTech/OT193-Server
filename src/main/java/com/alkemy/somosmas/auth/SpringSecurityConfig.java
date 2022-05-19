@@ -32,6 +32,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 
 	}
 
+	/* Para validar que el usuario sea de rol ADMIN*/
+	@Override
+	public void configure(HttpSecurity httpSecurity) throws Exception {
+	httpSecurity.csrf().disable();
+		httpSecurity.authorizeRequests().antMatchers("/categories/**").hasRole("ADMIN")
+				.and()
+				.authorizeRequests().anyRequest().permitAll();}
+
 	@Override
 	@Autowired
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {

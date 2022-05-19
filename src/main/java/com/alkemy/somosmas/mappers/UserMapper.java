@@ -1,53 +1,36 @@
 package com.alkemy.somosmas.mappers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.alkemy.somosmas.dtos.UserDTO;
+import com.alkemy.somosmas.models.User;
 import org.springframework.stereotype.Component;
 
-import com.alkemy.somosmas.dtos.UserDTO;
-import com.alkemy.somosmas.models.Role;
-import com.alkemy.somosmas.models.User;
-import com.alkemy.somosmas.repositories.RoleRepository;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class UserMapper {
+    public UserDTO originalToDTO(User user) {
+        UserDTO dtoUser = new UserDTO();
+        dtoUser.setFirstName(user.getFirstName());
+        dtoUser.setLastName(user.getLastName());
+        dtoUser.setEmail(user.getEmail());
+        return dtoUser;
+    }
 
-	@Autowired
-	RoleRepository roleRepository;
+    public User dto2Model(UserDTO userDTO){
+        User newUser = new User();
+        newUser.setFirstName(userDTO.getFirstName());
+        newUser.setLastName(userDTO.getLastName());
+        newUser.setEmail(userDTO.getEmail());
+        newUser.setPassword(userDTO.getPassword());
+        return newUser;
+    }
 
-	public User userDTO2Entity(UserDTO userDTO) {
-		Optional<Role> role = roleRepository.findById(userDTO.getRole());
-		User user = new User();
-		user.setEmail(userDTO.getEmail());
-		user.setPassword(userDTO.getPassword());
-		user.setFirstName(userDTO.getFirstName());
-		user.setLastName(userDTO.getLastName());
-		user.setPhoto(userDTO.getPhoto());
-		if(role.isPresent()) {
-			user.setRole(role.get());
-		}
-		return user;
-	}
-
-	public UserDTO userToUserDTO(User user) {
-		UserDTO userDTO = new UserDTO();
-		userDTO.setEmail(user.getEmail());
-		userDTO.setPassword(user.getPassword());
-		userDTO.setFirstName(user.getFirstName());
-		userDTO.setLastName(user.getLastName());
-		userDTO.setPhoto(user.getPhoto());
-		userDTO.setRole(user.getRole().getId());
-		return userDTO;
-	}
-
-	public List<UserDTO> userEntityListToDTOList(List<User> users) {
-		List<UserDTO> dtos = new ArrayList<>();
-		for(User user : users) {
-			dtos.add(userToUserDTO(user));
-		}
-		return  dtos;
-	}
+    public List<UserDTO> modelUserToUserDTO(List<User> usersList){
+        List<UserDTO> dtoList = usersList
+                .stream()
+                .map(i->this.originalToDTO(i))
+                .collect(Collectors.toList());
+        return dtoList;
+    }
 }

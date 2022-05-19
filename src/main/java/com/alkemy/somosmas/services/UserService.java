@@ -1,15 +1,13 @@
 package com.alkemy.somosmas.services;
 
-import org.springframework.stereotype.Service;
+import java.util.List;
 
 import com.alkemy.somosmas.dtos.UserDTO;
-import com.alkemy.somosmas.exception.InvalidUserException;
-import com.alkemy.somosmas.models.User;
 
-@Service
-public interface UserService{
-	 User findByEmail(String email);
-	 Boolean existsByEmail(String email);
-	 UserDTO user2UserDTO(User user);
-	 UserDTO authUser(String email, String password) throws InvalidUserException;
+public interface UserService  {
+    UserDTO getUser(Long id);
+    List<UserDTO> getUsersList();
+    UserDTO registerUserDTO2Model(UserDTO userDTO) throws Exception;
+    Boolean deleteUser(Long id);
+
 }
