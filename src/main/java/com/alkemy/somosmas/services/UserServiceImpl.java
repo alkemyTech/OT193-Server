@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.alkemy.somosmas.dtos.LoginUserDTO;
 import com.alkemy.somosmas.dtos.UserDTO;
 import com.alkemy.somosmas.exceptions.InvalidUserException;
 import com.alkemy.somosmas.mappers.UserMapper;
@@ -57,6 +58,7 @@ public class UserServiceImpl implements UserService{
 		Boolean mailExists = this.userRepository.existsByEmail(userDTO.getEmail());
 		if(!mailExists){
 			User newUser = userMapper.dto2Model(userDTO);
+			newUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 			this.userRepository.save(newUser);
 			return userDTO;
 		}else{
@@ -83,7 +85,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public UserDTO authUser(String email, String password) throws InvalidUserException {
+	public LoginUserDTO authUser(String email, String password) throws InvalidUserException {
 		if(!existsByEmail(email)) {
 			throw new InvalidUserException("Email does not exist");
 		}
@@ -91,9 +93,9 @@ public class UserServiceImpl implements UserService{
 		if(!passwordEncoder.matches(password,user.getPassword())) {
 			throw new InvalidUserException("Incorrect email or password");
 		}
-		UserDTO userDTO = user2UserDTO(user);
+		LoginUserDTO loginUserDTO = userToDTO(user);
 		injectUserInSecurityContext(email, password);
-		return userDTO;
+		return loginUserDTO;
 	}
 
 
@@ -106,11 +108,12 @@ public class UserServiceImpl implements UserService{
 	public Boolean existsByEmail(String email) {
 		return userRepository.existsByEmail(email);
 	}
+
 	@Override
-	public UserDTO user2UserDTO(User user) {
-		UserDTO userDTO = userMapper.originalToDTO(user);
-		return userDTO;
+	public LoginUserDTO userToDTO(User user) {
+		return userMapper.userToDTO(user);
 	}
+
 
 
 }
