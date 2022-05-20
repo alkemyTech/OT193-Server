@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "contact")
-@SQLDelete(sql = "UPDATE activity SET deleted = true WHERE id=?")
+@SQLDelete(sql = "UPDATE activity SET deleted = true WHERE deletedAt is null")//modificar
 @Where(clause = "deleted = false")
 public class Contact {
 
@@ -32,8 +32,6 @@ public class Contact {
 
     @Column(name = "deleted_at", nullable = true)
     private LocalDateTime deletedAt=null;
-
-    private Boolean deleted = false;
 
     public Long getId() {
         return id;
@@ -83,11 +81,4 @@ public class Contact {
         this.deletedAt = deletedAt;
     }
 
-    public Boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
-    }
 }
