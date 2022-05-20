@@ -11,7 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/categories")
@@ -26,10 +29,11 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.CREATED).body(categoryGuardado);
     }
 
-    @GetMapping("/pages")
-    public Page<Category>getAll(@RequestParam int pageNumber){
-        Page<Category> categories = this.categoryService.getAllCategoriesByPage(pageNumber);
-        return categories;
+    @GetMapping()
+    public ResponseEntity<Map<String, Object>>getAll(@RequestParam int page){
+        Map<String, Object> response = this.categoryService.getAllCategoriesByPage(page);
+
+        return ResponseEntity.ok().body(response);
     }
 
 
