@@ -13,9 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryService {
@@ -82,11 +81,30 @@ public class CategoryService {
     }
 
 
-    public Page getAllCategoriesByPage(int pageNo ){
+    public Map<String, Object> getAllCategoriesByPage(int pageNo ){
         Pageable pageable = PageRequest.of(pageNo,10);
 
         Page<Category> allCategoriesPage= categoryRepository.findAll(pageable);
 
-        return allCategoriesPage;
+        List<Category> categoriesModel = allCategoriesPage.getContent();
+        List<CategoryDTO> categoriesDtoReturned = categoriesModel
+                            .stream()
+                            .map(i->mapper.convertValue(i,CategoryDTO.class))
+                            .collect(Collectors.toList());
+
+        Map<String, Object> returnedMap = new HashMap<>();
+        returnedMap.put("Categories", categoriesDtoReturned);
+        returnedMap.put("currentPage",allCategoriesPage.getNumber());
+        returnedMap.put("totalItems",allCategoriesPage.getTotalElements());
+
+        if (allCategoriesPage.hasNext()){
+            returnedMap.put("nextPage","localhost:8080/categories?page="+(pageNo+1));
+        }
+        if (pageNo!=0){
+            returnedMap.put("previousPage","localhost:8080/categories?page="+(pageNo-1));
+        }
+
+
+        return returnedMap;
     }
 }
