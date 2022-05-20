@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping
 public class ContactController {
@@ -20,8 +22,13 @@ public class ContactController {
     private ContactService contactService;
 
     @PostMapping(value = "/contacts")
-    public ResponseEntity<ContactBasicDTO> addContact(@RequestBody ContactDTO contact) throws Exception {
+    public ResponseEntity<ContactBasicDTO> addContact(@RequestBody @Valid ContactDTO contact){
         ContactBasicDTO response = contactService.registerContact(contact);
-        return new ResponseEntity<ContactBasicDTO>(response, HttpStatus.ACCEPTED);
+        if(response!=null){
+            return new ResponseEntity<ContactBasicDTO>(response, HttpStatus.ACCEPTED);
+        }else{
+            return new ResponseEntity<ContactBasicDTO>(response, HttpStatus.NO_CONTENT);
+        }
+
     }
 }
