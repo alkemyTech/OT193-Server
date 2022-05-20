@@ -8,6 +8,8 @@ import com.alkemy.somosmas.repositories.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ContactServiceImpl implements ContactService{
 
@@ -25,7 +27,14 @@ public class ContactServiceImpl implements ContactService{
             contactNew.setEmail(contactDto.getEmail());
             contactNew.setMessage(contactDto.getMessage());
             this.contactRepository.save(contactNew);
-            ContactBasicDTO response = contactMapper.original2Dto(contactDto);
+            ContactBasicDTO response = contactMapper.original2BasicDto(contactDto);
             return response;
+    }
+
+    @Override
+    public List<ContactDTO> getContactList() {
+        List<Contact> model = contactRepository.findAll();
+        List<ContactDTO> dto = contactMapper.original2DtoList(model);
+        return null;
     }
 }
