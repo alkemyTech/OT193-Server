@@ -6,6 +6,9 @@ import com.alkemy.somosmas.models.Category;
 import com.alkemy.somosmas.repositories.CategoryRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -76,5 +79,14 @@ public class CategoryService {
             throw new RuntimeException("Id categoria inexistente.");
         }
         this.categoryRepository.deleteById(id);
+    }
+
+
+    public Page getAllCategoriesByPage(int pageNo ){
+        Pageable pageable = PageRequest.of(pageNo,10);
+
+        Page<Category> allCategoriesPage= categoryRepository.findAll(pageable);
+
+        return allCategoriesPage;
     }
 }
