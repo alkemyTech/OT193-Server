@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "contact")
 @SQLDelete(sql = "UPDATE contact SET deletedAt = LocalDateTime WHERE deletedAt is null")//modificar
-@Where(clause = "deleted = false")
+@Where(clause = "deleted_at is null")
 public class Contact {
 
     @Id

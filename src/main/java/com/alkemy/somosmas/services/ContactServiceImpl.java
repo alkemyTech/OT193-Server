@@ -20,21 +20,25 @@ public class ContactServiceImpl implements ContactService{
 
 
     @Override
-    public ContactBasicDTO registerContact(ContactDTO contactDto){
-            Contact contactNew = new Contact();
-            contactNew.setName(contactDto.getName());
-            contactNew.setPhone(contactDto.getPhone());
-            contactNew.setEmail(contactDto.getEmail());
-            contactNew.setMessage(contactDto.getMessage());
-            this.contactRepository.save(contactNew);
-            ContactBasicDTO response = contactMapper.original2BasicDto(contactDto);
-            return response;
+    public ContactBasicDTO registerContact(ContactDTO contactDto) throws Exception {
+            if(!this.contactRepository.existsByEmail(contactDto.getEmail())){
+                Contact contactNew = new Contact();
+                contactNew.setName(contactDto.getName());
+                contactNew.setPhone(contactDto.getPhone());
+                contactNew.setEmail(contactDto.getEmail());
+                contactNew.setMessage(contactDto.getMessage());
+                this.contactRepository.save(contactNew);
+                ContactBasicDTO response = contactMapper.original2BasicDto(contactDto);
+                return response;
+            }else{
+                throw new Exception("Mail existente");
+            }
+
     }
 
     @Override
     public List<ContactDTO> getContactList() {
         List<Contact> model = contactRepository.findAll();
-        List<ContactDTO> dto = contactMapper.original2DtoList(model);
-        return null;
+        return contactMapper.original2DtoList(model);
     }
 }

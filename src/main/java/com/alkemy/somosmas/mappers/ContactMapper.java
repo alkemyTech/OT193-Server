@@ -32,7 +32,7 @@ public class ContactMapper {
                 .stream()
                 .map(i->this.original2Dto(i))
                 .collect(Collectors.toList());
-        return null;
+        return dtoList;
     }
 
 
