@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -33,20 +34,20 @@ public class News {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(unique = true, nullable = false)
 	private Long id;
-
+	@NotBlank
 	@Column(nullable = false)
 	private String name;
-
+	@NotBlank
 	@Column(nullable = false)
 	private String content;
-
+	@NotBlank
 	@Column(nullable = false)
 	private String image;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "category_id", insertable = false, updatable = false)
 	private Category category;
-
+	
 	@Column(name = "category_id", nullable = false)
 	private Long categoryId;
 
