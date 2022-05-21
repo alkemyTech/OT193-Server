@@ -2,6 +2,8 @@ package com.alkemy.somosmas.controllers;
 
 import com.alkemy.somosmas.dtos.CategoryDTO;
 import com.alkemy.somosmas.dtos.ListaCategoryDTO;
+import com.alkemy.somosmas.exceptions.NotAcceptableArgumentException;
+import com.alkemy.somosmas.exceptions.PageEmptyException;
 import com.alkemy.somosmas.models.Category;
 import com.alkemy.somosmas.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,17 @@ public class CategoryController {
 
     @GetMapping()
     public ResponseEntity<Map<String, Object>>getAll(@RequestParam int page){
-        Map<String, Object> response = this.categoryService.getAllCategoriesByPage(page);
+        Map<String, Object> response = null;
+        try {
+            response = this.categoryService.getAllCategoriesByPage(page);
+        } catch (NotAcceptableArgumentException e) {
+            response= new HashMap<>();
+            response.put("Error",e.getMessage());
+            return ResponseEntity.ok().body(response);
+        } catch (PageEmptyException e) {
+            response= new HashMap<>();
+            response.put("Error",e.getMessage());
+        }
 
         return ResponseEntity.ok().body(response);
     }
