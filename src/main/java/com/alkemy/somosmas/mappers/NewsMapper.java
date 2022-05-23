@@ -1,9 +1,9 @@
-package com.alkemy.somosmas.mapper;
+package com.alkemy.somosmas.mappers;
 
 
 import org.springframework.stereotype.Component;
 
-import com.alkemy.somosmas.dto.NewsDTO;
+import com.alkemy.somosmas.dtos.NewsDTO;
 import com.alkemy.somosmas.models.News;
 
 @Component

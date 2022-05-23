@@ -1,5 +1,7 @@
 package com.alkemy.somosmas.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,56 +16,49 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alkemy.somosmas.dtos.NewsDTO;
+import com.alkemy.somosmas.dtos.MemberDTO;
 import com.alkemy.somosmas.exceptions.ModelNotFoundException;
-import com.alkemy.somosmas.services.NewsService;
+import com.alkemy.somosmas.services.MemberService;
 
 @RestController
-@RequestMapping("news")
-public class NewsController {
-
+@RequestMapping("members")
+public class MemberController {
+	
 	@Autowired
-	private NewsService newsService;
-
+	private MemberService memberService;
+	
 	@PostMapping
-	public ResponseEntity<NewsDTO> save(@Valid @RequestBody NewsDTO news) {
-		NewsDTO newsSaved = newsService.save(news);
-		return ResponseEntity.status(HttpStatus.CREATED).body(newsSaved);
+	public ResponseEntity<MemberDTO> save (@Valid @RequestBody MemberDTO memberDTO){
+		MemberDTO memberSaved = this.memberService.save(memberDTO);
+		return ResponseEntity.status(HttpStatus.CREATED).body(memberSaved);
 	}
-
+	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Object> delete(@Valid @PathVariable Long id) {
+	public ResponseEntity<Object> delete (@Valid @PathVariable Long id){
 		try {
-			this.newsService.delete(id);
+			this.memberService.delete(id);;
 		} catch (ModelNotFoundException e) {
 			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
-
-	@GetMapping("/{id}")
-	public ResponseEntity<Object> getDetailsById(@Valid @PathVariable Long id){
-		NewsDTO newsDto = null;
+	
+	@GetMapping
+	public ResponseEntity<List<MemberDTO>> getAll(){
+		List<MemberDTO> membersDTO = this.memberService.getAll();
+		return ResponseEntity.ok().body(membersDTO);
+	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<Object> update(@Valid @PathVariable Long id, @RequestBody MemberDTO memberDTO){
+		MemberDTO member = null;
 		try {
-			newsDto = this.newsService.getDetailsById(id);
+			member = this.memberService.update(id, memberDTO);
 		} catch (ModelNotFoundException e) {
 			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
-		return ResponseEntity.ok(newsDto);
+		return ResponseEntity.ok().body(member);
 	}
-
-	@PutMapping("{id}")
-	public ResponseEntity<Object> update (@Valid @PathVariable Long id, @RequestBody NewsDTO dto){
-		NewsDTO news = null;
-		try {
-			news = this.newsService.update(id, dto);
-		} catch (ModelNotFoundException e) {
-			System.out.println(e.getMessage());
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
-		return ResponseEntity.ok().body(news);
-	}
-
 }
