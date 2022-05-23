@@ -1,5 +1,7 @@
 package com.alkemy.somosmas.models;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,7 +11,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "commentary")
@@ -20,18 +25,32 @@ public class Commentary {
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_id")
-	private User user_id;
+	@JoinColumn(name = "user_id",insertable = false, updatable = false)
+	private User user;
+	@Column(name = "user_id", nullable=false)
+	private Long userId;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "news_id")
-	private News news_id;
+	@JoinColumn(name = "news_id", insertable=false, updatable=false)
+	private News news;
+	@Column(name = "news_id", nullable=false)
+	private Long newsId;
 
+	@Column(name = "create_date")
+	@DateTimeFormat(pattern = "dd-MM-yyyy hh:mm:ss")
+	private LocalDateTime createDate;
 
 	private String body;
+
+	@PrePersist
+	private void beforePersisting() {
+		this.createDate = LocalDateTime.now();
+
+	}
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -42,16 +61,34 @@ public class Commentary {
 		this.body = body;
 	}
 	public User getUser_id() {
-		return user_id;
+		return user;
 	}
-	public void setUser_id(User user_id) {
-		this.user_id = user_id;
+	public void setUser_id(User user) {
+		this.user = user;
 	}
 	public News getNews_id() {
-		return news_id;
+		return news;
 	}
-	public void setNews_id(News news_id) {
-		this.news_id = news_id;
+	public void setNews_id(News news) {
+		this.news = news;
+	}
+	public LocalDateTime getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(LocalDateTime createDate) {
+		this.createDate = createDate;
+	}
+	public Long getUserId() {
+		return userId;
+	}
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+	public Long getNewsId() {
+		return newsId;
+	}
+	public void setNewsId(Long newsId) {
+		this.newsId = newsId;
 	}
 
 
