@@ -1,6 +1,7 @@
 package com.alkemy.somosmas.controllers;
 
 import com.alkemy.somosmas.dtos.ActivityDTO;
+import com.alkemy.somosmas.exceptions.ModelNotFoundException;
 import com.alkemy.somosmas.services.impl.ActivityServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,7 @@ public class ActivityController {
     private ActivityServiceImpl activityServiceImpl;
 
     @PostMapping
-    public ResponseEntity<ActivityDTO> save(@Valid @RequestBody ActivityDTO dto){
+    public ResponseEntity<Object> save(@Valid @RequestBody ActivityDTO dto){
         ActivityDTO dtoReturned = null;
 
         try {
@@ -30,7 +31,7 @@ public class ActivityController {
     }
 
     @PutMapping
-    public ResponseEntity<ActivityDTO> update(@PathVariable Long id, @RequestBody ActivityDTO dto){
+    public ResponseEntity<Object> update(@PathVariable Long id, @RequestBody ActivityDTO dto){
         ActivityDTO dtoReturned = null;
         try {
             dtoReturned = this.activityServiceImpl.update(id, dto);
