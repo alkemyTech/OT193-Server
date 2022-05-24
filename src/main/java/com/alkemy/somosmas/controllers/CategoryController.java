@@ -23,4 +23,28 @@ public class CategoryController {
         CategoryDTO categoryGuardado = categoryService.save(category);
         return ResponseEntity.status(HttpStatus.CREATED).body(categoryGuardado);
     }
+
+    @GetMapping
+    public ResponseEntity<List<ListaCategoryDTO>>getAll(){
+        List<ListaCategoryDTO> categorias = this.categoryService.getAllCategories();
+        return ResponseEntity.ok().body(categorias);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoryDTO>getDetalle(@PathVariable Long id){
+        CategoryDTO categoryDTO = this.categoryService.getCategoryById(id);
+        return ResponseEntity.ok().body(categoryDTO);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CategoryDTO> updateCategory(@RequestBody CategoryDTO newCategoryDTO, @PathVariable Long id){
+        CategoryDTO categoryDTO = this.categoryService.updateCategory(newCategoryDTO,id);
+        return ResponseEntity.ok().body(categoryDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        this.categoryService.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }
