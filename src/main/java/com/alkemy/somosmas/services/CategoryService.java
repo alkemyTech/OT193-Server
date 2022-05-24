@@ -30,4 +30,51 @@ public class CategoryService {
 
         return categoryDTO;
     }
+
+    public List<ListaCategoryDTO> getAllCategories() {
+        List<Category> CategoryEntities = categoryRepository.findAll();
+        List<ListaCategoryDTO> listaDTO = new ArrayList<>();
+        for (Category category: CategoryEntities){
+            listaDTO.add(mapper.convertValue(category,ListaCategoryDTO.class));
+        }
+        System.out.println("categorías buscadas");
+        return listaDTO;
+    }
+
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+    public class NotFoundException extends RuntimeException {}
+    public CategoryDTO getCategoryById(Long id){
+        Optional<Category> category = this.categoryRepository.findById(id);
+        if(!category.isPresent()){
+            throw new NotFoundException();
+        }
+        CategoryDTO categoryDTO = mapper.convertValue(category,CategoryDTO.class);
+        return categoryDTO;
+    }
+
+    public CategoryDTO updateCategory(CategoryDTO newCategoryDTO,Long id){
+        Optional<Category> category = categoryRepository.findById(id);
+        if(!category.isPresent()){
+            throw new RuntimeException("Id categoria inexistente.");
+        }
+        CategoryDTO categoryDTO = mapper.convertValue(category,CategoryDTO.class);
+        categoryDTO.setName(newCategoryDTO.getName());
+        categoryDTO.setDescription(newCategoryDTO.getDescription());
+        categoryDTO.setImage(newCategoryDTO.getImage());
+
+        Category c = mapper.convertValue(categoryDTO,Category.class);
+        categoryRepository.save(c);
+        CategoryDTO resultadoDTO = mapper.convertValue(c,CategoryDTO.class);
+        System.out.println("categoría actualizada");
+
+        return resultadoDTO;
+    }
+
+    public void delete(Long id){
+        Optional<Category> category = this.categoryRepository.findById(id);
+        if(!category.isPresent()){
+            throw new RuntimeException("Id categoria inexistente.");
+        }
+        this.categoryRepository.deleteById(id);
+    }
 }

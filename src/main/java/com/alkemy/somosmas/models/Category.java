@@ -37,7 +37,7 @@ public class Category {
 
 	private String image;
 
-	@Column(name = "createdAt", nullable = false, updatable = false)
+	@Column(name = "createdAt", updatable = false)
 	@DateTimeFormat(pattern = "dd-MM-yyyy hh:mm:ss")
 	private LocalDateTime createAt;
 
