@@ -129,8 +129,54 @@ public class SlideServiceImpl implements SlideService{
 
     @Override
     public SlideGetDTO updateSlide(Long id, SlideRequestDTO slideRequestDTO) throws Exception {
-        // TODO Auto-generated method stub
-        return null;
+        Long l= slideRequestDTO.getOrganizationId();
+
+		if(existSlideById(id)){
+			Optional<Slide> slide= slideRepository.findById(id);
+
+			Slide s= slide.get();
+
+			SlideDTO slideD=new SlideDTO(s.getId(),s.getImageUrl(),s.getOrder(),s.getText(),s.getOrganization());
+
+			if(!(slideRequestDTO.getOrder_ong()==null)){
+
+				if(existSlideByOrder(slideRequestDTO.getOrder_ong())){
+					throw new Exception("Order ya existe en el slide.");
+				}else{
+					slideD.setOrder(slideRequestDTO.getOrder_ong());
+				}
+			}
+			if(!(l==0)){
+				if(organizationRepository.existsById(slideRequestDTO.getOrganizationId())){
+					slideD.setOrganization(getOrganizationId(slideRequestDTO.getOrganizationId()));
+				}else{
+					throw new Exception("La Organizacion no existe ");
+				}
+			}
+			if(!(slideRequestDTO.getText()==null)){
+			
+				slideD.setText(slideRequestDTO.getText());				
+			}
+			if(!(slideRequestDTO.getEncodeImg()==null)){
+				
+				String nameFile = "Slide_"+slideD.getOrganization().getId()+slideD.getOrder()+".png";
+				MultipartFile multiparte =imageHelper.base64ToImage(slideRequestDTO.getEncodeImg(),nameFile);
+				String delete= amazonClient.deleteFileFromS3Bucket(slideD.getImageUrl());
+				String amazonUrl=amazonClient.uploadFile(multiparte);       
+				slideD.setImageUrl(amazonUrl);
+			}
+
+			Slide slideUpdated = slideMapper.slideDtoToEntity(slideD);
+			slideUpdated.setId(slideD.getId());
+			slideRepository.save(slideUpdated);
+			SlideGetDTO slideDto = slideMapper.slideEntityDto(slideUpdated);
+			return slideDto;
+
+		} else{
+
+			throw new Exception("Slide no existe ");
+		}
+		
     }
 
     

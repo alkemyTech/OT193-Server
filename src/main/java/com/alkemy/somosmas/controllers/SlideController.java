@@ -50,6 +50,22 @@ public class SlideController {
        
     }
 
+    @PutMapping("/{id}")  
+	public ResponseEntity<?> update(@PathVariable Long id, @RequestBody SlideRequestDTO slideRequestDTO)   
+	{  
+		Map<String, Object> response=new HashMap<>();
+		SlideGetDTO slide = new SlideGetDTO();
+		try {
+			slide= slideService.updateSlide(id,slideRequestDTO);
+			return ResponseEntity.ok().body(slide);
+		 } catch (Exception e) {
+			 response.put("mensaje", "Ocurrio un error al actualizar el slide con id: ".concat(id.toString()));
+			   response.put("error", e.getMessage());
+			   return new ResponseEntity<Map<String, Object>>(response, null, HttpStatus.NOT_FOUND);
+		 }
+			  
+	} 
+
 
     
 }
