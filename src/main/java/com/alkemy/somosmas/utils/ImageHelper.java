@@ -3,12 +3,12 @@ package com.alkemy.somosmas.utils;
 import java.io.IOException;
 
 import org.apache.commons.codec.binary.Base64;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ImageHelper {
 
-    Base64MultipartFile base64MultipartFile;
-    
-    //retorna un multiparfile de la Image decodeada 
+    private Base64MultipartFile base64MultipartFile;
     public Base64MultipartFile base64ToImage(String encodedBase64, String fileName) throws  IOException {
 		
         try {

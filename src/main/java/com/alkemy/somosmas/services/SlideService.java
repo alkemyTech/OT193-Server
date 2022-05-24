@@ -1,14 +1,12 @@
 package com.alkemy.somosmas.services;
 
-import java.util.List;
+import java.io.IOException;
 
-import com.alkemy.somosmas.dtos.SlideDTO;
-import com.alkemy.somosmas.models.Slide;
+import com.alkemy.somosmas.dtos.SlideGetDTO;
+import com.alkemy.somosmas.dtos.SlideRequestDTO;
 
 public interface SlideService {
 
-    public Slide create(SlideDTO slideDTO);
-    public SlideDTO delete(SlideDTO slideDTO);
-    public List<SlideDTO> getSlides();
-    public SlideDTO getSlide(Long id);
+    public SlideGetDTO create(SlideRequestDTO slideDTO) throws IOException, Exception;
+ 
 }

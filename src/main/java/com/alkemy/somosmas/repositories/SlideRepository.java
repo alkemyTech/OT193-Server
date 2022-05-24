@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SlideRepository extends JpaRepository<Slide, Long> {
-    
+    boolean existsByOrder(int order);
 }
