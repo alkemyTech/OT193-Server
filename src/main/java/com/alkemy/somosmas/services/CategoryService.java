@@ -2,10 +2,12 @@ package com.alkemy.somosmas.services;
 
 import com.alkemy.somosmas.dtos.CategoryDTO;
 import com.alkemy.somosmas.dtos.ListaCategoryDTO;
+import com.alkemy.somosmas.exceptions.ModelNotFoundException;
 import com.alkemy.somosmas.models.Category;
 import com.alkemy.somosmas.repositories.CategoryRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.alkemy.somosmas.exceptions.ModelNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -40,15 +42,15 @@ public class CategoryService {
         System.out.println("categorías buscadas");
         return listaDTO;
     }
-
-    @ResponseStatus(code = HttpStatus.NOT_FOUND)
-    public class NotFoundException extends RuntimeException {}
-    public CategoryDTO getCategoryById(Long id){
-        Optional<Category> category = this.categoryRepository.findById(id);
-        if(!category.isPresent()){
-            throw new NotFoundException();
+    
+    public CategoryDTO getCategoryById(Long id) throws ModelNotFoundException {
+        Category model = this.categoryRepository.findById(id).orElse(null);
+        if(model==null){
+            //Excepcion de tipo check heredar de la clase exception
+            throw new ModelNotFoundException(id,"Category");
         }
-        CategoryDTO categoryDTO = mapper.convertValue(category,CategoryDTO.class);
+
+        CategoryDTO categoryDTO = mapper.convertValue(model,CategoryDTO.class);
         return categoryDTO;
     }
 
