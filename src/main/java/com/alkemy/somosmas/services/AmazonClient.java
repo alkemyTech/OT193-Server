@@ -60,19 +60,16 @@ public class AmazonClient {
         s3client.putObject(new PutObjectRequest(bucketName, fileName, file)
                 .withCannedAcl(CannedAccessControlList.PublicRead));
     }
-    public String uploadFile(MultipartFile multipartFile) {
+
+    public String uploadFile(MultipartFile multipartFile) throws Exception {
 
         String fileUrl = "";
-        try {
             File file = convertMultiPartToFile(multipartFile);
             String fileName = generateFileName(multipartFile);
             fileUrl = endpointUrl + "/" + bucketName + "/" + fileName;
             uploadFileTos3bucket(fileName, file);
             file.delete();
-        } catch (Exception e) {
-           e.printStackTrace();
-        }
-        return fileUrl;
+         return fileUrl;
     }
     
     public String deleteFileFromS3Bucket(String fileUrl) {
