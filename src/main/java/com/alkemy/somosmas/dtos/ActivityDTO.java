@@ -1,5 +1,7 @@
 package com.alkemy.somosmas.dtos;
 
+import com.alkemy.somosmas.models.Activity;
+import com.alkemy.somosmas.models.Organization;
 import lombok.Getter;
 import lombok.Setter;
 

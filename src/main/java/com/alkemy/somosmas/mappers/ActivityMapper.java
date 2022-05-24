@@ -22,4 +22,17 @@ public class ActivityMapper {
         return dto;
     }
 
+    /*Esto apunta a hacer un update solo de lo que se cambio */
+    public Activity activityRefreshValues(Activity model, ActivityDTO dto){
+
+        if(dto.getName()!=null && !dto.getName().isEmpty()){
+            model.setNameActivity(dto.getName());
+        }
+
+        if(dto.getContent()!=null && !dto.getContent().isEmpty()){
+            model.setContentActivity(dto.getContent());
+        }
+        return model;
+    }
+
 }

@@ -23,18 +23,18 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 	public static BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-/* Se agrego durante el meet */
+	/* Se agrego durante el meet */
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/**");
 	}
+	/* Para validar que el usuario sea de rol ADMIN*/
 	@Override
 	public void configure(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.csrf().disable();
-		httpSecurity.authorizeRequests().antMatchers("/activities/**").hasRole("ADMIN")
+	httpSecurity.csrf().disable();
+		httpSecurity.authorizeRequests().antMatchers("/categories/**").hasRole("ADMIN")
 				.and()
-				.authorizeRequests().anyRequest().permitAll();
-	}
+				.authorizeRequests().anyRequest().permitAll();}
 
 	@Override
 	@Autowired

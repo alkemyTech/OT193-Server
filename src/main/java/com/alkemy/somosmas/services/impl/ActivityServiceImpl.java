@@ -1,6 +1,7 @@
 package com.alkemy.somosmas.services.impl;
 
 import com.alkemy.somosmas.dtos.ActivityDTO;
+import com.alkemy.somosmas.exceptions.ModelNotFoundException;
 import com.alkemy.somosmas.mappers.ActivityMapper;
 import com.alkemy.somosmas.models.Activity;
 import com.alkemy.somosmas.repositories.ActivityRepository;
@@ -43,7 +44,7 @@ public class ActivityServiceImpl implements ActivityService {
             //Excepcion de tipo check heredar de la clase exception
             throw new ModelNotFoundException(id,"Activity");
         }
-        model= this.activityMapper.organizationRefreshValues(model, dto);
+        model= this.activityMapper.activityRefreshValues(model, dto);
         Activity modelSaved = activityRepository.save(model);
         ActivityDTO result = activityMapper.activityModel2DTO(modelSaved);
 
