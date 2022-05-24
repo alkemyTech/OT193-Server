@@ -35,4 +35,21 @@ public class SlideController {
 	}
 
     
+	@GetMapping("/{id}")
+    public ResponseEntity<?> getSlide(@PathVariable Long id) {
+		Map<String, Object> response=new HashMap<>();
+        SlideGetDTO slide = new SlideGetDTO();
+        try {
+           slide= slideService.getSlide(id);
+		   return ResponseEntity.ok().body(slide);
+        } catch (Exception e) {
+			response.put("mensaje", "Ocurrio un error al mostrar el slide con id: ".concat(id.toString()));
+              response.put("error", e.getMessage());
+              return new ResponseEntity<Map<String, Object>>(response, null, HttpStatus.NOT_FOUND);
+        }
+       
+    }
+
+
+    
 }

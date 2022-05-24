@@ -113,5 +113,25 @@ public class SlideServiceImpl implements SlideService{
 		return slideRepository.existsByOrder(order);
 	}
 
+    @Override
+    public String delete(Long id) throws Exception {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public SlideGetDTO getSlide(Long id) {
+        Optional<Slide> slide= slideRepository.findById(id);
+        SlideGetDTO slideDTO= slideMapper.getSlide(slide.get());       
+        return slideDTO;
+	
+    }
+
+    @Override
+    public SlideGetDTO updateSlide(Long id, SlideRequestDTO slideRequestDTO) throws Exception {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
     
 }

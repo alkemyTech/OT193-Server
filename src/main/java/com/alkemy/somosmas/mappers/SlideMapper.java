@@ -31,4 +31,13 @@ public class SlideMapper {
 
         return slideGetDTO;
     }
+
+    public SlideGetDTO getSlide(Slide slide){
+        SlideGetDTO slideDTO= new SlideGetDTO();
+        slideDTO.setImageUrl(slide.getImageUrl());
+        slideDTO.setOrder(slide.getOrder());
+        slideDTO.setOrganizationId(slide.getOrganization().getId());
+        slideDTO.setText(slide.getText());
+        return slideDTO;
+    }
 }
