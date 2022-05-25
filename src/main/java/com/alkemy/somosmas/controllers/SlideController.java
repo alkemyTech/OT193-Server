@@ -66,6 +66,19 @@ public class SlideController {
 			  
 	} 
 
+	@DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteSlide(@PathVariable Long id){
+        Map<String, Object> response=new HashMap<>();
+		try {
+			String msg= slideService.delete(id);
+			return ResponseEntity.ok().body(msg);
+		 } catch (Exception e) {
+			 response.put("mensaje", "Ocurrio un error al eliminar el slide con id: ".concat(id.toString()));
+			   response.put("error", e.getMessage());
+			   return new ResponseEntity<Map<String, Object>>(response, null, HttpStatus.NOT_FOUND);
+		 }
+    }
+
 
     
 }

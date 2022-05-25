@@ -115,8 +115,13 @@ public class SlideServiceImpl implements SlideService{
 
     @Override
     public String delete(Long id) throws Exception {
-        // TODO Auto-generated method stub
-        return null;
+        if(existSlideById(id)){
+			slideRepository.deleteById(id);
+			return "Se elemino el slide con el id:"+id;
+		}else{
+			throw new Exception("Slide no existe ");
+		}
+        
     }
 
     @Override
