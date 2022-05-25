@@ -26,8 +26,8 @@ email VARCHAR (40),
 pass VARCHAR (40),
 photo VARCHAR (4000),
 role_id DOUBLE,
-created_at DATETIME,
-modified_at DATETIME,
+/*created_at DATETIME,
+modified_at DATETIME,*/
 deleted BOOLEAN,
 CONSTRAINT role_fk FOREIGN KEY (role_id) REFERENCES role(id_role));
 
@@ -83,3 +83,14 @@ image_activity VARCHAR(1000),
 created_at DATETIME,
 modified_at DATETIME,
 deleted BOOLEAN);
+
+INSERT INTO roles
+(name, description)
+VALUES
+("role_user", "usuario");
+
+INSERT INTO users
+(firstname, lastname, email, password, photo, role_id)
+VALUES
+("Juan", "Cerezole", "jpc010499@gmail.com", "12345", "image.jpg", 1);
+

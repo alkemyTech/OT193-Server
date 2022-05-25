@@ -1,59 +1,76 @@
-package com.alkemy.somosmas.auth;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
-import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
-import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
-import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-
-public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter{
-
-	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
-	
-	@Autowired
-	@Qualifier("authenticationManager")
-	private AuthenticationManager authenticationManager;
-	
-	@Override
-	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-
-		security.tokenKeyAccess("permitAll()")
-		.checkTokenAccess("isAuthenticated()");
-	}
-
-	@Override
-	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-
-		clients.inMemory().withClient("frontendapp")
-		.secret(passwordEncoder.encode("secret"))
-		.scopes("read", "write")
-		.authorizedGrantTypes("password", "refresh_token")
-		.accessTokenValiditySeconds(3600)
-		.refreshTokenValiditySeconds(3600);
-	}
-	
-	@Override
-	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-		
-		TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-		
-		endpoints.authenticationManager(authenticationManager)
-		.accessTokenConverter(accessTokenConverter())
-		.tokenEnhancer(tokenEnhancerChain);
-	}
-	
-	@Bean
-	public JwtAccessTokenConverter accessTokenConverter() {
-		JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
-		jwtAccessTokenConverter.setSigningKey(JwtConfig.RSA_PRIVATE);
-		jwtAccessTokenConverter.setVerifierKey(JwtConfig.RSA_PUBLICA);
-		return jwtAccessTokenConverter;
-	}
-}
+//package com.alkemy.somosmas.auth;
+//
+////import java.io.IOException;
+////import java.nio.file.Files;
+////import java.nio.file.Path;
+////import java.nio.file.Paths;
+////import javax.annotation.PostConstruct;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.beans.factory.annotation.Qualifier;
+//import org.springframework.context.annotation.Bean;
+//import org.springframework.security.authentication.AuthenticationManager;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+//import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
+//import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
+//import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+//import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+//import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
+//import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+//
+//public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter{
+//
+//	@Autowired
+//	private BCryptPasswordEncoder passwordEncoder;
+//	
+//	@Autowired
+//	@Qualifier("authenticationManager")
+//	private AuthenticationManager authenticationManager;
+//	
+//	@Override
+//	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+//
+//		security.tokenKeyAccess("permitAll()")
+//		.checkTokenAccess("isAuthenticated()");
+//	}
+//
+//	@Override
+//	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+//
+//		clients.inMemory().withClient("frontendapp")
+//		.secret(passwordEncoder.encode("secret"))
+//		.scopes("read", "write")
+//		.authorizedGrantTypes("password", "refresh_token")
+//		.accessTokenValiditySeconds(3600)
+//		.refreshTokenValiditySeconds(3600);
+//	}
+//	
+//	@Override
+//	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+//		
+//		TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+//		
+//		endpoints.authenticationManager(authenticationManager)
+//		.accessTokenConverter(accessTokenConverter())
+//		.tokenEnhancer(tokenEnhancerChain);
+//	}
+//	
+//	public class FooService {
+//	    @PostConstruct
+//	    public void init() throws IOException {
+//
+//	        Path path = Paths.get("src/test/resources/file.pem");
+//
+//	        String read = Files.readAllLines(path).get(0);
+//	        
+//	    }
+//
+//	}
+//	
+//	@Bean
+//	public JwtAccessTokenConverter accessTokenConverter() {
+//		JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
+//		jwtAccessTokenConverter.setSigningKey(JwtConfig.RSA_PRIVATE);
+//		jwtAccessTokenConverter.setVerifierKey(JwtConfig.RSA_PUBLICA);
+//		return jwtAccessTokenConverter;
+//	}
+//}
