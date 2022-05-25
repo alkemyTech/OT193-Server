@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.alkemy.somosmas.dtos.SlideDTO;
 import com.alkemy.somosmas.dtos.SlideGetDTO;
+import com.alkemy.somosmas.dtos.SlidesGetDTO;
 import com.alkemy.somosmas.models.Slide;
 import com.amazonaws.SdkClientException;
 
@@ -39,5 +40,12 @@ public class SlideMapper {
         slideDTO.setOrganizationId(slide.getOrganization().getId());
         slideDTO.setText(slide.getText());
         return slideDTO;
+    }
+
+    public SlidesGetDTO getSlides(Slide slide, SlidesGetDTO slidesGetDTO){
+        slidesGetDTO.setImageUrl(slide.getImageUrl());
+        slidesGetDTO.setOrder_ong(slide.getOrder());
+
+        return slidesGetDTO;
     }
 }

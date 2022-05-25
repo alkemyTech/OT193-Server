@@ -1,12 +1,14 @@
 package com.alkemy.somosmas.services;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import com.alkemy.somosmas.dtos.SlideDTO;
 import com.alkemy.somosmas.dtos.SlideGetDTO;
 import com.alkemy.somosmas.dtos.SlideRequestDTO;
+import com.alkemy.somosmas.dtos.SlidesGetDTO;
 import com.alkemy.somosmas.mappers.OrganizationMapper;
 import com.alkemy.somosmas.mappers.SlideMapper;
 import com.alkemy.somosmas.models.Organization;
@@ -184,5 +186,24 @@ public class SlideServiceImpl implements SlideService{
 		
     }
 
+	@Override
+	public List<SlidesGetDTO> getAll() throws Exception {
+		List<Slide> slides = slideRepository.findAll();
+
+		if(slides.isEmpty()){
+			throw new Exception("Lista vacia ");
+		}else{
+			List<SlidesGetDTO> getSlides = new ArrayList<>();
+			for(Slide entity : slides){
+				getSlides.add(slideMapper.getSlides(entity,new SlidesGetDTO()));
+			}
+			return getSlides;
+
+		}
+		
+		
+		
+	}
     
 }
+

@@ -1,11 +1,13 @@
 package com.alkemy.somosmas.controllers;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
 import com.alkemy.somosmas.dtos.SlideGetDTO;
 import com.alkemy.somosmas.dtos.SlideRequestDTO;
+import com.alkemy.somosmas.dtos.SlidesGetDTO;
 import com.alkemy.somosmas.services.SlideService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +79,18 @@ public class SlideController {
 			   response.put("error", e.getMessage());
 			   return new ResponseEntity<Map<String, Object>>(response, null, HttpStatus.NOT_FOUND);
 		 }
+	}
+	@GetMapping
+    public ResponseEntity<?> getAll(){
+		Map<String, Object> response=new HashMap<>();    
+        try {
+			List<SlidesGetDTO>  slidesGet = slideService.getAll();
+		   return ResponseEntity.ok().body(slidesGet);
+        } catch (Exception e) {
+			response.put("mensaje", "Ocurrio un error al listar Slides ");
+              response.put("error", e.getMessage());
+              return new ResponseEntity<Map<String, Object>>(response, null, HttpStatus.NOT_FOUND);
+        }
     }
 
 
