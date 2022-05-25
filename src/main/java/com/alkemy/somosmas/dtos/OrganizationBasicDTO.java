@@ -11,4 +11,5 @@ public class OrganizationBasicDTO {
     private String image;
     private String address;
     private int phone;
+
 }
