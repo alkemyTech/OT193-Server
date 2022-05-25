@@ -2,6 +2,7 @@ package com.alkemy.somosmas.services;
 
 import com.alkemy.somosmas.dtos.CategoryDTO;
 import com.alkemy.somosmas.dtos.ListaCategoryDTO;
+import com.alkemy.somosmas.exceptions.ModelNotFoundException;
 import com.alkemy.somosmas.models.Category;
 import com.alkemy.somosmas.repositories.CategoryRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -70,10 +71,12 @@ public class CategoryService {
         return resultadoDTO;
     }
 
-    public void delete(Long id){
-        Optional<Category> category = this.categoryRepository.findById(id);
-        if(!category.isPresent()){
-            throw new RuntimeException("Id categoria inexistente.");
+    public void delete(Long id) throws ModelNotFoundException {
+
+        Category model = this.categoryRepository.findById(id).orElse(null);
+        if(model==null){
+            //Excepcion de tipo check heredar de la clase exception
+            throw new ModelNotFoundException(id,"Category");
         }
         this.categoryRepository.deleteById(id);
     }
