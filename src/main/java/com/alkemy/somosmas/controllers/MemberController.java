@@ -55,7 +55,7 @@ public class MemberController {
 		MemberDTO member = null;
 		try {
 			member = this.memberService.update(id, memberDTO);
-		} catch (Exception e) {
+		} catch (ModelNotFoundException e) {
 			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
