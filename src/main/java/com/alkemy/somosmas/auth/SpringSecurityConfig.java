@@ -23,7 +23,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 	public static BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-/* Se agrego durante el meet */
+	/* Se agrego durante el meet */
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/**");
