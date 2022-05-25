@@ -13,5 +13,6 @@ public interface SlideService {
 	public SlideGetDTO getSlide(Long id);
 	public SlideGetDTO updateSlide(Long id, SlideRequestDTO slideRequestDTO) throws Exception;
     public List<SlidesGetDTO> getAll() throws Exception;
+
  
 }

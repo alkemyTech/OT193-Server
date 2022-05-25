@@ -1,14 +1,5 @@
 package com.alkemy.somosmas.controllers;
 
-<<<<<<< HEAD
-
-
-import java.util.*;
-
-import com.alkemy.somosmas.dtos.SlideDTO;
-import com.alkemy.somosmas.dtos.SlidegetSlidesDTO;
-import com.alkemy.somosmas.models.Slide;
-=======
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,15 +8,10 @@ import java.util.Map;
 import com.alkemy.somosmas.dtos.SlideGetDTO;
 import com.alkemy.somosmas.dtos.SlideRequestDTO;
 import com.alkemy.somosmas.dtos.SlidesGetDTO;
->>>>>>> OT193-60
 import com.alkemy.somosmas.services.SlideService;
 
-import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-<<<<<<< HEAD
-=======
 import org.springframework.http.HttpStatus;
->>>>>>> OT193-60
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,10 +21,7 @@ public class SlideController {
     @Autowired
     SlideService slideService;
 
-    @GetMapping
-    public List<SlidegetSlidesDTO> getSlides(){
-      return slideService.getSlides();
-    }
+  
 
     @PostMapping
 	public ResponseEntity<?> create(@RequestBody SlideRequestDTO slideDTO){
@@ -71,23 +54,6 @@ public class SlideController {
        
     }
 
-<<<<<<< HEAD
-    @GetMapping("/{id}")
-    public ResponseEntity<?>  getSlide(@PathVariable("id") Long id){ 
-          Map<String, Object> response=new HashMap<>();
-          try {
-            return new ResponseEntity<SlideDTO>(this.slideService.getSlide(id), null, HttpStatus.SC_OK);
-          } catch (Exception e) {
-              response.put("mensaje", "Ocurrio un error al mostrar el slide con id: ".concat(id.toString()));
-              response.put("error", e.getMessage());
-              return new ResponseEntity<Map<String, Object>>(response, null, HttpStatus.SC_NOT_FOUND);
-          }      
-    }
-
-
-
-
-=======
     @PutMapping("/{id}")  
 	public ResponseEntity<?> update(@PathVariable Long id, @RequestBody SlideRequestDTO slideRequestDTO)   
 	{  
@@ -130,6 +96,5 @@ public class SlideController {
     }
 
 
->>>>>>> OT193-60
     
 }

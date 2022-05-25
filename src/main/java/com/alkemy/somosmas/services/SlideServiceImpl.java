@@ -134,22 +134,7 @@ public class SlideServiceImpl implements SlideService{
 	
     }
 
-  
 
-    @Override
-    public SlideDTO getSlide(Long id) {
-        Optional<Slide> slide= slideRepository.findById(id);
-        SlideDTO slideDTO= slideMapper.getSlide(slide.get());       
-        return slideDTO;
-    }
-
-    @Override
-    public List<SlidegetSlidesDTO> getSlides() {   
-            List<Slide> slides= slideRepository.findAll();
-            List<SlidegetSlidesDTO> slidesList  = slideMapper.getSlides(slides);
-            return slidesList;
-        
-    }
     @Override
     public SlideGetDTO updateSlide(Long id, SlideRequestDTO slideRequestDTO) throws Exception {
         Long l= slideRequestDTO.getOrganizationId();
