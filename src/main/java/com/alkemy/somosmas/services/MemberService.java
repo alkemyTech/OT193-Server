@@ -9,7 +9,7 @@ import com.alkemy.somosmas.exceptions.ModelNotFoundException;
 
 public interface MemberService {
 
-	public MemberDTO save(MemberDTO memberDTO);
+	public MemberDTO save(MemberDTO memberDTO) throws ModelNotFoundException;
 
 	public void delete(Long id) throws ModelNotFoundException;
 

@@ -2,9 +2,9 @@ package com.alkemy.somosmas.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.Map;
-import org.apache.http.HttpStatus;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,8 +15,10 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import com.alkemy.somosmas.dto.NewsDTO;
+
+import com.alkemy.somosmas.dtos.NewsDTO;
 import com.alkemy.somosmas.models.Category;
 import com.alkemy.somosmas.models.News;
 import com.alkemy.somosmas.repositories.CategoryRepository;
@@ -72,7 +74,6 @@ public class NewsControllerTest {
 	}
 
 	@Test
-//	testHTTPMETHOD_testFeature() 
 	public void testResponseOk_getNews() {
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<NewsDTO> entityRequest = new HttpEntity<NewsDTO>(new NewsDTO(), headers);
@@ -93,11 +94,95 @@ public class NewsControllerTest {
 
 		headers.add("Authorization", "Bearer asdasdasASDASdasd");
 
-		ResponseEntity<NewsDTO> response = testRestTemplate.exchange("/news/{id}", HttpMethod.GET, entityRequest,
+		ResponseEntity<String> response = testRestTemplate.exchange("/news/{id}", HttpMethod.GET, entityRequest,
+				new ParameterizedTypeReference<String>() {
+				}, Map.of("id", 3L));
+
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+	}
+
+	@Test
+	public void testResponseOk_deleteNews() {
+		HttpHeaders headers = new HttpHeaders();
+		HttpEntity<NewsDTO> entityRequest = new HttpEntity<NewsDTO>(new NewsDTO(), headers);
+
+		headers.add("Authorization", "Bearer asdasdasASDASdasd");
+
+		ResponseEntity<NewsDTO> response = testRestTemplate.exchange("/news/{id}", HttpMethod.DELETE, entityRequest,
 				new ParameterizedTypeReference<NewsDTO>() {
 				}, Map.of("id", NEWS_MOCK_1_ID));
 
-		assertEquals(HttpStatus.SC_NOT_FOUND, response.getStatusCode());
+		assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+	}
+	
+	@Test
+	public void testResponseError_deleteNews() {
+		HttpHeaders headers = new HttpHeaders();
+		HttpEntity<NewsDTO> entityRequest = new HttpEntity<NewsDTO>(new NewsDTO(), headers);
+
+		headers.add("Authorization", "Bearer asdasdasASDASdasd");
+
+		ResponseEntity<String> response = testRestTemplate.exchange("/news/{id}", HttpMethod.DELETE, entityRequest,
+				new ParameterizedTypeReference<String>() {
+				}, Map.of("id", 3L));
+
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+	}
+
+	@Test
+	public void testResponseOk_saveNews() {
+		HttpHeaders headers = new HttpHeaders();
+		HttpEntity<NewsDTO> entityRequest = new HttpEntity<NewsDTO>(new NewsDTO(), headers);
+
+		headers.add("Authorization", "Bearer asdasdasASDASdasd");
+
+		ResponseEntity<NewsDTO> response = testRestTemplate.exchange("/news", HttpMethod.POST, entityRequest,
+				new ParameterizedTypeReference<NewsDTO>() {
+				}, Map.of("id", NEWS_MOCK_1_ID));
+
+		assertNotNull(response.getBody());
+	}
+	
+	@Test
+	public void testResponseError_saveNews() {
+		HttpHeaders headers = new HttpHeaders();
+		HttpEntity<NewsDTO> entityRequest = new HttpEntity<NewsDTO>(new NewsDTO(), headers);
+
+		headers.add("Authorization", "Bearer asdasdasASDASdasd");
+
+		ResponseEntity<NewsDTO> response = testRestTemplate.exchange("/news", HttpMethod.POST, entityRequest,
+				new ParameterizedTypeReference<NewsDTO>() {
+				});
+
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+	}
+	
+	@Test
+	public void testResponseOk_updateNews() {
+		HttpHeaders headers = new HttpHeaders();
+		HttpEntity<NewsDTO> entityRequest = new HttpEntity<NewsDTO>(new NewsDTO(), headers);
+
+		headers.add("Authorization", "Bearer asdasdasASDASdasd");
+
+		ResponseEntity<NewsDTO> response = testRestTemplate.exchange("/news/{id}", HttpMethod.PUT, entityRequest,
+				new ParameterizedTypeReference<NewsDTO>() {
+				}, Map.of("id", NEWS_MOCK_1_ID));
+
+		assertNotNull(response.getBody());
+	}
+	
+	@Test
+	public void testResponseError_updateNews() {
+		HttpHeaders headers = new HttpHeaders();
+		HttpEntity<NewsDTO> entityRequest = new HttpEntity<NewsDTO>(new NewsDTO(), headers);
+
+		headers.add("Authorization", "Bearer asdasdasASDASdasd");
+
+		ResponseEntity<String> response = testRestTemplate.exchange("/news/{id}", HttpMethod.PUT, entityRequest,
+				new ParameterizedTypeReference<String>() {
+				}, Map.of("id", 2L));
+		
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 	}
 
 }
