@@ -1,4 +1,4 @@
-package com.alkemy.somosmas.models;
+package com.alkemy.somosmas.enums;
 
 public enum RoleEnum {
     ROLE_USER("USER",1L),ROLE_ADMIN("ADMIN",2L);

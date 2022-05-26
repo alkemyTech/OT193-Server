@@ -3,7 +3,7 @@ package com.alkemy.somosmas.services;
 import com.alkemy.somosmas.dtos.UserDTO;
 import com.alkemy.somosmas.mappers.UserMapper;
 import com.alkemy.somosmas.models.Role;
-import com.alkemy.somosmas.models.RoleEnum;
+import com.alkemy.somosmas.enums.RoleEnum;
 import com.alkemy.somosmas.models.User;
 import com.alkemy.somosmas.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -79,7 +78,7 @@ public class UserServiceImpl implements UserService ,UserDetailsService {
 			this.userRepository.save(newUser);
 			return userDTO;
 		}else{
-			throw new Exception("MAIL EXISTENTE, ELIJA OTRO POR FAVOR.");
+			throw new Exception("MAIL EXISTENTE, ELIJA OTRO POR FAVOR. ");
 		}
 	}
 
