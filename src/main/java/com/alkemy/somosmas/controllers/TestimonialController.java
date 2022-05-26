@@ -1,6 +1,7 @@
 package com.alkemy.somosmas.controllers;
 
 import com.alkemy.somosmas.dtos.TestimonialDTO;
+import com.alkemy.somosmas.exceptions.ModelNotFoundException;
 import com.alkemy.somosmas.services.TestimonialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,18 @@ public class TestimonialController {
     public ResponseEntity<TestimonialDTO> save(@Valid @RequestBody TestimonialDTO testimonial){
         TestimonialDTO testimonialGuardado = testimonialService.save(testimonial);
         return ResponseEntity.status(HttpStatus.CREATED).body(testimonialGuardado);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable Long id){
+        TestimonialDTO testimonialDTO = null;
+        try{
+            this.testimonialService.delete(id);
+        }catch (ModelNotFoundException e){
+            System.out.println(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return new ResponseEntity<String>("El Testimonio de id: "+id+" ha sido eliminado.",HttpStatus.OK);
     }
 
 }
