@@ -131,15 +131,31 @@ public class NewsControllerTest {
 
 	@Test
 	public void testResponseOk_saveNews() {
-		HttpHeaders headers = new HttpHeaders();
-		HttpEntity<NewsDTO> entityRequest = new HttpEntity<NewsDTO>(new NewsDTO(), headers);
+		Category category = new Category();
+		category.setId(2L);
+		category.setName("ASDASDSA");
+		category.setDescription("asASDASD");
+		categoryRepository.save(category);
 
-		headers.add("Authorization", "Bearer asdasdasASDASdasd");
+		News newsToPersist = new News();
+		newsToPersist.setName(NEWS_MOCK_1_NAME);
+		newsToPersist.setCategoryId(2L);
+		newsToPersist.setContent(NEWS_MOCK_1_CONTENT);
+		newsToPersist.setImage(NEWS_MOCK_1_IMAGE);
+		newsRepository.save(newsToPersist);
+		
+		ResponseEntity<NewsDTO> response = testRestTemplate.postForEntity("/news", newsToPersist, NewsDTO.class);
+		
+//		HttpHeaders headers = new HttpHeaders();
+//		HttpEntity<NewsDTO> entityRequest = new HttpEntity<NewsDTO>(new NewsDTO(), headers);
+//		
+//		headers.add("Authorization", "Bearer asdasdasASDASdasd");
+//			
+//		ResponseEntity<NewsDTO> response = testRestTemplate.exchange("/news", HttpMethod.POST, entityRequest,
+//				new ParameterizedTypeReference<NewsDTO>() {
+//				}, Map.of("id", newsToPersist));
 
-		ResponseEntity<NewsDTO> response = testRestTemplate.exchange("/news", HttpMethod.POST, entityRequest,
-				new ParameterizedTypeReference<NewsDTO>() {
-				}, Map.of("id", NEWS_MOCK_1_ID));
-
+		assertEquals(HttpStatus.CREATED, response.getStatusCode());
 		assertNotNull(response.getBody());
 	}
 	
