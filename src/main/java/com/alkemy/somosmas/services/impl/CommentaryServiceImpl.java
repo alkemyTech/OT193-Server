@@ -51,7 +51,7 @@ public class CommentaryServiceImpl implements CommentaryService{
 		if(user==null) {
 			throw new InvalidUserException("User does not exist");
 		}
-		if(!user.getRole().getName().equals("ADMIN") || user.getIdUser()!=dto.getUser_id()) {
+		if(!user.getRole().getName().equals("ADMIN") || user.getIdUser()!=dto.getUserId()) {
 			throw new InvalidUserException("UNAUTHORIZED");
 		}
 		com = mapper.commentaryRefreshValues(com, dto);
