@@ -3,20 +3,20 @@ package com.alkemy.somosmas.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.alkemy.somosmas.dtos.LoginUserDTO;
 import com.alkemy.somosmas.dtos.UserDTO;
 import com.alkemy.somosmas.exceptions.InvalidUserException;
-import com.alkemy.somosmas.dtos.UserDTO;
+import com.alkemy.somosmas.mappers.UserMapper;
 import com.alkemy.somosmas.models.User;
+import com.alkemy.somosmas.repositories.UserRepository;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -30,14 +30,7 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private UserMapper userMapper;
 	@Autowired
-	PasswordEncoder passwordEncoder;
-
-	@Override
-	@Transactional(readOnly=true)
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-		return null;
-	}
+	private AuthenticationManager authenticationManager;
 
 	@Override
 	public UserDTO getUser(Long id) {
