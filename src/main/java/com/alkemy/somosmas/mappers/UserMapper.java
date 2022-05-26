@@ -1,11 +1,12 @@
 package com.alkemy.somosmas.mappers;
 
-import com.alkemy.somosmas.dtos.UserDTO;
-import com.alkemy.somosmas.models.User;
-import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Component;
+
+import com.alkemy.somosmas.dtos.UserDTO;
+import com.alkemy.somosmas.models.User;
 
 @Component
 public class UserMapper {
