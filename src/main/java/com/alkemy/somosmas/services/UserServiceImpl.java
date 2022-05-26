@@ -1,18 +1,19 @@
 package com.alkemy.somosmas.services;
 
-import com.alkemy.somosmas.dtos.UserDTO;
-import com.alkemy.somosmas.mappers.UserMapper;
-import com.alkemy.somosmas.models.User;
-import com.alkemy.somosmas.repositories.UserRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.alkemy.somosmas.dtos.UserDTO;
+import com.alkemy.somosmas.mappers.UserMapper;
+import com.alkemy.somosmas.models.User;
+import com.alkemy.somosmas.repositories.UserRepository;
 
 @Service
 public class UserServiceImpl implements UserService ,UserDetailsService {
@@ -21,6 +22,8 @@ public class UserServiceImpl implements UserService ,UserDetailsService {
 	private UserRepository userRepository;
 	@Autowired
 	private UserMapper userMapper;
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
 	@Override
 	@Transactional(readOnly=true)
@@ -53,6 +56,7 @@ public class UserServiceImpl implements UserService ,UserDetailsService {
 		Boolean mailExists = this.userRepository.existsByEmail(userDTO.getEmail());
 		if(!mailExists){
 			User newUser = userMapper.dto2Model(userDTO);
+			newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));//encripto contraseña
 			this.userRepository.save(newUser);
 			return userDTO;
 		}else{

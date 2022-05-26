@@ -46,6 +46,15 @@ public class Organization {
 
     private boolean deleted=Boolean.FALSE;
 
+    //Incidencia OT193-63
+    private String facebookUrl;
+    private String instagramUrl;
+    private String linkedinUrl;
+    /*Pensaba que podria implementarse tambien con un HASHMAP
+    HashMap<String, String> socialMedia = new HashMap<String, String>();
+
+     */
+
 
     private LocalDateTime createDate;
 
