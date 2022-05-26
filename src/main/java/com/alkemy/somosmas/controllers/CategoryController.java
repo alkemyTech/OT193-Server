@@ -2,6 +2,7 @@ package com.alkemy.somosmas.controllers;
 
 import com.alkemy.somosmas.dtos.CategoryDTO;
 import com.alkemy.somosmas.dtos.ListaCategoryDTO;
+import com.alkemy.somosmas.exceptions.ModelNotFoundException;
 import com.alkemy.somosmas.exceptions.NotAcceptableArgumentException;
 import com.alkemy.somosmas.exceptions.PageEmptyException;
 import com.alkemy.somosmas.models.Category;
@@ -56,8 +57,14 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoryDTO> updateCategory(@RequestBody CategoryDTO newCategoryDTO, @PathVariable Long id){
-        CategoryDTO categoryDTO = this.categoryService.updateCategory(newCategoryDTO,id);
+    public ResponseEntity<Object> updateCategory(@RequestBody CategoryDTO newCategoryDTO, @PathVariable Long id) {
+        CategoryDTO categoryDTO = null;
+        try{
+            this.categoryService.updateCategory(newCategoryDTO,id);
+        }catch (ModelNotFoundException e){
+            System.out.println(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
         return ResponseEntity.ok().body(categoryDTO);
     }
 
