@@ -32,6 +32,12 @@ public class OrganizationDTO {
     private String aboutUsText;
     private LocalDateTime createDate;
 
+    @NotBlank
+    private String facebookUrl;
+    @NotBlank
+    private String linkedinUrl;
+    @NotBlank
+    private String instagramUrl;
 
 
 }
