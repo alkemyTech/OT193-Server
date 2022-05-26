@@ -28,7 +28,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/**");
 	}
-
 	/* Para validar que el usuario sea de rol ADMIN*/
 	@Override
 	public void configure(HttpSecurity httpSecurity) throws Exception {

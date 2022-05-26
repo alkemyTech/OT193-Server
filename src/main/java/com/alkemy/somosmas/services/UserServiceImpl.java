@@ -9,15 +9,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.alkemy.somosmas.dtos.LoginUserDTO;
 import com.alkemy.somosmas.dtos.UserDTO;
 import com.alkemy.somosmas.exceptions.InvalidUserException;
-import com.alkemy.somosmas.mappers.UserMapper;
+import com.alkemy.somosmas.dtos.UserDTO;
 import com.alkemy.somosmas.models.User;
-import com.alkemy.somosmas.repositories.UserRepository;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -31,8 +30,14 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private UserMapper userMapper;
 	@Autowired
-	@Qualifier("authenticationManager")
-	private AuthenticationManager authenticationManager;
+	PasswordEncoder passwordEncoder;
+
+	@Override
+	@Transactional(readOnly=true)
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+		return null;
+	}
 
 	@Override
 	public UserDTO getUser(Long id) {
@@ -58,7 +63,7 @@ public class UserServiceImpl implements UserService{
 		Boolean mailExists = this.userRepository.existsByEmail(userDTO.getEmail());
 		if(!mailExists){
 			User newUser = userMapper.dto2Model(userDTO);
-			newUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+			newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));//encripto contraseña
 			this.userRepository.save(newUser);
 			return userDTO;
 		}else{

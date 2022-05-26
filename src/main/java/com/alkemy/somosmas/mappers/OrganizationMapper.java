@@ -59,6 +59,9 @@ public class OrganizationMapper {
         dto.setWelcomeText(organization.getWelcomeText());
         dto.setAboutUsText(organization.getAboutUsText());
         dto.setCreateDate(organization.getCreateDate());
+        dto.setFacebookUrl(organization.getFacebookUrl());
+        dto.setLinkedinUrl(organization.getLinkedinUrl());
+        dto.setInstagramUrl(organization.getInstagramUrl());
 
         return dto;
     }
@@ -74,6 +77,9 @@ public class OrganizationMapper {
       model.setEmail(dto.getEmail());
       model.setWelcomeText(dto.getWelcomeText());
       model.setAboutUsText(dto.getAboutUsText());
+      model.setFacebookUrl(dto.getFacebookUrl());
+      model.setLinkedinUrl(dto.getLinkedinUrl());
+      model.setInstagramUrl(dto.getInstagramUrl());
 
       return model;
     }
@@ -108,6 +114,20 @@ public class OrganizationMapper {
         if (dto.getAboutUsText()!=null && !dto.getAboutUsText().isEmpty()){
             model.setAboutUsText(dto.getAboutUsText());
         }
+
+        if (dto.getFacebookUrl()!=null && !dto.getFacebookUrl().isEmpty()){
+            model.setFacebookUrl(dto.getFacebookUrl());
+        }
+
+        if (dto.getLinkedinUrl()!=null && !dto.getLinkedinUrl().isEmpty()){
+            model.setLinkedinUrl(dto.getLinkedinUrl());
+        }
+
+        if (dto.getInstagramUrl()!=null && !dto.getInstagramUrl().isEmpty()){
+            model.setInstagramUrl(dto.getInstagramUrl());
+        }
+
+
 
         /*No agrego deleted y create date porque no estan relacionados a esto */
 

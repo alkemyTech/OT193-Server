@@ -8,5 +8,3 @@ public class InvalidUserException extends SomosmasException{
 		super("InvalidUserException", description);
 	}
 }
-
-
