@@ -1,9 +1,19 @@
 package com.alkemy.somosmas.services.impl;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
+import com.alkemy.somosmas.dtos.CategoryDTO;
+import com.alkemy.somosmas.exceptions.NotAcceptableArgumentException;
+import com.alkemy.somosmas.exceptions.PageEmptyException;
+import com.alkemy.somosmas.models.Category;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.alkemy.somosmas.dtos.MemberDTO;
@@ -43,6 +53,44 @@ public class MemberServiceImpl implements MemberService {
 		List<Member> membersEntity = this.memberRepository.findAll();
 		List<MemberDTO> membersDTO = this.memberMapper.membersEntityList2DTOList(membersEntity);
 		return membersDTO;
+	}
+
+
+
+	@Override
+	public Map<String, Object> getAllMembersByPage(int pageNo ) throws NotAcceptableArgumentException, PageEmptyException {
+		if(pageNo<0){
+			throw new NotAcceptableArgumentException("The pageNo must be positive");
+		}
+		Pageable pageable = PageRequest.of(pageNo,10);
+
+		Page<Member> allMembersPage= memberRepository.findAll(pageable);
+
+		if(allMembersPage.isEmpty()){
+			throw new PageEmptyException(pageNo, "members");
+		}
+
+		List<Member> membersModel = allMembersPage.getContent();
+
+		List<MemberDTO> membersDtoReturned = membersModel
+				.stream()
+				.map(i->memberMapper.memberEntity2DTO(i))
+				.collect(Collectors.toList());
+
+		Map<String, Object> returnedMap = new HashMap<>();
+
+		returnedMap.put("Members", membersDtoReturned);
+		returnedMap.put("currentPage",allMembersPage.getNumber());
+		returnedMap.put("totalItems",allMembersPage.getTotalElements());
+
+		if (allMembersPage.hasNext()){
+			returnedMap.put("nextPage","localhost:8080/members?page="+(pageNo+1));
+		}
+		if (pageNo!=0){
+			returnedMap.put("previousPage","localhost:8080/members?page="+(pageNo-1));
+		}
+
+		return returnedMap;
 	}
 
 	@Override
