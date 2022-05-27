@@ -1,20 +1,17 @@
 package com.alkemy.somosmas.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
+import com.alkemy.somosmas.exceptions.NotAcceptableArgumentException;
+import com.alkemy.somosmas.exceptions.PageEmptyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.alkemy.somosmas.dtos.MemberDTO;
 import com.alkemy.somosmas.exceptions.ModelNotFoundException;
@@ -45,10 +42,23 @@ public class MemberController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<MemberDTO>> getAll(){
-		List<MemberDTO> membersDTO = this.memberService.getAll();
-		return ResponseEntity.ok().body(membersDTO);
+	public ResponseEntity<Map<String, Object>> getAll (@RequestParam int page){
+		Map<String, Object> response = null;
+
+		try {
+			response = this.memberService.getAllMembersByPage(page);
+		} catch (NotAcceptableArgumentException e) {
+			response= new HashMap<>();
+			response.put("Error",e.getMessage());
+			return ResponseEntity.ok().body(response);
+		} catch (PageEmptyException e) {
+			response= new HashMap<>();
+			response.put("Error",e.getMessage());
+		}
+
+		return ResponseEntity.ok().body(response);
 	}
+
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<Object> update(@Valid @PathVariable Long id, @RequestBody MemberDTO memberDTO){

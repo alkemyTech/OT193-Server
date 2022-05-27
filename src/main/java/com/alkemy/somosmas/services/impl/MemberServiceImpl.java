@@ -60,7 +60,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public Map<String, Object> getAllMembersByPage(int pageNo ) throws NotAcceptableArgumentException, PageEmptyException {
 		if(pageNo<0){
-			throw new NotAcceptableArgumentException("The pageNo must be positive");
+			throw new NotAcceptableArgumentException("The page number must be positive");
 		}
 		Pageable pageable = PageRequest.of(pageNo,10);
 
