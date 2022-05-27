@@ -82,6 +82,7 @@ public class MemberServiceImpl implements MemberService {
 		returnedMap.put("Members", membersDtoReturned);
 		returnedMap.put("currentPage",allMembersPage.getNumber());
 		returnedMap.put("totalItems",allMembersPage.getTotalElements());
+		returnedMap.put("totalPages",allMembersPage.getTotalPages());
 
 		if (allMembersPage.hasNext()){
 			returnedMap.put("nextPage","localhost:8080/members?page="+(pageNo+1));
