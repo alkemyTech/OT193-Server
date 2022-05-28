@@ -69,8 +69,14 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id){
-        this.categoryService.delete(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    public ResponseEntity<String> delete(@PathVariable Long id){
+        CategoryDTO categoryDTO = null;
+        try{
+            this.categoryService.delete(id);
+        }catch (ModelNotFoundException e){
+            System.out.println(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return new ResponseEntity<String>("La Categoria de id n°: "+id+" ha sido eliminada.",HttpStatus.OK);
     }
 }

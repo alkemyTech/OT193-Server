@@ -76,10 +76,12 @@ public class CategoryService {
         return resultadoDTO;
     }
 
-    public void delete(Long id){
-        Optional<Category> category = this.categoryRepository.findById(id);
-        if(!category.isPresent()){
-            throw new RuntimeException("Id categoria inexistente.");
+    public void delete(Long id) throws ModelNotFoundException {
+
+        Category model = this.categoryRepository.findById(id).orElse(null);
+        if(model==null){
+            //Excepcion de tipo check heredar de la clase exception
+            throw new ModelNotFoundException(id,"Category");
         }
         this.categoryRepository.deleteById(id);
     }
