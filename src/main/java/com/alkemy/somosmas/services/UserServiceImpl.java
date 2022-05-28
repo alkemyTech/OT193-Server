@@ -6,16 +6,16 @@ import com.alkemy.somosmas.models.Role;
 import com.alkemy.somosmas.enums.RoleEnum;
 import com.alkemy.somosmas.models.User;
 import com.alkemy.somosmas.repositories.UserRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService ,UserDetailsService {
@@ -27,16 +27,9 @@ public class UserServiceImpl implements UserService ,UserDetailsService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	/*@Autowired
-	public UserServiceImpl(UserRepository userRepository, UserMapper userMapper){
-		this.userRepository = userRepository;
-		this.userMapper = userMapper;
-	}*/
-
 	@Override
 	@Transactional(readOnly=true)
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
 		return null;
 	}
 
@@ -72,6 +65,20 @@ public class UserServiceImpl implements UserService ,UserDetailsService {
 			throw new Exception("MAIL EXISTENTE, ELIJA OTRO POR FAVOR.");
 		}
 	}
+
+
+	@Override
+	public Boolean deleteUser(Long id) {
+		if(this.userRepository.existsById(id)){
+			User user = this.userRepository.getById(id);
+			user.setDeleted(Boolean.TRUE);
+			this.userRepository.save(user);
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 
 
 }
