@@ -58,22 +58,21 @@ public class CategoryService {
         return categoryDTO;
     }
 
-    public CategoryDTO updateCategory(CategoryDTO newCategoryDTO,Long id){
-        Optional<Category> category = categoryRepository.findById(id);
-        if(!category.isPresent()){
-            throw new RuntimeException("Id categoria inexistente.");
+    public CategoryDTO updateCategory(CategoryDTO newCategoryDTO,Long id) throws ModelNotFoundException {
+        Category model = this.categoryRepository.findById(id).orElse(null);
+        if(model==null){
+            //Excepcion de tipo check heredar de la clase exception
+            throw new ModelNotFoundException(id,"Category");
         }
-        CategoryDTO categoryDTO = mapper.convertValue(category,CategoryDTO.class);
+        CategoryDTO categoryDTO = mapper.convertValue(model,CategoryDTO.class);
+
         categoryDTO.setName(newCategoryDTO.getName());
         categoryDTO.setDescription(newCategoryDTO.getDescription());
         categoryDTO.setImage(newCategoryDTO.getImage());
-
-        Category c = mapper.convertValue(categoryDTO,Category.class);
-        categoryRepository.save(c);
-        CategoryDTO resultadoDTO = mapper.convertValue(c,CategoryDTO.class);
+        this.save(categoryDTO);
         System.out.println("categoría actualizada");
 
-        return resultadoDTO;
+        return categoryDTO;
     }
 
     public void delete(Long id) throws ModelNotFoundException {
