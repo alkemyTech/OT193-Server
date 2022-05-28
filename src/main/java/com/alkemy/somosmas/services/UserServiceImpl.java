@@ -3,6 +3,7 @@ package com.alkemy.somosmas.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -30,6 +31,7 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private UserMapper userMapper;
 	@Autowired
+	@Qualifier("authenticationManager")
 	private AuthenticationManager authenticationManager;
 
 	@Override
