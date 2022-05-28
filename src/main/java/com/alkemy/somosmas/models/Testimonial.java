@@ -22,7 +22,7 @@ import lombok.Data;
 public class Testimonial {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
 	@NotNull
