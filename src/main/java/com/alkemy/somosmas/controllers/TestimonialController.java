@@ -24,8 +24,8 @@ public class TestimonialController {
         return ResponseEntity.status(HttpStatus.CREATED).body(testimonialGuardado);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id){
+   @DeleteMapping("/{id}")
+   public ResponseEntity<String> delete(@PathVariable Long id){
         TestimonialDTO testimonialDTO = null;
         try{
             this.testimonialService.delete(id);
@@ -34,6 +34,18 @@ public class TestimonialController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
         return new ResponseEntity<String>("El Testimonio de id: "+id+" ha sido eliminado.",HttpStatus.OK);
+    }
+	
+	@PutMapping("/{id}")
+  public ResponseEntity<Object> updateTestimonial(@RequestBody TestimonialDTO newTestimonialDTO, @PathVariable Long id){
+        TestimonialDTO testimonialDTO=null;
+        try{
+            this.testimonialService.updateTestimonial(newTestimonialDTO,id);
+        }catch (ModelNotFoundException e){
+            System.out.println(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return ResponseEntity.ok().body(testimonialDTO);
     }
 
 }

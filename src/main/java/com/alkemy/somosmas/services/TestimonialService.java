@@ -27,6 +27,24 @@ public class TestimonialService {
         return testimonialDTO;
     }
 
+    public TestimonialDTO updateTestimonial(TestimonialDTO newTestimonialDTO, Long id) throws ModelNotFoundException{
+        Testimonial model = this.testimonialRepository.findById(id).orElse(null);
+        if(model==null){
+            //Excepcion de tipo check heredar de la clase exception
+            throw new ModelNotFoundException(id,"Testimonial");
+        }
+        //TestimonialDTO testimonialDTO = mapper.convertValue(model,TestimonialDTO.class);
+        model.setName(newTestimonialDTO.getName());
+        model.setImage(newTestimonialDTO.getImage());
+        model.setContent(newTestimonialDTO.getContent());
+
+
+        this.testimonialRepository.save(model);
+        System.out.println("Testimonio actualizado");
+
+        return newTestimonialDTO;
+    }
+  
     public void delete(Long id) throws ModelNotFoundException{
         Testimonial model = this.testimonialRepository.findById(id).orElse(null);
         if(model == null){
@@ -35,6 +53,5 @@ public class TestimonialService {
         }
         this.testimonialRepository.deleteById(id);
     }
-
 
 }
