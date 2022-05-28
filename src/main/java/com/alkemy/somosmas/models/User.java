@@ -2,7 +2,7 @@ package com.alkemy.somosmas.models;
 
 import java.time.LocalDateTime;
 
-import javax.management.relation.Role;
+//import javax.management.relation.Role;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,31 +21,32 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 @Getter
 @Setter
-@SQLDelete(sql = "UPDATE users SET deleted = true WHERE idUser=?")
-@Where(clause = "delete = false")
+@SQLDelete(sql = "UPDATE user SET deleted = true WHERE id_user=?")
+@Where(clause = "deleted = false")
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_user")
 	private Long idUser;
-	@Column(name = "firstName", nullable = false)
+	@Column(name = "first_name", nullable = false)
 	private String firstName;
-	@Column(name = "lastName", nullable = false)
+	@Column(name = "last_name", nullable = false)
 	private String lastName;
 	@Column(name = "email", nullable = false, unique = true)
 	private String email;
-	@Column(name = "password", nullable = false)
+	@Column(name = "pass", nullable = false)
 	private String password;
 	@Column(name = "photo")
 	private String photo;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "role_id", insertable = false)
 	private Role role;
-	@Column(name = "role_id", nullable = false)
-	private Long roleID;
-	@Column(name = "createDate")
+//	@Column(name = "role_id", nullable = false)
+//	private Long roleID;
+	@Column(name = "created_at")
 	private LocalDateTime createDate;
 
 	@PrePersist
@@ -53,5 +54,5 @@ public class User {
 		this.createDate = LocalDateTime.now();
 	}
 
-	private boolean deleted = Boolean.FALSE;
+	private Boolean deleted = false;
 }
