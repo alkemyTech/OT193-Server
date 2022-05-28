@@ -4,6 +4,7 @@ import com.alkemy.somosmas.dtos.UserDTO;
 import com.alkemy.somosmas.mappers.UserMapper;
 import com.alkemy.somosmas.models.Role;
 import com.alkemy.somosmas.enums.RoleEnum;
+import com.alkemy.somosmas.exceptions.ModelNotFoundException;
 import com.alkemy.somosmas.models.User;
 import com.alkemy.somosmas.repositories.UserRepository;
 import java.util.List;
@@ -78,7 +79,5 @@ public class UserServiceImpl implements UserService ,UserDetailsService {
 			return false;
 		}
 	}
-
-
 
 }
