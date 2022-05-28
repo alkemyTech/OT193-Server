@@ -3,6 +3,8 @@ package com.alkemy.somosmas.services.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.alkemy.somosmas.dtos.CommentaryBasicDTO;
@@ -42,18 +44,18 @@ public class CommentaryServiceImpl implements CommentaryService{
 	}
 
 	@Override
-	public CommentaryDTO update(Long idCom,UserDTOId idUser,CommentaryDTO dto) throws InvalidUserException, CommentException {
+	public CommentaryDTO update(Long idCom,CommentaryDTO dto) throws InvalidUserException, CommentException {
 		Commentary com = repository.findById(idCom).orElse(null);
-		User user = userRepo.findById(idUser.getId()).orElse(null);
-		if(com == null){
-			throw new CommentException("Comment does not exist");
-		}
-		if(user==null) {
-			throw new InvalidUserException("User does not exist");
-		}
-		if(!user.getRole().getName().equals("ADMIN") || user.getIdUser()!=dto.getUserId()) {
-			throw new InvalidUserException("UNAUTHORIZED");
-		}
+//		User user = userRepo.findById(idUser.getId()).orElse(null);
+//		if(com == null){
+//			throw new CommentException("Comment does not exist");
+//		}
+//		if(user==null) {
+//			throw new InvalidUserException("User does not exist");
+//		}
+//		if(!user.getRole().getName().equals("ADMIN") || user.getIdUser()!=dto.getUserId()) {
+//			throw new InvalidUserException("UNAUTHORIZED");
+//		}
 		com = mapper.commentaryRefreshValues(com, dto);
 		Commentary comSaved = repository.save(com);
 		CommentaryDTO result = mapper.commentaryToDTO(comSaved);
@@ -61,13 +63,12 @@ public class CommentaryServiceImpl implements CommentaryService{
 	}
 
 	@Override
-	public void delete(Long id, UserDTOId idUser) throws InvalidUserException,CommentException{
-		Commentary com = repository.findById(id).orElse(null);
-		User user = userRepo.findById(idUser.getId()).orElse(null);
+	public void delete(Long id) throws InvalidUserException,CommentException{
 		if(!repository.existsById(id)) {
 			throw new CommentException("Comment does not exist");
 		}
-		if(com.getUserId()!=idUser.getId() || !user.getRole().getName().equals("ADMIN")) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if(auth==null) {
 			throw new InvalidUserException("UNAUTHORIZED");
 		}
 		repository.deleteById(id);

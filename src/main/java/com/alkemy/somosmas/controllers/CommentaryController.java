@@ -44,15 +44,15 @@ public class CommentaryController {
     	CommentaryDTO comDTO = service.save(commentaryDTO);
 		return ResponseEntity.status(HttpStatus.CREATED).body(comDTO);
 	}
-    @PutMapping("/{id}")
-    public ResponseEntity<CommentaryDTO> update(@Valid @PathVariable Long idCom,@RequestBody UserDTOId idUser, @RequestBody CommentaryDTO dto)throws InvalidUserException,CommentException{
-    	CommentaryDTO comDTO = service.update(idCom, idUser, dto);
-    	return ResponseEntity.ok().body(comDTO);
-    }
+//    @PutMapping("/{id}")
+//    public ResponseEntity<CommentaryDTO> update(@Valid @PathVariable Long idCom,@RequestBody UserDTOId idUser, @RequestBody CommentaryDTO dto)throws InvalidUserException,CommentException{
+//    	CommentaryDTO comDTO = service.update(idCom, idUser, dto);
+//    	return ResponseEntity.ok().body(comDTO);
+//    }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@Valid @PathVariable Long id,@RequestBody UserDTOId idUser) throws InvalidUserException,CommentException{
-    	service.delete(id, idUser);
+    public ResponseEntity<Void> delete(@Valid @PathVariable Long id) throws InvalidUserException,CommentException{
+    	service.delete(id);
     	return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
