@@ -2,6 +2,7 @@ package com.alkemy.somosmas.dtos;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -10,11 +11,12 @@ public class TestimonialDTO {
 
     private Long id;
 
-    @NotNull(message = "No debe quedar vacío")
-    @Size(min = 1)
+    @NotBlank(message = "Debe agregar un Nombre")
     private String name;
 
     private String image;
+
+    @NotBlank(message = "Debe agregar un contenido")
     private String content;
 
 }
