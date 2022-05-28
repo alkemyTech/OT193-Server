@@ -52,6 +52,7 @@ public class NewsController {
 		return ResponseEntity.ok(newsDto);
 	}
 
+	@GetMapping
 	public ResponseEntity<Map<String, Object>> getAll (@RequestParam int page){
 		Map<String, Object> response = null;
 

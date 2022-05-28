@@ -93,7 +93,7 @@ public class NewsServiceImpl implements NewsService {
 
 		List<News> newsModel = allNewsPage.getContent();
 
-		List<NewsDTO> newsDtoReturned = allNewsPage
+		List<NewsDTO> newsDtoReturned = newsModel
 				.stream()
 				.map(i->newsMapper.newsEntity2DTO(i))
 				.collect(Collectors.toList());
