@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService ,UserDetailsService {
 			this.userRepository.save(newUser);
 			return userDTO;
 		}else{
-			throw new Exception("MAIL EXISTENTE, ELIJA OTRO POR FAVOR. ");
+			throw new Exception("MAIL EXISTENTE, ELIJA OTRO POR FAVOR.");
 		}
 	}
 
