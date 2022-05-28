@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +25,7 @@ public class UserServiceImpl implements UserService ,UserDetailsService {
 	@Autowired
 	private UserMapper userMapper;
 	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
+	private PasswordEncoder passwordEncoder;
 
 	/*@Autowired
 	public UserServiceImpl(UserRepository userRepository, UserMapper userMapper){
@@ -50,16 +51,6 @@ public class UserServiceImpl implements UserService ,UserDetailsService {
 			return null;
 		}
 	}
-	 /*public hola(Long id){//PRUEBA
-		if(exists(id)){
-			User userNew = this.userRepository.getById(id);
-			UserDTO userDTO = userMapper.originalToDTO(userNew);
-			return userDTO;
-		}
-		else{
-			return null;
-		}
-	 }*/
 
 	@Override
 	public List<UserDTO> getUsersList() {
