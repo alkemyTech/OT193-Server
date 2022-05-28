@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Where(clause = "deleted = false")
 public class Activity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
