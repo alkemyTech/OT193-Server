@@ -24,7 +24,12 @@ public class Role {
 
     private LocalDateTime createDate;
 
+    public Role(Long id){
+        this.id = id;
+    }
+    public Role(){
 
+    }
     @PrePersist
     private void beforePersisting() {
         this.createDate= LocalDateTime.now();

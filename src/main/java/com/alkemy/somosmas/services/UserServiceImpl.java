@@ -1,5 +1,11 @@
 package com.alkemy.somosmas.services;
 
+import com.alkemy.somosmas.dtos.UserDTO;
+import com.alkemy.somosmas.mappers.UserMapper;
+import com.alkemy.somosmas.models.Role;
+import com.alkemy.somosmas.enums.RoleEnum;
+import com.alkemy.somosmas.models.User;
+import com.alkemy.somosmas.repositories.UserRepository;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +19,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.alkemy.somosmas.dtos.LoginUserDTO;
-import com.alkemy.somosmas.dtos.UserDTO;
 import com.alkemy.somosmas.exceptions.InvalidUserException;
-import com.alkemy.somosmas.mappers.UserMapper;
-import com.alkemy.somosmas.models.User;
-import com.alkemy.somosmas.repositories.UserRepository;
+
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -59,6 +62,7 @@ public class UserServiceImpl implements UserService{
 		if(!mailExists){
 			User newUser = userMapper.dto2Model(userDTO);
 			newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));//encripto contraseña
+			newUser.setRole(new Role(RoleEnum.ROLE_USER.getId()));
 			this.userRepository.save(newUser);
 			return userDTO;
 		}else{
@@ -113,7 +117,5 @@ public class UserServiceImpl implements UserService{
 	public LoginUserDTO userToDTO(User user) {
 		return userMapper.userToDTO(user);
 	}
-
-
-
+	
 }
