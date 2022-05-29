@@ -3,15 +3,17 @@ package com.alkemy.somosmas.services.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 import com.alkemy.somosmas.dtos.SlideDTO;
 import com.alkemy.somosmas.dtos.SlideGetDTO;
 import com.alkemy.somosmas.dtos.SlideRequestDTO;
 import com.alkemy.somosmas.dtos.SlidesGetDTO;
+import com.alkemy.somosmas.exceptions.ModelNotFoundException;
+import com.alkemy.somosmas.exceptions.NotAcceptableArgumentException;
 import com.alkemy.somosmas.mappers.OrganizationMapper;
 import com.alkemy.somosmas.mappers.SlideMapper;
-import com.alkemy.somosmas.models.Organization;
+
 import com.alkemy.somosmas.models.Slide;
 import com.alkemy.somosmas.repositories.OrganizationRepository;
 import com.alkemy.somosmas.repositories.SlideRepository;
@@ -47,48 +49,37 @@ public class SlideServiceImpl implements SlideService{
     @Autowired
     ImageHelper imageHelper;
     @Override
-    public SlideGetDTO create(SlideRequestDTO slideDTO) throws IOException, Exception {
-        List<Slide> listSlide=  slideRepository.findAll();
-		 Long organizationId= slideDTO.getOrganizationId();
-		 boolean existOrganization= organizationRepository.existsById(organizationId);
-		try {
-                Slide ultSlide=listSlide.get(listSlide.size()-1);
-                if(slideDTO.getOrder()==null){
-                    //order es null se asigna el valor inmediato al ultimo registro			
-                    Integer ultOrder=  ultSlide.getOrder();
-                        ultOrder++;
-                        slideDTO.setOrder(ultOrder);
-                } 
-           			
-		    } catch (IndexOutOfBoundsException e) {
-			  //Lista vacia, se asigna el valor de uno a order
-			  System.out.println( "Lista de slide vacia se asigna el valor de uno a order: "+ e );
-			  slideDTO.setOrder(1);
-			}
-
+    public SlideGetDTO create(SlideRequestDTO slideDTO) throws  NotAcceptableArgumentException, IOException {
+       					
+            if(slideDTO.getOrder()==null){
+				try {
+					Integer ultOrder=(slideRepository.findAll().get(slideRepository.findAll().size()-1).getOrder())+1;
+                    slideDTO.setOrder(ultOrder);
+            	 }catch (IndexOutOfBoundsException e) {
+						//Lista vacia, se asigna el valor de uno a order
+					slideDTO.setOrder(1);
+				}         			
+		    } 
             //validacion de inputs
-            if(existSlideByOrder(slideDTO.getOrder())) {
+            if(slideRepository.existsByOrder(slideDTO.getOrder())) {
 				//Orden ya existe
-				throw new Exception("Order ya existe en el slide.");					   			
-            }else if(slideDTO.getEncodeImg()== null || slideDTO.getEncodeImg().isEmpty() ){
-				//Input vacio del campo imageEncode
-				throw new Exception("No se ingreso la imagen en Base64");	  
-			}else if(organizationId==0){
-				throw new Exception("Debe ingresar un valor no nulo para el campo Id organization");
-			}else if(!existOrganization){
+				throw new NotAcceptableArgumentException("Order already exists on the slide.");					   			
+            }else if(slideDTO.getOrganizationId()==0){
+				throw new NotAcceptableArgumentException("You must enter a non-zero value for the Id organization field");
+			}else if(!organizationRepository.existsById(slideDTO.getOrganizationId())){
 				//validacion si organizacion existe
-				throw new Exception("La organizacion no existe ");
+				throw new NotAcceptableArgumentException("Organization doesn't exist ");
 			}else{
 				String nameFile = "Slide_"+slideDTO.getOrganizationId()+slideDTO.getOrder()+".png";
 				MultipartFile multiparte =imageHelper.base64ToImage(slideDTO.getEncodeImg(),nameFile);
 				String amazonUrl=amazonClient.uploadFile(multiparte);       
 				slideDTO.setImageUrl(amazonUrl);
-            
+        				
 				//cambio de DTO slide request a DTO basico
 				SlideDTO slideD=new SlideDTO();
 				slideD.setImageUrl(slideDTO.getImageUrl());
 				slideD.setOrder(slideDTO.getOrder());
-				slideD.setOrganization(getOrganizationId(organizationId));
+				slideD.setOrganization(organizationRepository.findById(slideDTO.getOrganizationId()).get());
 				slideD.setText(slideDTO.getText());
 				Slide slide = slideMapper.slideDtoToEntity(slideD);
 				slideRepository.save(slide);
@@ -99,112 +90,91 @@ public class SlideServiceImpl implements SlideService{
     }
 
     @Override
-    public String delete(Long id) throws Exception {
-        if(existSlideById(id)){
+    public String delete(Long id) throws ModelNotFoundException  {
+		
+        if(slideRepository.existsById(id)){
 			slideRepository.deleteById(id);
-			return "Se elemino el slide con el id:"+id;
+			return "Slide with the id "+id+" was deleted.";
 		}else{
-			throw new Exception("Slide no existe ");
+			throw new ModelNotFoundException(id,"Slide");
 		}
     }
 
     @Override
-    public SlideGetDTO getSlide(Long id) throws Exception {
+    public SlideGetDTO getSlide(Long id) throws ModelNotFoundException {
 
-        if(existSlideById(id)){
-            Optional<Slide> slide= slideRepository.findById(id);
-            SlideGetDTO slideDTO= slideMapper.getSlide(slide.get());       
+        if(slideRepository.existsById(id)){
+           // Optional<Slide> slide= slideRepository.findById(id);
+            SlideGetDTO slideDTO= slideMapper.getSlide(slideRepository.findById(id).get());       
             return slideDTO;
 		}else{
-			throw new Exception("Slide no existe ");
+			throw new ModelNotFoundException(id,"Slide");
 		}
        
     }
 
     @Override
-    public SlideGetDTO updateSlide(Long id, SlideRequestDTO slideRequestDTO) throws Exception {
-        Long l= slideRequestDTO.getOrganizationId();
+    public SlideGetDTO updateSlide(Long id, SlideRequestDTO slideRequestDTO) throws ModelNotFoundException, NotAcceptableArgumentException, IOException {
+        Long organizationId= slideRequestDTO.getOrganizationId();
 
-		if(existSlideById(id)){
-			Optional<Slide> slide= slideRepository.findById(id);
-
-			Slide s= slide.get();
-
-			SlideDTO slideD=new SlideDTO(s.getId(),s.getImageUrl(),s.getOrder(),s.getText(),s.getOrganization());
+		if(slideRepository.existsById(id)){	
+			Slide s= slideRepository.findById(id).get();	
+			SlideDTO slideDTO=new SlideDTO(s.getId(),s.getImageUrl(),s.getOrder(),s.getText(),
+			s.getOrganization());
 
 			if(!(slideRequestDTO.getOrder()==null)){
-
-				if(existSlideByOrder(slideRequestDTO.getOrder())){
-					throw new Exception("Order ya existe en el slide.");
-				}else{
-					slideD.setOrder(slideRequestDTO.getOrder());
+				if(slideRepository.existsByOrder(slideRequestDTO.getOrder())){
+					throw new  NotAcceptableArgumentException("Order already exists on the slide");
+				}else{						 
+					slideDTO.setOrder(slideRequestDTO.getOrder());
 				}
 			}
-			if(!(l==0)){
+			if(!(organizationId==0)){
 				if(organizationRepository.existsById(slideRequestDTO.getOrganizationId())){
-					slideD.setOrganization(getOrganizationId(slideRequestDTO.getOrganizationId()));
+				slideDTO.setOrganization(organizationRepository.findById(slideRequestDTO.getOrganizationId()).get());
 				}else{
-					throw new Exception("La Organizacion no existe ");
+					throw new  NotAcceptableArgumentException("Organization doesn't exist ");
 				}
 			}
 			if(!(slideRequestDTO.getText()==null)){
 			
-				slideD.setText(slideRequestDTO.getText());				
+				slideDTO.setText(slideRequestDTO.getText());				
 			}
 			if(!(slideRequestDTO.getEncodeImg()==null)){
 				
-				String nameFile = "Slide_"+slideD.getOrganization().getId()+slideD.getOrder()+".png";
+				String nameFile = "Slide_"+slideDTO.getOrganization().getId()+slideDTO.getOrder()+".png";
 				MultipartFile multiparte =imageHelper.base64ToImage(slideRequestDTO.getEncodeImg(),nameFile);
-				String delete= amazonClient.deleteFileFromS3Bucket(slideD.getImageUrl());
+				amazonClient.deleteFileFromS3Bucket(slideDTO.getImageUrl());
 				String amazonUrl=amazonClient.uploadFile(multiparte);       
-				slideD.setImageUrl(amazonUrl);
+				slideDTO.setImageUrl(amazonUrl);
 			}
 
-			Slide slideUpdated = slideMapper.slideDtoToEntity(slideD);
-			slideUpdated.setId(slideD.getId());
+			Slide slideUpdated = slideMapper.slideDtoToEntity(slideDTO);
+			slideUpdated.setId(slideDTO.getId());
 			slideRepository.save(slideUpdated);
 			SlideGetDTO slideDto = slideMapper.slideEntityDto(slideUpdated);
 			return slideDto;
 
 		} else{
-
-			throw new Exception("Slide no existe ");
+			throw new ModelNotFoundException(id,"Slide");
 		}
     }
 
     @Override
-    public List<SlidesGetDTO> getAll() throws Exception {
-        List<Slide> slides = slideRepository.findAll();
-
-		if(slides.isEmpty()){
-			throw new Exception("Lista vacia ");
-		}else{
-			List<SlidesGetDTO> getSlides = new ArrayList<>();
-			for(Slide entity : slides){
-				getSlides.add(slideMapper.getSlides(entity,new SlidesGetDTO()));
-			}
-			return getSlides;
-
-		}
+    public List<SlidesGetDTO> getAllSlides(){
+        List<Slide> slides = slideRepository.findAll();	
+		List<SlidesGetDTO> getSlides = new ArrayList<>();
+		for(Slide entity : slides){
+			getSlides.add(slideMapper.getSlides(entity,new SlidesGetDTO()));
+		}	
+		return getSlides;
+		
     }
 
 
-    public Organization getOrganizationId(Long id) {
-		Optional<Organization> organization = organizationRepository.findById(id);
-		return organization.get();
-	}
 
 
-	public boolean existOrganizationById(Long id){
-		return organizationRepository.existsById(id);
-	}
 
-	public boolean existSlideById(Long id){
-		return slideRepository.existsById(id);
-	}
 
-	public boolean existSlideByOrder(Integer order){
-		return slideRepository.existsByOrder(order);
-	}
     
 }

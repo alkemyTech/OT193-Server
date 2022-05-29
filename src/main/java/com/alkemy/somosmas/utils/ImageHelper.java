@@ -10,19 +10,16 @@ public class ImageHelper {
     private Base64MultipartFile base64MultipartFile;
     public Base64MultipartFile base64ToImage(String encodedBase64, String fileName) throws  IOException {
 		
+        
+        String encodeImg = encodedBase64.substring(encodedBase64.indexOf(",") + 1);
+        byte[] decodedBytes = Base64.decodeBase64(encodeImg);
+        base64MultipartFile = new Base64MultipartFile(decodedBytes, fileName);
         try {
              
-            if(encodedBase64.equals(null)||fileName.equals(null)){
-                throw new IllegalStateException("No se ingresaron los datos completos");
-            }else{String encodeImg = encodedBase64.substring(encodedBase64.indexOf(",") + 1);
-            byte[] decodedBytes = Base64.decodeBase64(encodeImg);
-             base64MultipartFile = new Base64MultipartFile(decodedBytes, fileName);
-            base64MultipartFile.transferTo(base64MultipartFile.getFile());}
+            base64MultipartFile.transferTo(base64MultipartFile.getFile());
             
-        } catch (IllegalStateException e) {
-            throw new IllegalStateException("IllegalStateException : " + e);
-        } catch (IOException e) {
-            e.printStackTrace();
+        }catch (IOException e) {
+            throw new IOException("IOExeption :"+e);
         }
 
         return base64MultipartFile;

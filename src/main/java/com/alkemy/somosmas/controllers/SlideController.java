@@ -1,12 +1,17 @@
 package com.alkemy.somosmas.controllers;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import com.alkemy.somosmas.dtos.SlideGetDTO;
 import com.alkemy.somosmas.dtos.SlideRequestDTO;
 import com.alkemy.somosmas.dtos.SlidesGetDTO;
+import com.alkemy.somosmas.exceptions.ModelNotFoundException;
+import com.alkemy.somosmas.exceptions.NotAcceptableArgumentException;
 import com.alkemy.somosmas.services.SlideService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,23 +28,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/Slide")
+//@RestControllerAdvice
 public class SlideController {
     @Autowired
     SlideService slideService;
 
     @PostMapping
-	public ResponseEntity<?> create(@RequestBody SlideRequestDTO slideDTO){
-		Map<String, Object> response=new HashMap<>();
+	public ResponseEntity<?> create( @Valid @RequestBody SlideRequestDTO slideDTO) {
 		SlideGetDTO slide = new SlideGetDTO();
 		try {
-			slide= this.slideService.create(slideDTO);
-			return ResponseEntity.ok().body(slide);
-		 } catch (Exception e) {
-			 response.put("mensaje", "Ocurrio un error al crear slide ");
-			   response.put("error", e.getMessage());
-			   return new ResponseEntity<Map<String, Object>>(response, null, HttpStatus.NOT_FOUND);
+			slide= this.slideService.create(slideDTO);		
+		 } catch (NotAcceptableArgumentException e) {
+			 return ResponseEntity.badRequest().body(e.getMessage());
+		 }catch(IOException e){
+			System.out.println(e.getMessage());
+			return ResponseEntity.badRequest().body(e.getMessage());
 		 }
-   			
+			return ResponseEntity.ok().body(slide);	
 	}
 
     
@@ -49,13 +54,14 @@ public class SlideController {
         SlideGetDTO slide = new SlideGetDTO();
         try {
            slide= slideService.getSlide(id);
-		   return ResponseEntity.ok().body(slide);
-        } catch (Exception e) {
+		   response.put("Slide", slide);
+		  // return ResponseEntity.ok().body(slide);
+        } catch (ModelNotFoundException e) {
 			response.put("mensaje", "Ocurrio un error al mostrar el slide con id: ".concat(id.toString()));
-              response.put("error", e.getMessage());
-              return new ResponseEntity<Map<String, Object>>(response, null, HttpStatus.NOT_FOUND);
+            response.put("error", e.getMessage());
+            return new ResponseEntity<Map<String, Object>>(response, null, HttpStatus.NOT_FOUND);
         }
-       
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")  
@@ -65,37 +71,39 @@ public class SlideController {
 		SlideGetDTO slide = new SlideGetDTO();
 		try {
 			slide= slideService.updateSlide(id,slideRequestDTO);
-			return ResponseEntity.ok().body(slide);
-		 } catch (Exception e) {
-			 response.put("mensaje", "Ocurrio un error al actualizar el slide con id: ".concat(id.toString()));
-			   response.put("error", e.getMessage());
-			   return new ResponseEntity<Map<String, Object>>(response, null, HttpStatus.NOT_FOUND);
+			response.put(null,slide);			
+		 } catch (ModelNotFoundException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		 }catch( NotAcceptableArgumentException | IOException e){
+			return ResponseEntity.badRequest().body(e.getMessage());
 		 }
+		 return ResponseEntity.ok().body(slide);
 			  
 	} 
 
 	@DeleteMapping("/{id}")
     public ResponseEntity<?> deleteSlide(@PathVariable Long id){
-        Map<String, Object> response=new HashMap<>();
+       // Map<String, Object> response=new HashMap<>();
 		try {
 			String msg= slideService.delete(id);
 			return ResponseEntity.ok().body(msg);
-		 } catch (Exception e) {
-			 response.put("mensaje", "Ocurrio un error al eliminar el slide con id: ".concat(id.toString()));
-			   response.put("error", e.getMessage());
-			   return new ResponseEntity<Map<String, Object>>(response, null, HttpStatus.NOT_FOUND);
+		 } catch (ModelNotFoundException e) {
+			/*response.put("mensaje", "Ocurrio un error al eliminar el slide con id: ".concat(id.toString()));
+			response.put("error", e.getMessage());
+			return new ResponseEntity<Map<String, Object>>(response, null, HttpStatus.NOT_FOUND);*/
+			return ResponseEntity.badRequest().body(e.getMessage());
 		 }
 	}
 	@GetMapping
-    public ResponseEntity<?> getAll(){
-		Map<String, Object> response=new HashMap<>();    
-        try {
-			List<SlidesGetDTO>  slidesGet = slideService.getAll();
-		   return ResponseEntity.ok().body(slidesGet);
-        } catch (Exception e) {
+    public ResponseEntity<?> getAllSlides(){
+		/*Map<String, Object> response=new HashMap<>();    
+        try {*/
+			List<SlidesGetDTO>  getAllSlides = slideService.getAllSlides();
+		   return ResponseEntity.ok().body(getAllSlides);
+       /* } catch (Exception e) {
 			response.put("mensaje", "Ocurrio un error al listar Slides ");
               response.put("error", e.getMessage());
-              return new ResponseEntity<Map<String, Object>>(response, null, HttpStatus.NOT_FOUND);
-        }
+              return new ResponseEntity<Map<String, Object>>(response, null, HttpStatus.NO_CONTENT);
+        }*/
     }
 }
