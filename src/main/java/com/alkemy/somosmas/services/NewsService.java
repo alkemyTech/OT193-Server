@@ -9,7 +9,7 @@ import java.util.Map;
 
 public interface NewsService {
 
-	NewsDTO save(NewsDTO news);
+	NewsDTO save(NewsDTO news) throws ModelNotFoundException;
 
 	void delete(Long id) throws ModelNotFoundException;
 

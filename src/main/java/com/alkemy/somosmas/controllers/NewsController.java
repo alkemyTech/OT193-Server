@@ -24,8 +24,14 @@ public class NewsController {
 	private NewsService newsService;
 
 	@PostMapping
-	public ResponseEntity<NewsDTO> save(@Valid @RequestBody NewsDTO news) {
-		NewsDTO newsSaved = newsService.save(news);
+	public ResponseEntity<Object> save(@Valid @RequestBody NewsDTO news) {
+		NewsDTO newsSaved = null;
+		try {
+			newsSaved = newsService.save(news);
+		} catch (ModelNotFoundException e) {
+			System.out.println(e.getMessage());
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
 		return ResponseEntity.status(HttpStatus.CREATED).body(newsSaved);
 	}
 
