@@ -5,7 +5,7 @@ import com.alkemy.somosmas.exceptions.ModelNotFoundException;
 
 public interface NewsService {
 
-	NewsDTO save(NewsDTO news);
+	NewsDTO save(NewsDTO news) throws ModelNotFoundException;
 
 	void delete(Long id) throws ModelNotFoundException;
 

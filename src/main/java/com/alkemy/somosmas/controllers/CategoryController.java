@@ -2,6 +2,7 @@ package com.alkemy.somosmas.controllers;
 
 import com.alkemy.somosmas.dtos.CategoryDTO;
 import com.alkemy.somosmas.dtos.ListaCategoryDTO;
+import com.alkemy.somosmas.exceptions.ModelNotFoundException;
 import com.alkemy.somosmas.exceptions.NotAcceptableArgumentException;
 import com.alkemy.somosmas.exceptions.PageEmptyException;
 import com.alkemy.somosmas.models.Category;
@@ -51,20 +52,38 @@ public class CategoryController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryDTO>getDetalle(@PathVariable Long id){
-        CategoryDTO categoryDTO = this.categoryService.getCategoryById(id);
+    public ResponseEntity<Object>getDetalle(@PathVariable Long id) {
+        CategoryDTO categoryDTO = null;
+        try {
+            categoryDTO = this.categoryService.getCategoryById(id);
+        } catch (ModelNotFoundException e){
+            System.out.println(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
         return ResponseEntity.ok().body(categoryDTO);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoryDTO> updateCategory(@RequestBody CategoryDTO newCategoryDTO, @PathVariable Long id){
-        CategoryDTO categoryDTO = this.categoryService.updateCategory(newCategoryDTO,id);
+    public ResponseEntity<Object> updateCategory(@RequestBody CategoryDTO newCategoryDTO, @PathVariable Long id) {
+        CategoryDTO categoryDTO = null;
+        try{
+            this.categoryService.updateCategory(newCategoryDTO,id);
+        }catch (ModelNotFoundException e){
+            System.out.println(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
         return ResponseEntity.ok().body(categoryDTO);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id){
-        this.categoryService.delete(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    public ResponseEntity<String> delete(@PathVariable Long id){
+        CategoryDTO categoryDTO = null;
+        try{
+            this.categoryService.delete(id);
+        }catch (ModelNotFoundException e){
+            System.out.println(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return new ResponseEntity<String>("La Categoria de id n°: "+id+" ha sido eliminada.",HttpStatus.OK);
     }
 }
