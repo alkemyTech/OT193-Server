@@ -23,35 +23,42 @@ import com.alkemy.somosmas.services.MemberService;
 @RestController
 @RequestMapping("members")
 public class MemberController {
-	
+
 	@Autowired
 	private MemberService memberService;
-	
+
 	@PostMapping
-	public ResponseEntity<MemberDTO> save (@Valid @RequestBody MemberDTO memberDTO){
-		MemberDTO memberSaved = this.memberService.save(memberDTO);
+	public ResponseEntity<Object> save(@Valid @RequestBody MemberDTO memberDTO) {
+		MemberDTO memberSaved = null;
+		try {
+			memberSaved = this.memberService.save(memberDTO);
+		} catch (ModelNotFoundException e) {
+			System.out.println(e.getMessage());
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
 		return ResponseEntity.status(HttpStatus.CREATED).body(memberSaved);
 	}
-	
+
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Object> delete (@Valid @PathVariable Long id){
+	public ResponseEntity<Object> delete(@Valid @PathVariable Long id) {
 		try {
-			this.memberService.delete(id);;
+			this.memberService.delete(id);
+			;
 		} catch (ModelNotFoundException e) {
 			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
-	
+
 	@GetMapping
-	public ResponseEntity<List<MemberDTO>> getAll(){
+	public ResponseEntity<List<MemberDTO>> getAll() {
 		List<MemberDTO> membersDTO = this.memberService.getAll();
 		return ResponseEntity.ok().body(membersDTO);
 	}
-	
+
 	@PutMapping("/{id}")
-	public ResponseEntity<Object> update(@Valid @PathVariable Long id, @RequestBody MemberDTO memberDTO){
+	public ResponseEntity<Object> update(@Valid @PathVariable Long id, @RequestBody MemberDTO memberDTO) {
 		MemberDTO member = null;
 		try {
 			member = this.memberService.update(id, memberDTO);
