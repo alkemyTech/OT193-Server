@@ -1,6 +1,5 @@
 package com.alkemy.somosmas.services.impl;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +21,15 @@ public class MemberServiceImpl implements MemberService {
 	private MemberRepository memberRepository;
 
 	@Override
-	public MemberDTO save(MemberDTO memberDTO) {
-		Member memberEntity = this.memberMapper.memberDTO2Entity(memberDTO);
+	public MemberDTO save(MemberDTO memberDTO) throws ModelNotFoundException {
+		Member memberEntity = null;
+		if (memberDTO.getId() != null && memberDTO.getId() != 0) {
+			memberEntity = this.memberRepository.findById(memberDTO.getId()).orElse(null);
+			if (memberEntity == null) {
+				throw new ModelNotFoundException(memberDTO.getId(), "Member");
+			}
+		}
+		memberEntity = this.memberMapper.memberDTO2Entity(memberDTO);
 		Member memberEntitySaved = this.memberRepository.save(memberEntity);
 		MemberDTO result = this.memberMapper.memberEntity2DTO(memberEntitySaved);
 		return result;
@@ -33,7 +39,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void delete(Long id) throws ModelNotFoundException {
 		if (!this.memberRepository.existsById(id)) {
-			throw new ModelNotFoundException(id,"Member");  
+			throw new ModelNotFoundException(id, "Member");
 		}
 		this.memberRepository.deleteById(id);
 	}
@@ -49,12 +55,12 @@ public class MemberServiceImpl implements MemberService {
 	public MemberDTO update(Long id, MemberDTO memberDTO) throws ModelNotFoundException {
 		Member memberEntity = this.memberRepository.findById(id).orElse(null);
 		if (memberEntity == null) {
-			throw new ModelNotFoundException(id,"Member");
+			throw new ModelNotFoundException(id, "Member");
 		}
 		this.memberMapper.memberEntityRefreshValues(memberEntity, memberDTO);
 		Member memberEntityModified = this.memberRepository.save(memberEntity);
 		MemberDTO result = this.memberMapper.memberEntity2DTO(memberEntityModified);
-		
+
 		return result;
 	}
 
