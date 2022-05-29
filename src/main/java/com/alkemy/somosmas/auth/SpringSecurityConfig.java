@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+
 @Configuration
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
@@ -32,7 +33,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 	@Override
 	public void configure(HttpSecurity httpSecurity) throws Exception {
 	httpSecurity.csrf().disable();
-		httpSecurity.authorizeRequests().antMatchers("/categories/**").hasRole("ADMIN")
+		httpSecurity.authorizeRequests().antMatchers("/categories/**").hasRole("")
 				.and()
 				.authorizeRequests().anyRequest().permitAll();}
 

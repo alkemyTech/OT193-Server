@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,13 +22,13 @@ import com.alkemy.somosmas.exceptions.InvalidUserException;
 import com.alkemy.somosmas.services.UserService;
 
 @RestController
-@RequestMapping//(value = "/users")
+@RequestMapping(value = "/users")
 public class UserController {
 
     @Autowired
     UserService userService;
 
-    @GetMapping(value = "/users")
+    @GetMapping
     public List<UserDTO> getUsersList(){
         List<UserDTO> dtoList = userService.getUsersList();
         return dtoList;
