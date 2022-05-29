@@ -1,28 +1,12 @@
 package com.alkemy.somosmas.services;
 
 import com.alkemy.somosmas.dtos.TestimonialDTO;
-import com.alkemy.somosmas.models.Testimonial;
-import com.alkemy.somosmas.repositories.TestimonialRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.alkemy.somosmas.exceptions.ModelNotFoundException;
 
-@Service
-public class TestimonialService {
+public interface TestimonialService {
 
-    @Autowired
-    private TestimonialRepository testimonialRepository;
-
-    @Autowired
-    private ObjectMapper mapper;
-
-    public TestimonialDTO save(TestimonialDTO dto){
-        Testimonial testimonial = mapper.convertValue(dto,Testimonial.class);
-        testimonialRepository.save(testimonial);
-        TestimonialDTO testimonialDTO = mapper.convertValue(testimonial,TestimonialDTO.class);
-        System.out.println("testimonio guardado");
-
-        return testimonialDTO;
-    }
+    public TestimonialDTO save(TestimonialDTO dto);
+    public TestimonialDTO updateTestimonial(TestimonialDTO newTestimonialDTO, Long id) throws ModelNotFoundException;
+	public void delete(Long id) throws ModelNotFoundException;
 
 }

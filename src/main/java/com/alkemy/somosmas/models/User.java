@@ -42,7 +42,7 @@ public class User {
 	@Column(name = "photo")
 	private String photo;
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "role_id", insertable = false)
+	@JoinColumn(name = "role_id")
 	private Role role;
 //	@Column(name = "role_id", nullable = false)
 //	private Long roleID;
