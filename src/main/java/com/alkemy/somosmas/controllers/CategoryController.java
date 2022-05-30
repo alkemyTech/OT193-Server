@@ -74,6 +74,7 @@ public class CategoryController {
         return ResponseEntity.ok().body(categoryDTO);
     }
 
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id){
         CategoryDTO categoryDTO = null;
