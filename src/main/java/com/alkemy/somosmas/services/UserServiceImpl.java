@@ -80,4 +80,17 @@ public class UserServiceImpl implements UserService ,UserDetailsService {
 		}
 	}
 
+	@Override
+	public UserDTO update(Long id, UserDTO dto) throws ModelNotFoundException {
+		User userEntity = this.userRepository.findById(id).orElse(null);
+		if (userEntity == null) {
+			throw new ModelNotFoundException(id,"User");
+		}
+		this.userMapper.userEntityRefreshValues(userEntity, dto);
+		User userEntityModified = this.userRepository.save(userEntity);
+		UserDTO result = this.userMapper.originalToDTO(userEntityModified);
+		
+		return result;
+	}
+
 }
