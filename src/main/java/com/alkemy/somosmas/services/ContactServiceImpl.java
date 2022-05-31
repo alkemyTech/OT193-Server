@@ -17,7 +17,8 @@ public class ContactServiceImpl implements ContactService{
     private ContactRepository contactRepository;
     @Autowired
     private ContactMapper contactMapper;
-
+    @Autowired
+    private EmailService emailService;
 
     @Override
     public ContactBasicDTO registerContact(ContactDTO contactDto) throws Exception {
@@ -29,6 +30,8 @@ public class ContactServiceImpl implements ContactService{
                 contactNew.setMessage(contactDto.getMessage());
                 this.contactRepository.save(contactNew);
                 ContactBasicDTO response = contactMapper.original2BasicDto(contactDto);
+                emailService.sendWelcomeEmailTo(contactDto.getEmail(),"Estimado/a "+contactDto.getName()+
+                        " Gracias por sumarte a somos mas", "Somos mas mail de bienvenida"  );
                 return response;
             }else{
                 throw new Exception("Mail existente");
