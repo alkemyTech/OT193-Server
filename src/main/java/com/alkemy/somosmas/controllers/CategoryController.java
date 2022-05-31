@@ -7,6 +7,10 @@ import com.alkemy.somosmas.exceptions.NotAcceptableArgumentException;
 import com.alkemy.somosmas.exceptions.PageEmptyException;
 import com.alkemy.somosmas.models.Category;
 import com.alkemy.somosmas.services.CategoryService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -26,12 +30,14 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+    @Operation(summary = "Create new category")
     @PostMapping
     public ResponseEntity<CategoryDTO> save(@Valid @RequestBody CategoryDTO category){
         CategoryDTO categoryGuardado = categoryService.save(category);
         return ResponseEntity.status(HttpStatus.CREATED).body(categoryGuardado);
     }
 
+    @Operation(summary = "Get category full list")
     @GetMapping()
     public ResponseEntity<Map<String, Object>>getAll(@RequestParam int page){
         Map<String, Object> response = null;
@@ -40,16 +46,20 @@ public class CategoryController {
         } catch (NotAcceptableArgumentException e) {
             response= new HashMap<>();
             response.put("Error",e.getMessage());
-            return ResponseEntity.ok().body(response);
+            return ResponseEntity.badRequest().body(response);
         } catch (PageEmptyException e) {
             response= new HashMap<>();
             response.put("Error",e.getMessage());
+            return ResponseEntity.badRequest().body(response);
         }
 
         return ResponseEntity.ok().body(response);
     }
 
-
+    @Operation(summary = "Find category by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Find category by id"),
+            @ApiResponse(responseCode = "404", description = "Category not found", content = @Content)})
     @GetMapping("/{id}")
     public ResponseEntity<Object>getDetalle(@PathVariable Long id) {
         CategoryDTO categoryDTO = null;
@@ -62,6 +72,10 @@ public class CategoryController {
         return ResponseEntity.ok().body(categoryDTO);
     }
 
+    @Operation(summary = "Update a category by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Update a category by id"),
+            @ApiResponse(responseCode = "404", description = "Category not found", content = @Content)})
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateCategory(@RequestBody CategoryDTO newCategoryDTO, @PathVariable Long id) {
         CategoryDTO categoryDTO = null;
@@ -74,7 +88,13 @@ public class CategoryController {
         return ResponseEntity.ok().body(categoryDTO);
     }
 
+    @Operation(summary = "Delete a Category by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Delete a category by id"),
+            @ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Category not found", content = @Content)})
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> delete(@PathVariable Long id){
         CategoryDTO categoryDTO = null;
         try{

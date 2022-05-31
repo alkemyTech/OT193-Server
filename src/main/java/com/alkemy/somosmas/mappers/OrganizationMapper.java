@@ -22,6 +22,10 @@ public class OrganizationMapper {
         dto.setImage(organization.getImage());
         dto.setPhone(organization.getPhone());
         dto.setAddress(organization.getAddress());
+        dto.setFacebookUrl(organization.getFacebookUrl());
+        dto.setLinkedinUrl(organization.getLinkedinUrl());
+        dto.setInstagramUrl(organization.getInstagramUrl());
+
 
         return dto;
     }

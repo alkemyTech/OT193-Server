@@ -2,6 +2,8 @@ package com.alkemy.somosmas.controllers;
 
 import com.alkemy.somosmas.dtos.TestimonialDTO;
 import com.alkemy.somosmas.exceptions.ModelNotFoundException;
+import com.alkemy.somosmas.exceptions.NotAcceptableArgumentException;
+import com.alkemy.somosmas.exceptions.PageEmptyException;
 import com.alkemy.somosmas.services.TestimonialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/testimonial")
@@ -46,6 +50,25 @@ public class TestimonialController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
         return ResponseEntity.ok().body(testimonialDTO);
+    }
+
+    @GetMapping
+    public ResponseEntity<Map<String, Object>> getAll (@RequestParam int page){
+        Map<String, Object> response = null;
+
+        try {
+            response = this.testimonialService.getAllTestimonialsByPage(page);
+        } catch (NotAcceptableArgumentException e) {
+            response= new HashMap<>();
+            response.put("Error",e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        } catch (PageEmptyException e) {
+            response= new HashMap<>();
+            response.put("Error",e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        return ResponseEntity.ok().body(response);
     }
 
 }
