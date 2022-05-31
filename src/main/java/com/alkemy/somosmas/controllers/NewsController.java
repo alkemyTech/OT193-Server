@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alkemy.somosmas.dtos.NewsDTO;
 import com.alkemy.somosmas.exceptions.ModelNotFoundException;
+import com.alkemy.somosmas.models.News;
 import com.alkemy.somosmas.services.NewsService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
@@ -30,12 +32,11 @@ public class NewsController {
 	@Autowired
 	private NewsService newsService;
 
-	@Operation(summary = "Create News")
-//	@ApiResponses(value = { 
-//			  @ApiResponse(responseCode = "201", description = "News Created"), 
-//			  @ApiResponse(responseCode = "400", description = "Invalid model", 
-//			    content = @Content), 
-//			  })
+	@Operation(summary = "Create News", responses = {
+			@ApiResponse(description = "News Created", responseCode = "201",
+					content=@Content(mediaType="application/json",schema =@Schema(implementation=News.class))),
+			@ApiResponse(description = "Invalid model",responseCode = "400",content = @Content)
+	})
 	@PostMapping
 	public ResponseEntity<Object> save(@Valid @RequestBody NewsDTO news) {
 		NewsDTO newsSaved = null;
