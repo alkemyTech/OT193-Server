@@ -112,8 +112,9 @@ public class CategoryService {
         returnedMap.put("Categories", categoriesDtoReturned);
         returnedMap.put("currentPage",allCategoriesPage.getNumber());
         returnedMap.put("totalItems",allCategoriesPage.getTotalElements());
-        // total pages
-        // agreegar excepciones
+        returnedMap.put("totalPages",allCategoriesPage.getTotalPages());
+
+
 
         if (allCategoriesPage.hasNext()){
             returnedMap.put("nextPage","localhost:8080/categories?page="+(pageNo+1));
