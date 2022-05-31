@@ -10,11 +10,11 @@ insert into categories (name, description,image,created_at,deleted)
            ('categoria4','descCategoria4','url',NOW(),false);
 
 insert into user (first_name,last_name,email,pass,photo,role_id,created_at,deleted)
-    values ('ayrton','paez','ayrton2190@gmail.com','agua2345','url',1,NOW(),false),
-           ('cristian','rikkonen','rkk2000@gmail.com','saladix2455','url',2,NOW(),false),
-           ('brenda','gomez','bgomez@gmail.com','eureka221','url',2,NOW(),false),
-           ('milton','aguero','aguuerooo@gmail.com','zapallitod3tronco','url',1,NOW(),false),
-           ('matilde','albornoz','matalbo@gmail.com','albomatal','url',2,NOW(),false);
+    values ('ayrton','paez','ayrton2190@gmail.com','$2a$10$KjJNEJ/QHvFxF/rq9XcM6uAnrLYgN6Ht47Ly7EXoiIzKUSkdXAioG','url',1,NOW(),false),
+           ('cristian','rikkonen','rkk2000@gmail.com','$2a$10$u0fmpXMvLJFqT.JxAKMGXeSs9/WYxlBXSl99qNFCMLnh2CokQe.Hy','url',2,NOW(),false),
+           ('brenda','gomez','bgomez@gmail.com','$2a$10$1BlcMrX5JllUcUGRPhNBQO9zqpRUYmPJJdWcktZDtUnMTgQ6A068e','url',2,NOW(),false),
+           ('milton','aguero','aguuerooo@gmail.com','$2a$10$RNKMDEYHtqhm.C/Kz6LWe.xCjdDfdHQhig/93MBvVeMV38Z4Ja4fG','url',1,NOW(),false),
+           ('matilde','albornoz','matalbo@gmail.com','$2a$10$.nCVZWK40Z94nCs1xgdzquMZmlUV5.sXKAwV8tV9cE4.k4LGx.koO','url',2,NOW(),false);
 
 insert into members (name,facebook_url,instagram_url,linkedin_url,image,description,created_date,deleted)
     values ('miembro1','faceMiembro1','igMiembro1','lkMiembro1','url','descMiembro1',NOW(),false),
