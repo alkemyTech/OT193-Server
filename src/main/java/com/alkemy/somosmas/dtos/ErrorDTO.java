@@ -1,6 +1,5 @@
 package com.alkemy.somosmas.dtos;
 
-
 public class ErrorDTO {
 	private String name;
 	private String description;
@@ -23,4 +22,3 @@ public class ErrorDTO {
 	}
 
 }
-
