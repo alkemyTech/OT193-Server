@@ -1,5 +1,6 @@
 package com.alkemy.somosmas.services;
 
+import com.alkemy.somosmas.exceptions.EmailErrorException;
 import com.sendgrid.Method;
 import com.sendgrid.Request;
 import com.sendgrid.Response;
@@ -65,7 +66,8 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void sendWelcomeEmailTemplateTo(String to, String message, String title, String subjectEmail) {
+    public void sendWelcomeEmailTemplateTo(String to, String message, String title, String subjectEmail)
+            throws EmailErrorException {
 
         if (!enabled){
             return;
@@ -110,6 +112,8 @@ public class EmailServiceImpl implements EmailService {
 
         }catch (IOException ex){
             System.out.println("Error trying to send the email:" + ex.getMessage());
+            throw new EmailErrorException("No se pudo enviar el mail");
+
         }
     }
 
