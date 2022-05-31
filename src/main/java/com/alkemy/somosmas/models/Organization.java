@@ -57,6 +57,7 @@ public class Organization {
 
      */
     @OneToMany(mappedBy="organization")
+    @OrderBy("order")
     private List<Slide> slidesList = new ArrayList<>();
 
 
