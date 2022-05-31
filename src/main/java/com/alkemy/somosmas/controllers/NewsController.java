@@ -2,21 +2,19 @@ package com.alkemy.somosmas.controllers;
 
 import javax.validation.Valid;
 
+import com.alkemy.somosmas.exceptions.NotAcceptableArgumentException;
+import com.alkemy.somosmas.exceptions.PageEmptyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.alkemy.somosmas.dtos.NewsDTO;
 import com.alkemy.somosmas.exceptions.ModelNotFoundException;
 import com.alkemy.somosmas.services.NewsService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("news")
@@ -58,6 +56,25 @@ public class NewsController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 		return ResponseEntity.ok(newsDto);
+	}
+
+	@GetMapping
+	public ResponseEntity<Map<String, Object>> getAll (@RequestParam int page){
+		Map<String, Object> response = null;
+
+		try {
+			response = this.newsService.getAllNewsByPage(page);
+		} catch (NotAcceptableArgumentException e) {
+			response= new HashMap<>();
+			response.put("Error",e.getMessage());
+			return ResponseEntity.badRequest().body(response);
+		} catch (PageEmptyException e) {
+			response= new HashMap<>();
+			response.put("Error",e.getMessage());
+			return ResponseEntity.badRequest().body(response);
+		}
+
+		return ResponseEntity.ok().body(response);
 	}
 
 	@PutMapping("{id}")
