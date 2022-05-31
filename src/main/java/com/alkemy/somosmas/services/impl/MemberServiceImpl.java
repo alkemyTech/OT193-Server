@@ -1,9 +1,18 @@
 package com.alkemy.somosmas.services.impl;
 
-
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+
+import com.alkemy.somosmas.exceptions.NotAcceptableArgumentException;
+import com.alkemy.somosmas.exceptions.PageEmptyException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.alkemy.somosmas.dtos.MemberDTO;
@@ -22,8 +31,15 @@ public class MemberServiceImpl implements MemberService {
 	private MemberRepository memberRepository;
 
 	@Override
-	public MemberDTO save(MemberDTO memberDTO) {
-		Member memberEntity = this.memberMapper.memberDTO2Entity(memberDTO);
+	public MemberDTO save(MemberDTO memberDTO) throws ModelNotFoundException {
+		Member memberEntity = null;
+		if (memberDTO.getId() != null && memberDTO.getId() != 0) {
+			memberEntity = this.memberRepository.findById(memberDTO.getId()).orElse(null);
+			if (memberEntity == null) {
+				throw new ModelNotFoundException(memberDTO.getId(), "Member");
+			}
+		}
+		memberEntity = this.memberMapper.memberDTO2Entity(memberDTO);
 		Member memberEntitySaved = this.memberRepository.save(memberEntity);
 		MemberDTO result = this.memberMapper.memberEntity2DTO(memberEntitySaved);
 		return result;
@@ -33,7 +49,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void delete(Long id) throws ModelNotFoundException {
 		if (!this.memberRepository.existsById(id)) {
-			throw new ModelNotFoundException(id,"Member");  
+			throw new ModelNotFoundException(id, "Member");
 		}
 		this.memberRepository.deleteById(id);
 	}
@@ -45,16 +61,55 @@ public class MemberServiceImpl implements MemberService {
 		return membersDTO;
 	}
 
+
+
+	@Override
+	public Map<String, Object> getAllMembersByPage(int pageNo ) throws NotAcceptableArgumentException, PageEmptyException {
+		if(pageNo<0){
+			throw new NotAcceptableArgumentException("The page number must be positive");
+		}
+		Pageable pageable = PageRequest.of(pageNo,10);
+
+		Page<Member> allMembersPage= memberRepository.findAll(pageable);
+
+		if(allMembersPage.isEmpty()){
+			throw new PageEmptyException(pageNo, "members");
+		}
+
+		List<Member> membersModel = allMembersPage.getContent();
+
+		List<MemberDTO> membersDtoReturned = membersModel
+				.stream()
+				.map(i->memberMapper.memberEntity2DTO(i))
+				.collect(Collectors.toList());
+
+		Map<String, Object> returnedMap = new HashMap<>();
+
+		returnedMap.put("Members", membersDtoReturned);
+		returnedMap.put("currentPage",allMembersPage.getNumber());
+		returnedMap.put("totalItems",allMembersPage.getTotalElements());
+		returnedMap.put("totalPages",allMembersPage.getTotalPages());
+
+		if (allMembersPage.hasNext()){
+			returnedMap.put("nextPage","localhost:8080/members?page="+(pageNo+1));
+		}
+		if (pageNo!=0){
+			returnedMap.put("previousPage","localhost:8080/members?page="+(pageNo-1));
+		}
+
+		return returnedMap;
+	}
+
 	@Override
 	public MemberDTO update(Long id, MemberDTO memberDTO) throws ModelNotFoundException {
 		Member memberEntity = this.memberRepository.findById(id).orElse(null);
 		if (memberEntity == null) {
-			throw new ModelNotFoundException(id,"Member");
+			throw new ModelNotFoundException(id, "Member");
 		}
 		this.memberMapper.memberEntityRefreshValues(memberEntity, memberDTO);
 		Member memberEntityModified = this.memberRepository.save(memberEntity);
 		MemberDTO result = this.memberMapper.memberEntity2DTO(memberEntityModified);
-		
+
 		return result;
 	}
 

@@ -1,4 +1,4 @@
-package com.alkemy.ong;
+package com.alkemy.somosmas;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

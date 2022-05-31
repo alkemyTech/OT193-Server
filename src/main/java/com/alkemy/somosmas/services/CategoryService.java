@@ -2,12 +2,14 @@ package com.alkemy.somosmas.services;
 
 import com.alkemy.somosmas.dtos.CategoryDTO;
 import com.alkemy.somosmas.dtos.ListaCategoryDTO;
+import com.alkemy.somosmas.exceptions.ModelNotFoundException;
 import com.alkemy.somosmas.exceptions.NotAcceptableArgumentException;
 import com.alkemy.somosmas.exceptions.PageEmptyException;
 import com.alkemy.somosmas.models.Category;
 import com.alkemy.somosmas.repositories.CategoryRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.alkemy.somosmas.exceptions.ModelNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -44,40 +46,41 @@ public class CategoryService {
         System.out.println("categorías buscadas");
         return listaDTO;
     }
-
-    @ResponseStatus(code = HttpStatus.NOT_FOUND)
-    public class NotFoundException extends RuntimeException {}
-    public CategoryDTO getCategoryById(Long id){
-        Optional<Category> category = this.categoryRepository.findById(id);
-        if(!category.isPresent()){
-            throw new NotFoundException();
+    
+    public CategoryDTO getCategoryById(Long id) throws ModelNotFoundException {
+        Category model = this.categoryRepository.findById(id).orElse(null);
+        if(model==null){
+            //Excepcion de tipo check heredar de la clase exception
+            throw new ModelNotFoundException(id,"Category");
         }
-        CategoryDTO categoryDTO = mapper.convertValue(category,CategoryDTO.class);
+
+        CategoryDTO categoryDTO = mapper.convertValue(model,CategoryDTO.class);
         return categoryDTO;
     }
 
-    public CategoryDTO updateCategory(CategoryDTO newCategoryDTO,Long id){
-        Optional<Category> category = categoryRepository.findById(id);
-        if(!category.isPresent()){
-            throw new RuntimeException("Id categoria inexistente.");
+    public CategoryDTO updateCategory(CategoryDTO newCategoryDTO,Long id) throws ModelNotFoundException {
+        Category model = this.categoryRepository.findById(id).orElse(null);
+        if(model==null){
+            //Excepcion de tipo check heredar de la clase exception
+            throw new ModelNotFoundException(id,"Category");
         }
-        CategoryDTO categoryDTO = mapper.convertValue(category,CategoryDTO.class);
+        CategoryDTO categoryDTO = mapper.convertValue(model,CategoryDTO.class);
+
         categoryDTO.setName(newCategoryDTO.getName());
         categoryDTO.setDescription(newCategoryDTO.getDescription());
         categoryDTO.setImage(newCategoryDTO.getImage());
-
-        Category c = mapper.convertValue(categoryDTO,Category.class);
-        categoryRepository.save(c);
-        CategoryDTO resultadoDTO = mapper.convertValue(c,CategoryDTO.class);
+        this.save(categoryDTO);
         System.out.println("categoría actualizada");
 
-        return resultadoDTO;
+        return categoryDTO;
     }
 
-    public void delete(Long id){
-        Optional<Category> category = this.categoryRepository.findById(id);
-        if(!category.isPresent()){
-            throw new RuntimeException("Id categoria inexistente.");
+    public void delete(Long id) throws ModelNotFoundException {
+
+        Category model = this.categoryRepository.findById(id).orElse(null);
+        if(model==null){
+            //Excepcion de tipo check heredar de la clase exception
+            throw new ModelNotFoundException(id,"Category");
         }
         this.categoryRepository.deleteById(id);
     }
@@ -109,8 +112,9 @@ public class CategoryService {
         returnedMap.put("Categories", categoriesDtoReturned);
         returnedMap.put("currentPage",allCategoriesPage.getNumber());
         returnedMap.put("totalItems",allCategoriesPage.getTotalElements());
-        // total pages
-        // agreegar excepciones
+        returnedMap.put("totalPages",allCategoriesPage.getTotalPages());
+
+
 
         if (allCategoriesPage.hasNext()){
             returnedMap.put("nextPage","localhost:8080/categories?page="+(pageNo+1));

@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
+import com.alkemy.somosmas.dtos.LoginUserDTO;
 import com.alkemy.somosmas.dtos.UserDTO;
 import com.alkemy.somosmas.models.User;
 
@@ -33,5 +34,12 @@ public class UserMapper {
                 .map(i->this.originalToDTO(i))
                 .collect(Collectors.toList());
         return dtoList;
+    }
+
+    public LoginUserDTO userToDTO(User user) {
+    	LoginUserDTO loginUserDTO = new LoginUserDTO();
+    	loginUserDTO.setUsername(user.getEmail());
+    	loginUserDTO.setPassword(user.getPassword());
+    	return loginUserDTO;
     }
 }
