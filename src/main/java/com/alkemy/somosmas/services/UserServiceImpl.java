@@ -1,11 +1,5 @@
 package com.alkemy.somosmas.services;
 
-import com.alkemy.somosmas.dtos.UserDTO;
-import com.alkemy.somosmas.mappers.UserMapper;
-import com.alkemy.somosmas.models.Role;
-import com.alkemy.somosmas.enums.RoleEnum;
-import com.alkemy.somosmas.models.User;
-import com.alkemy.somosmas.repositories.UserRepository;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +13,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.alkemy.somosmas.dtos.LoginUserDTO;
+import com.alkemy.somosmas.dtos.UserDTO;
+import com.alkemy.somosmas.enums.RoleEnum;
 import com.alkemy.somosmas.exceptions.InvalidUserException;
+import com.alkemy.somosmas.exceptions.ModelNotFoundException;
+import com.alkemy.somosmas.mappers.UserMapper;
+import com.alkemy.somosmas.models.Role;
+import com.alkemy.somosmas.models.User;
+import com.alkemy.somosmas.repositories.UserRepository;
 
 
 @Service
@@ -81,6 +82,19 @@ public class UserServiceImpl implements UserService{
 		}else{
 			return false;
 		}
+	}
+
+	@Override
+	public UserDTO update(Long id, UserDTO dto) throws ModelNotFoundException {
+		User userEntity = this.userRepository.findById(id).orElse(null);
+		if (userEntity == null) {
+			throw new ModelNotFoundException(id,"User");
+		}
+		this.userMapper.userEntityRefreshValues(userEntity, dto);
+		User userEntityModified = this.userRepository.save(userEntity);
+		UserDTO result = this.userMapper.originalToDTO(userEntityModified);
+		
+		return result;
 	}
 
 	private void injectUserInSecurityContext(String email, String password) {
