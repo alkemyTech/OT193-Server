@@ -1,38 +1,42 @@
 package com.alkemy.somosmas.services;
 
-import com.alkemy.somosmas.dtos.UserDTO;
-import com.alkemy.somosmas.mappers.UserMapper;
-import com.alkemy.somosmas.models.Role;
-import com.alkemy.somosmas.enums.RoleEnum;
-import com.alkemy.somosmas.exceptions.ModelNotFoundException;
-import com.alkemy.somosmas.models.User;
-import com.alkemy.somosmas.repositories.UserRepository;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
+import com.alkemy.somosmas.dtos.LoginUserDTO;
+import com.alkemy.somosmas.dtos.UserDTO;
+import com.alkemy.somosmas.enums.RoleEnum;
+import com.alkemy.somosmas.exceptions.InvalidUserException;
+import com.alkemy.somosmas.exceptions.ModelNotFoundException;
+import com.alkemy.somosmas.mappers.UserMapper;
+import com.alkemy.somosmas.models.Role;
+import com.alkemy.somosmas.models.User;
+import com.alkemy.somosmas.repositories.UserRepository;
 
 
 @Service
-public class UserServiceImpl implements UserService ,UserDetailsService {
+public class UserServiceImpl implements UserService{
 
 	@Autowired
-	private UserRepository userRepository;
+	UserRepository userRepository;
+	@Autowired
+	UserDetailsService userDetailsService;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	@Autowired
 	private UserMapper userMapper;
 	@Autowired
-	private PasswordEncoder passwordEncoder;
-
-	@Override
-	@Transactional(readOnly=true)
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		return null;
-	}
+	@Qualifier("authenticationManager")
+	private AuthenticationManager authenticationManager;
 
 	@Override
 	public UserDTO getUser(Long id) {
@@ -93,4 +97,39 @@ public class UserServiceImpl implements UserService ,UserDetailsService {
 		return result;
 	}
 
+	private void injectUserInSecurityContext(String email, String password) {
+		Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email,password));
+		SecurityContextHolder.getContext().setAuthentication(auth);
+	}
+
+	@Override
+	public LoginUserDTO authUser(String email, String password) throws InvalidUserException {
+		if(!existsByEmail(email)) {
+			throw new InvalidUserException("Email does not exist");
+		}
+		User user = findByEmail(email);
+		if(!passwordEncoder.matches(password,user.getPassword())) {
+			throw new InvalidUserException("Incorrect email or password");
+		}
+		LoginUserDTO loginUserDTO = userToDTO(user);
+		injectUserInSecurityContext(email, password);
+		return loginUserDTO;
+	}
+
+
+	@Override
+	public User findByEmail(String email) {
+		return userRepository.findByEmail(email);
+	}
+
+	@Override
+	public Boolean existsByEmail(String email) {
+		return userRepository.existsByEmail(email);
+	}
+
+	@Override
+	public LoginUserDTO userToDTO(User user) {
+		return userMapper.userToDTO(user);
+	}
+	
 }

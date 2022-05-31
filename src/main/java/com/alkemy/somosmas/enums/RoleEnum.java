@@ -1,7 +1,7 @@
 package com.alkemy.somosmas.enums;
 
 public enum RoleEnum {
-    ROLE_USER("USER",1L),ROLE_ADMIN("ADMIN",2L);
+    ROLE_USER("REGULAR",2L),ROLE_ADMIN("ADMIN",1L);
     private String roleName;
     private Long id;
 
