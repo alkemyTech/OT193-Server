@@ -40,10 +40,11 @@ public class CategoryController {
         } catch (NotAcceptableArgumentException e) {
             response= new HashMap<>();
             response.put("Error",e.getMessage());
-            return ResponseEntity.ok().body(response);
+            return ResponseEntity.badRequest().body(response);
         } catch (PageEmptyException e) {
             response= new HashMap<>();
             response.put("Error",e.getMessage());
+            return ResponseEntity.badRequest().body(response);
         }
 
         return ResponseEntity.ok().body(response);
