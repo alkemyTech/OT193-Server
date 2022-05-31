@@ -2,7 +2,10 @@ package com.alkemy.somosmas.mappers;
 
 import com.alkemy.somosmas.dtos.OrganizationBasicDTO;
 import com.alkemy.somosmas.dtos.OrganizationDTO;
+import com.alkemy.somosmas.dtos.SlideDTO;
+import com.alkemy.somosmas.dtos.SlideGetDTO;
 import com.alkemy.somosmas.models.Organization;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -12,6 +15,8 @@ import java.util.stream.Collectors;
 @Component
 public class OrganizationMapper {
 
+    @Autowired
+    SlideMapper slideMapper;
 
 
     public OrganizationBasicDTO organizationModel2BasicDto(Organization organization){
@@ -25,6 +30,16 @@ public class OrganizationMapper {
         dto.setFacebookUrl(organization.getFacebookUrl());
         dto.setLinkedinUrl(organization.getLinkedinUrl());
         dto.setInstagramUrl(organization.getInstagramUrl());
+
+        if(organization.getSlidesList()!=null && organization.getSlidesList().size()!=0 ){
+
+            List<SlideGetDTO> returnedListSlidesDto=organization.getSlidesList()
+                    .stream()
+                    .map(i->this.slideMapper.slideEntityDto(i))
+                    .collect(Collectors.toList());
+
+            dto.setSlidesList(returnedListSlidesDto);
+        }
 
 
         return dto;
