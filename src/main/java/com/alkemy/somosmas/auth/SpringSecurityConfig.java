@@ -37,7 +37,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 	/* Se agrego durante el meet */
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers(AUTH_WHITELIST);
+		web.ignoring().antMatchers("/**");
 	}
 	/* Para validar que el usuario sea de rol ADMIN*/
 	@Override
