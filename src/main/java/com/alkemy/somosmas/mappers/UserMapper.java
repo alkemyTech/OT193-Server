@@ -36,7 +36,22 @@ public class UserMapper {
         return dtoList;
     }
 
-    public LoginUserDTO userToDTO(User user) {
+	public void userEntityRefreshValues(User userEntity, UserDTO dto) {
+		if (dto.getEmail() != null && dto.getEmail().isBlank()) {
+			userEntity.setEmail(dto.getEmail());
+		}
+		if (dto.getFirstName() != null && !dto.getFirstName().isBlank()) {
+			userEntity.setFirstName(dto.getFirstName());			
+		}
+		if (dto.getLastName() != null && !dto.getLastName().isBlank()) {
+			userEntity.setLastName(dto.getLastName());
+		}
+		if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
+			userEntity.setPassword(dto.getPassword());
+		}
+	}
+
+	public LoginUserDTO userToDTO(User user) {
     	LoginUserDTO loginUserDTO = new LoginUserDTO();
     	loginUserDTO.setUsername(user.getEmail());
     	loginUserDTO.setPassword(user.getPassword());

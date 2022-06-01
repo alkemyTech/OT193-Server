@@ -22,7 +22,7 @@ public class SlideMapper {
         return slide;
     }
 
-    public SlideGetDTO slideEntityDto(Slide slide) throws SdkClientException, IOException  {
+    public SlideGetDTO slideEntityDto(Slide slide) throws SdkClientException{
         SlideGetDTO slideGetDTO = new SlideGetDTO();
         slideGetDTO.setImageUrl(slide.getImageUrl());
         slideGetDTO.setText(slide.getText());

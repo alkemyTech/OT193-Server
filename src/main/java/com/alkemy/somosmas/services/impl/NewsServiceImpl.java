@@ -32,12 +32,12 @@ public class NewsServiceImpl implements NewsService {
 	@Override
 	public NewsDTO save(NewsDTO dto) throws ModelNotFoundException {
 		News newsEntity = null;
-		if (dto.getId() != null && dto.getId() != 0) {
-			newsEntity = this.newsRepository.findById(dto.getId()).orElse(null);
-			if (newsEntity == null) {
-				throw new ModelNotFoundException(dto.getId(), "News");
-			}
-		}
+//		if (dto.getId() != null && dto.getId() != 0) {
+//			newsEntity = this.newsRepository.findById(dto.getId()).orElse(null);
+//			if (newsEntity != null) {
+//				throw new ModelNotFoundException(dto.getId(), "News");
+//			}
+//		}
 		newsEntity = this.newsMapper.newsDTO2Entity(dto);
 		News newsEntitySaved = this.newsRepository.save(newsEntity);
 		NewsDTO result = this.newsMapper.newsEntity2DTO(newsEntitySaved);

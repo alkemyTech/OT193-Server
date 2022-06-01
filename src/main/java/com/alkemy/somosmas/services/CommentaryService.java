@@ -14,7 +14,7 @@ import com.alkemy.somosmas.exceptions.InvalidUserException;
 public interface CommentaryService {
 	public List<CommentaryBasicDTO> findAllOrderByCreateDate();
 	public CommentaryDTO save(CommentaryDTO dto);
-	public CommentaryDTO update(Long idCom,UserDTOId idUser,CommentaryDTO dto)throws InvalidUserException,CommentException;
-	public void delete(Long id, UserDTOId idUser)throws InvalidUserException,CommentException;
+	public CommentaryDTO update(Long idCom,CommentaryDTO dto)throws InvalidUserException,CommentException;
+	public void delete(Long id)throws InvalidUserException,CommentException;
 	public List<CommentaryBasicDTO> getByNewsId(Long id);
 }

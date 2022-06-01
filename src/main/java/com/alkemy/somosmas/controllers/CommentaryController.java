@@ -18,13 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alkemy.somosmas.dtos.CommentaryBasicDTO;
 import com.alkemy.somosmas.dtos.CommentaryDTO;
-import com.alkemy.somosmas.dtos.UserDTOId;
 import com.alkemy.somosmas.exceptions.CommentException;
 import com.alkemy.somosmas.exceptions.InvalidUserException;
 import com.alkemy.somosmas.services.CommentaryService;
 
 @RestController
-@RequestMapping("commentary")
+@RequestMapping("/commentary")
 public class CommentaryController {
 	@Autowired
 	CommentaryService service;
@@ -45,14 +44,14 @@ public class CommentaryController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(comDTO);
 	}
     @PutMapping("/{id}")
-    public ResponseEntity<CommentaryDTO> update(@Valid @PathVariable Long idCom,@RequestBody UserDTOId idUser, @RequestBody CommentaryDTO dto)throws InvalidUserException,CommentException{
-    	CommentaryDTO comDTO = service.update(idCom, idUser, dto);
+    public ResponseEntity<CommentaryDTO> update(@Valid @PathVariable Long idCom, @RequestBody CommentaryDTO dto)throws InvalidUserException,CommentException{
+    	CommentaryDTO comDTO = service.update(idCom, dto);
     	return ResponseEntity.ok().body(comDTO);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@Valid @PathVariable Long id,@RequestBody UserDTOId idUser) throws InvalidUserException,CommentException{
-    	service.delete(id, idUser);
+    public ResponseEntity<Void> delete(@Valid @PathVariable Long id) throws InvalidUserException,CommentException{
+    	service.delete(id);
     	return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

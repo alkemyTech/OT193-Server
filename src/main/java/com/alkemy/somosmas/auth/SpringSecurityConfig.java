@@ -9,9 +9,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -44,15 +42,21 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 	public void configure(HttpSecurity httpSecurity) throws Exception {
 	httpSecurity.csrf().disable();
 		httpSecurity
-				.authorizeRequests().antMatchers(HttpMethod.GET).hasAnyAuthority("regular","admin")
+				.authorizeRequests().antMatchers(HttpMethod.GET, "/users/**", "/categories/**", "/news/**","/activities/**","/members/**","/commentary/**","/contacts/**","/organization/**","/Slide/**","/testimonial/**").hasAnyAuthority("regular","admin")
 				.and()
-				.authorizeRequests().antMatchers("/users/auth/**").permitAll()
+				.authorizeRequests().antMatchers(HttpMethod.POST,"/users/auth/**").permitAll()
 				.and()
-				.authorizeRequests().antMatchers(HttpMethod.POST).hasAuthority("admin")
+				.authorizeRequests().antMatchers(HttpMethod.POST,"/categories/**", "/news/**","/activities/**","/members/**","/contacts/**","/organization/**","/Slide/**").hasAuthority("admin")
 				.and()
-				.authorizeRequests().antMatchers(HttpMethod.PUT).hasAuthority("admin")
+				.authorizeRequests().antMatchers(HttpMethod.PUT,"/categories/**", "/news/**","/activities/**","/members/**","/contacts/**","/organization/**","/Slide/**").hasAuthority("admin")
 				.and()
-				.authorizeRequests().antMatchers(HttpMethod.DELETE).hasAuthority("admin")
+				.authorizeRequests().antMatchers(HttpMethod.DELETE, "/categories/**", "/news/**","/activities/**","/members/**","/contacts/**","/organization/**","/Slide/**").hasAuthority("admin")
+				.and()
+				.authorizeRequests().antMatchers(HttpMethod.DELETE, "/commentary/**").hasAnyAuthority("admin","regular")
+				.and()
+				.authorizeRequests().antMatchers(HttpMethod.POST, "/commentary/**").hasAnyAuthority("admin","regular")
+				.and()
+				.authorizeRequests().antMatchers(HttpMethod.PUT, "/commentary/**").hasAnyAuthority("admin","regular")
 				.anyRequest().permitAll();}
 
 	@Override

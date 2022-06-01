@@ -8,7 +8,9 @@ import org.hibernate.annotations.Where;
 import javax.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name ="organizations")
@@ -54,6 +56,9 @@ public class Organization {
     HashMap<String, String> socialMedia = new HashMap<String, String>();
 
      */
+    @OneToMany(mappedBy="organization")
+    @OrderBy("order")
+    private List<Slide> slidesList = new ArrayList<>();
 
 
     private LocalDateTime createDate;

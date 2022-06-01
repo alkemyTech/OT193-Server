@@ -9,16 +9,10 @@ import org.springframework.stereotype.Component;
 import com.alkemy.somosmas.dtos.CommentaryBasicDTO;
 import com.alkemy.somosmas.dtos.CommentaryDTO;
 import com.alkemy.somosmas.models.Commentary;
-import com.alkemy.somosmas.repositories.NewsRepository;
-import com.alkemy.somosmas.repositories.UserRepository;
+
 
 @Component
 public class CommentaryMapper {
-
-	@Autowired
-	NewsRepository newsRepo;
-	@Autowired
-	UserRepository userRepo;
 
 	public CommentaryBasicDTO modelToDTO(Commentary commentary) {
 		CommentaryBasicDTO cDTO = new CommentaryBasicDTO();
@@ -37,8 +31,8 @@ public class CommentaryMapper {
 	public CommentaryDTO commentaryToDTO(Commentary commentary) {
 		CommentaryDTO dto = new CommentaryDTO();
 		dto.setBody(commentary.getBody());
-		dto.setNews_id(commentary.getNewsId());
-		dto.setUser_id(commentary.getUserId());
+		dto.setNewsId(commentary.getNewsId());
+		dto.setUserId(commentary.getUserId());
 		dto.setId(commentary.getId());
 		return dto;
 	}
@@ -46,8 +40,8 @@ public class CommentaryMapper {
 	public Commentary dtoToModel(CommentaryDTO dto) {
 		Commentary com = new Commentary();
 		com.setBody(dto.getBody());
-		com.setNewsId(dto.getNews_id());
-		com.setUserId(dto.getUser_id());
+		com.setNewsId(dto.getNewsId());
+		com.setUserId(dto.getUserId());
 		return com;
 	}
 

@@ -6,22 +6,23 @@ import javax.validation.constraints.NotNull;
 public class CommentaryDTO {
 	private Long id;
 	@NotNull(message = "User is mandatory")
-	private Long user_id;
+	private Long userId;
 	@NotNull(message = "News is mandatory")
-	private Long news_id;
+	private Long newsId;
 	@NotBlank(message = "Body is mandatory")
 	private String body;
-	public Long getUser_id() {
-		return user_id;
+	
+	public Long getUserId() {
+		return userId;
 	}
-	public void setUser_id(Long user_id) {
-		this.user_id = user_id;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
-	public Long getNews_id() {
-		return news_id;
+	public Long getNewsId() {
+		return newsId;
 	}
-	public void setNews_id(Long news_id) {
-		this.news_id = news_id;
+	public void setNewsId(Long newsId) {
+		this.newsId = newsId;
 	}
 	public String getBody() {
 		return body;
