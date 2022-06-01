@@ -38,6 +38,9 @@ public class UserServiceImpl implements UserService{
 	@Qualifier("authenticationManager")
 	private AuthenticationManager authenticationManager;
 
+	@Autowired
+	EmailService emailService;
+
 	@Override
 	public UserDTO getUser(Long id) {
 		if(this.userRepository.existsById(id)){
@@ -65,6 +68,10 @@ public class UserServiceImpl implements UserService{
 			newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));//encripto contraseña
 			newUser.setRole(new Role(RoleEnum.ROLE_USER.getId()));
 			this.userRepository.save(newUser);
+			this.emailService.sendWelcomeEmailTemplateTo(userDTO.getEmail(), "¡Estimado/a "
+			+ userDTO.getFirstName() + " te damos la bienvenida a somos mas!" , " Gracias por ser parte."
+			,"Mail de bienvenida: somos mas");
+
 			return userDTO;
 		}else{
 			throw new Exception("MAIL EXISTENTE, ELIJA OTRO POR FAVOR.");

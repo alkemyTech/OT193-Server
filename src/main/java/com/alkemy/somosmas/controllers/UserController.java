@@ -38,7 +38,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/auth/register")
-    public ResponseEntity<UserBasicDTO> registerUser(@RequestBody UserDTO userDTO) throws Exception {
+    public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) throws Exception {
         UserDTO dto = userService.registerUserDTO2Model(userDTO);//trae nombre, apellido, mail y pass
         UserBasicDTO dtoResponse = new UserBasicDTO();
         dtoResponse.setFirstName(dto.getFirstName());

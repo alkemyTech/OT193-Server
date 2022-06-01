@@ -31,7 +31,8 @@ public class ContactServiceImpl implements ContactService{
                 this.contactRepository.save(contactNew);
                 ContactBasicDTO response = contactMapper.original2BasicDto(contactDto);
                 emailService.sendWelcomeEmailTo(contactDto.getEmail(),"Estimado/a "+contactDto.getName()+
-                        " Gracias por sumarte a somos mas", "Somos mas mail de bienvenida"  );
+                        " Gracias por contactarte con nosotros. En breve contestaremos tu consulta"
+                        , "Somos mas mail de cortesia"  );
                 return response;
             }else{
                 throw new Exception("Mail existente");
