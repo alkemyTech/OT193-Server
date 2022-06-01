@@ -67,8 +67,8 @@ public class UserServiceImpl implements UserService{
 			newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));//encripto contraseña
 			newUser.setRole(new Role(RoleEnum.ROLE_USER.getId()));
 			this.userRepository.save(newUser);
-			this.emailService.sendWelcomeEmailTemplateTo(userDTO.getEmail(), "Estimado/a"
-			+ userDTO.getFirstName() + "te damos la bienvenida a somos mas" , " Gracias por ser parte"
+			this.emailService.sendWelcomeEmailTemplateTo(userDTO.getEmail(), "¡Estimado/a "
+			+ userDTO.getFirstName() + " te damos la bienvenida a somos mas!" , " Gracias por ser parte."
 			,"Mail de bienvenida: somos mas");
 
 			return userDTO;

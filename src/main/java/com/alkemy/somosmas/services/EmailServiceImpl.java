@@ -84,7 +84,9 @@ public class EmailServiceImpl implements EmailService {
 
         String subject =subjectEmail;
 
-        Mail mail = new Mail(fromEmail,subject,toEmail,content);
+        Mail mail = new Mail();
+        mail.setFrom(fromEmail);
+
         mail.setTemplateId("d-d378baffd29947de9b24567af3a1d100");
 
         Personalization personalization = new Personalization();
